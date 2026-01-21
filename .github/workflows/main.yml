@@ -1,0 +1,32 @@
+name: Auto Update Rules
+
+on:
+  push:
+    paths:
+      - 'urls.txt'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Run Script
+        run: python update_emby.py
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add Emby.lsr
+          git commit -m "chore: update Emby.lsr" || exit 0
+          git push
