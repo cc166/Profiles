@@ -27,5 +27,5 @@ def generate_loon_rules():
     except Exception as e:
         print(f"Error: {e}")
 
-if name == "__main__":
+if _name_ == "__main__":
     generate_loon_rules()
