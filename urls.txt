@@ -1,47 +1,30 @@
-# Emby Server List for Loon
-# 整理时间: 2026-01-21
+# --- 叶子 (Yezi) 系列 ---
+https://bai.yezi.my:443
+https://bai1.yezi.my:443
+https://bai3.yezi.my:443
+https://bai6.yezi.my:443
+https://gm.yezi.my:443
 
-# Ciallo
-DOMAIN-SUFFIX,ciallo.party
+# --- OK Emby 系列 ---
+https://link00.okemby.org:8443
+https://link01.okemby.org:8443
 
-# YounoYes
-DOMAIN,emby.younoyes.com
+# --- Emby.my 系列 ---
+https://emby.my:443
+https://a.emby.my:443
 
-# Violet
-DOMAIN,emby.violet.run
+# --- Fworks 系列 ---
+https://fworks-emby.webn.cc
+https://fworks-emby.sylu.net
 
-# CN2GIA
-DOMAIN,lite.cn2gias.uk
-
-# Levilde
-DOMAIN,emby.levilde.bond
-
-# Emos
-DOMAIN-SUFFIX,emos.best
-
-# FaEmby
-DOMAIN,faemby.vip
-
-# OK Emby
-DOMAIN-SUFFIX,okemby.org
-
-# Emby My
-DOMAIN-SUFFIX,emby.my
-
-# Fworks
-DOMAIN,fworks-emby.webn.cc
-DOMAIN,fworks-emby.sylu.net
-
-# 黑丝
-DOMAIN,emby.heisi.org
-
-# 叶子 (包含 bai, bai1, bai3, bai6, gm 等子域名)
-DOMAIN-SUFFIX,yezi.my
-
-
-# 飞牛
-DOMAIN,emby.feiniu.lol
-
-# 喵飞
-DOMAIN,gy.meowfly.de
-
+# --- 其他独立公益服 ---
+https://ciallo.party:443      # Ciallo
+https://emby.younoyes.com     # YounoYes
+http://emby.violet.run:80     # Violet (紫罗兰)
+https://lite.cn2gias.uk       # CN2GIA
+https://emby.levilde.bond     # Levilde
+https://emos.best             # Emos
+https://faemby.vip:443        # FaEmby
+https://emby.heisi.org:443    # 黑丝
+https://emby.feiniu.lol       # 飞牛
+https://gy.meowfly.de:443     # 喵飞
