@@ -23,9 +23,9 @@ https://emby.younoyes.com     # YounoYes
 http://emby.violet.run:80     # Violet (紫罗兰)
 https://lite.cn2gias.uk       # CN2GIA
 https://emby.levilde.bond     # Levilde
-https://emos.best             # Emos
 https://faemby.vip:443        # FaEmby
 https://emby.heisi.org:443    # 黑丝
 https://emby.feiniu.lol       # 飞牛
 https://gy.meowfly.de:443     # 喵飞
+https://embyty.entertang.work:443  #ETFLIX
 
