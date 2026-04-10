@@ -1,4 +1,10 @@
 # OpenClash custom template based on glados rule directory + iKeLee framework
+# 说明：
+# - 保留 iKeLee 的 mihomo/OpenClash 基础框架与常用设置
+# - 不使用 iKeLee 的自动地区优选总策略，改为“手动选择”为核心
+# - 规则源优先改为你自己 ShuntRules 仓库的镜像/自定义合集
+# - 如果订阅转换器会把节点直接注入到 proxies / proxy-groups，这个模板里不需要再保留 ikelee 的多订阅锚点写法
+
 port: 7890
 socks-port: 7891
 mixed-port: 7892
@@ -69,15 +75,23 @@ dns:
     - https://223.5.5.5/dns-query
     - https://223.6.6.6/dns-query
 
-NodeParam: &NodeParam {type: http, interval: 3600, health-check: {enable: true, url: 'http://www.google.com/blank.html', interval: 6}}
+# 如果你使用 OpenClash 订阅转换，通常会由转换结果直接注入节点。
+# 所以下面只保留一个占位示例，避免和订阅转换重复叠加。
+proxies:
+  - {name: "节点1", type: ss, server: example.com, port: 443, cipher: aes-128-gcm, password: "password", udp: true}
 
+# 你也可以把这里替换成订阅转换器输出的 proxy-providers。
+# 如果使用订阅转换器生成最终配置，可直接删掉这个 provider 占位块。
 proxy-providers:
   Provider_Example:
-    url: '把你的订阅URL填这里'
-    <<: *NodeParam
+    type: http
+    url: '把你的订阅URL或订阅转换结果URL填这里'
+    interval: 3600
     path: './proxy_providers/provider-example.yaml'
-    override:
-      additional-prefix: '[订阅] '
+    health-check:
+      enable: true
+      url: 'http://www.google.com/blank.html'
+      interval: 300
 
 FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|HKG|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
 FilterTW: &FilterTW '^(?=.*((?i)🇹🇼|台湾|(\b(TW|TWN|Taiwan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
@@ -138,79 +152,71 @@ rule-providers:
   GitHub:
     <<: *RuleProviders
     path: './rules/GitHub.yaml'
-    url: 'https://rule.kelee.one/Clash/GitHub.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/GitHub.yaml'
   TikTok:
     <<: *RuleProviders
     path: './rules/TikTok.yaml'
-    url: 'https://rule.kelee.one/Clash/TikTok.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/TikTok.yaml'
   YouTube:
     <<: *RuleProviders
     path: './rules/YouTube.yaml'
-    url: 'https://rule.kelee.one/Clash/YouTube.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/YouTube.yaml'
   Netflix:
     <<: *RuleProviders
     path: './rules/Netflix.yaml'
-    url: 'https://rule.kelee.one/Clash/Netflix.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Netflix.yaml'
   Disney:
     <<: *RuleProviders
     path: './rules/Disney.yaml'
-    url: 'https://rule.kelee.one/Clash/Disney.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Disney.yaml'
   HBO:
     <<: *RuleProviders
     path: './rules/HBO.yaml'
-    url: 'https://rule.kelee.one/Clash/HBO.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/HBO.yaml'
   PrimeVideo:
     <<: *RuleProviders
     path: './rules/PrimeVideo.yaml'
-    url: 'https://rule.kelee.one/Clash/PrimeVideo.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/PrimeVideo.yaml'
   AppleTV:
     <<: *RuleProviders
     path: './rules/AppleTV.yaml'
-    url: 'https://rule.kelee.one/Clash/AppleTV.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/AppleTV.yaml'
   Emby:
     <<: *RuleProviders
     path: './rules/Emby.yaml'
-    url: 'https://rule.kelee.one/Clash/Emby.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Emby.yaml'
   Spotify:
     <<: *RuleProviders
     path: './rules/Spotify.yaml'
-    url: 'https://rule.kelee.one/Clash/Spotify.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Spotify.yaml'
   Bahamut:
     <<: *RuleProviders
     path: './rules/Bahamut.yaml'
-    url: 'https://rule.kelee.one/Clash/Bahamut.yaml'
-  ECommerce:
-    <<: *RuleProviders
-    path: './rules/ECommerce.yaml'
-    url: 'https://rule.kelee.one/Clash/ECommerce.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Bahamut.yaml'
   GoogleFCM:
     <<: *RuleProviders
     path: './rules/GoogleFCM.yaml'
-    url: 'https://rule.kelee.one/Clash/GoogleFCM.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/GoogleFCM.yaml'
   Google:
     <<: *RuleProviders
     path: './rules/Google.yaml'
-    url: 'https://rule.kelee.one/Clash/Google.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Google.yaml'
   Apple:
     <<: *RuleProviders
     path: './rules/Apple.yaml'
-    url: 'https://rule.kelee.one/Clash/Apple.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Apple.yaml'
   Microsoft:
     <<: *RuleProviders
     path: './rules/Microsoft.yaml'
-    url: 'https://rule.kelee.one/Clash/Microsoft.yaml'
-  Game:
-    <<: *RuleProviders
-    path: './rules/Game.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/Game.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Microsoft.yaml'
   Steam:
     <<: *RuleProviders
     path: './rules/Steam.yaml'
-    url: 'https://rule.kelee.one/Clash/Steam.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Steam.yaml'
   Speedtest:
     <<: *RuleProviders
     path: './rules/Speedtest.yaml'
-    url: 'https://rule.kelee.one/Clash/Speedtest.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Speedtest.yaml'
   Direct:
     <<: *RuleProviders
     path: './rules/Direct.yaml'
@@ -252,12 +258,10 @@ rules:
   - RULE-SET,Emby,🎥 Emby
   - RULE-SET,Spotify,🎻 Spotify
   - RULE-SET,Bahamut,📺 Bahamut
-  - RULE-SET,ECommerce,🛒 国外电商
   - RULE-SET,GoogleFCM,📢 谷歌FCM
   - RULE-SET,Google,🇬 谷歌服务
   - RULE-SET,Apple,🍎 苹果服务
   - RULE-SET,Microsoft,Ⓜ️ 微软服务
-  - RULE-SET,Game,🎮 游戏平台
   - RULE-SET,Steam,🎮 Steam
   - RULE-SET,Speedtest,🚀 测速工具
   - RULE-SET,Platform,🇬 谷歌服务
