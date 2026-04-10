@@ -1,0 +1,70 @@
+# OpenClash template for mihomo / OpenClash
+
+mixed-port: 7890
+allow-lan: true
+bind-address: '*'
+mode: rule
+log-level: info
+ipv6: false
+unified-delay: true
+
+proxies:
+  - {name: "节点1", type: ss, server: example.com, port: 443, cipher: aes-128-gcm, password: "password", udp: true}
+
+proxy-groups:
+  - {name: "PROXY", type: select, proxies: ["节点1", DIRECT]}
+  - {name: "AI", type: select, proxies: ["PROXY", DIRECT]}
+  - {name: "COMMUNICATION", type: select, proxies: ["PROXY", DIRECT]}
+  - {name: "DEVELOPMENT", type: select, proxies: ["PROXY", DIRECT]}
+  - {name: "MEDIA", type: select, proxies: ["PROXY", DIRECT]}
+  - {name: "PLATFORM", type: select, proxies: ["PROXY", DIRECT]}
+  - {name: "DOMESTIC", type: select, proxies: [DIRECT, "PROXY"]}
+  - {name: "FINAL", type: select, proxies: ["PROXY", DIRECT]}
+
+rule-providers:
+  ai:
+    type: http
+    behavior: classical
+    path: ./ruleset/ai.yaml
+    url: https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/AI.yaml
+    interval: 86400
+  communication:
+    type: http
+    behavior: classical
+    path: ./ruleset/communication.yaml
+    url: https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Communication.yaml
+    interval: 86400
+  development:
+    type: http
+    behavior: classical
+    path: ./ruleset/development.yaml
+    url: https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Development.yaml
+    interval: 86400
+  media:
+    type: http
+    behavior: classical
+    path: ./ruleset/media.yaml
+    url: https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Media.yaml
+    interval: 86400
+  domestic-basic:
+    type: http
+    behavior: classical
+    path: ./ruleset/domestic-basic.yaml
+    url: https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/DomesticBasic.yaml
+    interval: 86400
+  platform:
+    type: http
+    behavior: classical
+    path: ./ruleset/platform.yaml
+    url: https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Platform.yaml
+    interval: 86400
+
+rules:
+  - RULE-SET,ai,AI
+  - RULE-SET,communication,COMMUNICATION
+  - RULE-SET,development,DEVELOPMENT
+  - RULE-SET,media,MEDIA
+  - RULE-SET,platform,PLATFORM
+  - RULE-SET,domestic-basic,DOMESTIC
+  - GEOIP,CN,DOMESTIC
+  - MATCH,FINAL
