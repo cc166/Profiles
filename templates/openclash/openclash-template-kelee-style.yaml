@@ -109,18 +109,10 @@ proxy-groups:
   - {name: 💬 即时通讯, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
   - {name: 🌐 社交媒体, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
   - {name: 🚀 GitHub, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
-  - {name: 🤖 ChatGPT, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
   - {name: 🤖 AI服务, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
   - {name: 🎶 TikTok, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
   - {name: 📹 YouTube, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
   - {name: 🎥 Netflix, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
-  - {name: 🎥 DisneyPlus, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
-  - {name: 🎥 HBO, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
-  - {name: 🎥 PrimeVideo, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
-  - {name: 🎥 AppleTV+, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
-  - {name: 🎥 Emby, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
-  - {name: 🎻 Spotify, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
-  - {name: 📺 Bahamut, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🇹🇼 台湾节点, 🚀 手动选择, 🎯 全球直连]}
   - {name: 🌎 国外媒体, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
   - {name: 🛒 国外电商, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
   - {name: 📢 谷歌FCM, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
@@ -149,6 +141,10 @@ rule-providers:
     <<: *RuleProviders
     path: './rules/Communication.yaml'
     url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Communication.yaml'
+  SocialMedia:
+    <<: *RuleProviders
+    path: './rules/SocialMedia.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/SocialMedia.yaml'
   GitHub:
     <<: *RuleProviders
     path: './rules/GitHub.yaml'
@@ -246,6 +242,7 @@ rules:
   - RULE-SET,Lan,🎯 全球直连
   - RULE-SET,Direct,🎯 全球直连
   - RULE-SET,Communication,💬 即时通讯
+  - RULE-SET,SocialMedia,🌐 社交媒体
   - RULE-SET,GitHub,🚀 GitHub
   - RULE-SET,AI,🤖 AI服务
   - RULE-SET,TikTok,🎶 TikTok
