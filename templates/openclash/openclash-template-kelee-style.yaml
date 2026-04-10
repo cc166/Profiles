@@ -1,0 +1,268 @@
+# OpenClash custom template based on glados rule directory + iKeLee framework
+port: 7890
+socks-port: 7891
+mixed-port: 7892
+redir-port: 7893
+tproxy-port: 7894
+
+unified-delay: true
+geodata-mode: false
+geodata-loader: standard
+geo-auto-update: true
+geo-update-interval: 24
+tcp-concurrent: true
+find-process-mode: strict
+global-client-fingerprint: chrome
+
+allow-lan: true
+mode: rule
+log-level: info
+ipv6: true
+udp: true
+
+external-controller: 0.0.0.0:9090
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+sniffer:
+  enable: true
+  force-dns-mapping: true
+  parse-pure-ip: true
+  override-destination: true
+  sniff:
+    HTTP:
+      ports: [80, 8080-8880]
+      override-destination: true
+    TLS:
+      ports: [443, 8443]
+    QUIC:
+      ports: [443, 8443]
+  force-domain:
+    - +.v2ex.com
+  skip-domain:
+    - Mijia Cloud
+
+tun:
+  enable: true
+  stack: system
+  dns-hijack:
+    - any:53
+  auto-route: true
+  auto-detect-interface: true
+
+dns:
+  enable: true
+  prefer-h3: true
+  listen: 0.0.0.0:1053
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 28.0.0.1/8
+  fake-ip-filter:
+    - "*"
+    - +.lan
+  default-nameserver:
+    - 223.5.5.5
+    - 223.6.6.6
+  nameserver:
+    - https://223.5.5.5/dns-query
+    - https://223.6.6.6/dns-query
+
+NodeParam: &NodeParam {type: http, interval: 3600, health-check: {enable: true, url: 'http://www.google.com/blank.html', interval: 6}}
+
+proxy-providers:
+  Provider_Example:
+    url: '把你的订阅URL填这里'
+    <<: *NodeParam
+    path: './proxy_providers/provider-example.yaml'
+    override:
+      additional-prefix: '[订阅] '
+
+FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|HKG|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterTW: &FilterTW '^(?=.*((?i)🇹🇼|台湾|(\b(TW|TWN|Taiwan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterJP: &FilterJP '^(?=.*((?i)🇯🇵|日本|东京|大阪|(\b(JP|JPN|Japan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterKR: &FilterKR '^(?=.*((?i)🇰🇷|韩国|首尔|(\b(KR|KOR|Korea)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterSG: &FilterSG '^(?=.*((?i)🇸🇬|新加坡|(\b(SG|SGP|Singapore)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterUS: &FilterUS '^(?=.*((?i)🇺🇸|美国|洛杉矶|西雅图|纽约|(\b(US|USA|United States)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterAll: &FilterAll '^(?=.*(.))(?!.*((?i)群|邀请|返利|官网|客服|网站|网址|流量|到期|机场|订阅|作者|教程|更新)).*$'
+
+UrlTest: &UrlTest {type: url-test, interval: 6, tolerance: 20, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
+RuleProviders: &RuleProviders {type: http, behavior: classical, interval: 3600, format: yaml, proxy: DIRECT}
+
+proxy-groups:
+  - {name: 🚀 手动选择, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🇭🇰 香港节点, 🇺🇸 美国节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇹🇼 台湾节点, 🇰🇷 韩国节点]}
+  - {name: 💬 即时通讯, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 🌐 社交媒体, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 🚀 GitHub, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 🤖 ChatGPT, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
+  - {name: 🤖 AI服务, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
+  - {name: 🎶 TikTok, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
+  - {name: 📹 YouTube, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
+  - {name: 🎥 Netflix, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
+  - {name: 🎥 DisneyPlus, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
+  - {name: 🎥 HBO, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
+  - {name: 🎥 PrimeVideo, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
+  - {name: 🎥 AppleTV+, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 🎥 Emby, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 🎻 Spotify, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 📺 Bahamut, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🇹🇼 台湾节点, 🚀 手动选择, 🎯 全球直连]}
+  - {name: 🌎 国外媒体, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 🛒 国外电商, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 📢 谷歌FCM, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 🇬 谷歌服务, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 🍎 苹果服务, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
+  - {name: Ⓜ️ 微软服务, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
+  - {name: 🎮 游戏平台, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
+  - {name: 🎮 Steam, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
+  - {name: 🚀 测速工具, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
+  - {name: 🐟 漏网之鱼, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 🔀 非标端口, type: select, proxies: [🐟 漏网之鱼, 🎯 全球直连]}
+  - {name: 🇭🇰 香港节点, <<: *UrlTest, filter: *FilterHK}
+  - {name: 🇹🇼 台湾节点, <<: *UrlTest, filter: *FilterTW}
+  - {name: 🇯🇵 日本节点, <<: *UrlTest, filter: *FilterJP}
+  - {name: 🇰🇷 韩国节点, <<: *UrlTest, filter: *FilterKR}
+  - {name: 🇸🇬 新加坡节点, <<: *UrlTest, filter: *FilterSG}
+  - {name: 🇺🇸 美国节点, <<: *UrlTest, filter: *FilterUS}
+  - {name: 🎯 全球直连, type: select, proxies: [DIRECT]}
+
+rule-providers:
+  AI:
+    <<: *RuleProviders
+    path: './rules/AI.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/AI.yaml'
+  Communication:
+    <<: *RuleProviders
+    path: './rules/Communication.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Communication.yaml'
+  GitHub:
+    <<: *RuleProviders
+    path: './rules/GitHub.yaml'
+    url: 'https://rule.kelee.one/Clash/GitHub.yaml'
+  TikTok:
+    <<: *RuleProviders
+    path: './rules/TikTok.yaml'
+    url: 'https://rule.kelee.one/Clash/TikTok.yaml'
+  YouTube:
+    <<: *RuleProviders
+    path: './rules/YouTube.yaml'
+    url: 'https://rule.kelee.one/Clash/YouTube.yaml'
+  Netflix:
+    <<: *RuleProviders
+    path: './rules/Netflix.yaml'
+    url: 'https://rule.kelee.one/Clash/Netflix.yaml'
+  Disney:
+    <<: *RuleProviders
+    path: './rules/Disney.yaml'
+    url: 'https://rule.kelee.one/Clash/Disney.yaml'
+  HBO:
+    <<: *RuleProviders
+    path: './rules/HBO.yaml'
+    url: 'https://rule.kelee.one/Clash/HBO.yaml'
+  PrimeVideo:
+    <<: *RuleProviders
+    path: './rules/PrimeVideo.yaml'
+    url: 'https://rule.kelee.one/Clash/PrimeVideo.yaml'
+  AppleTV:
+    <<: *RuleProviders
+    path: './rules/AppleTV.yaml'
+    url: 'https://rule.kelee.one/Clash/AppleTV.yaml'
+  Emby:
+    <<: *RuleProviders
+    path: './rules/Emby.yaml'
+    url: 'https://rule.kelee.one/Clash/Emby.yaml'
+  Spotify:
+    <<: *RuleProviders
+    path: './rules/Spotify.yaml'
+    url: 'https://rule.kelee.one/Clash/Spotify.yaml'
+  Bahamut:
+    <<: *RuleProviders
+    path: './rules/Bahamut.yaml'
+    url: 'https://rule.kelee.one/Clash/Bahamut.yaml'
+  ECommerce:
+    <<: *RuleProviders
+    path: './rules/ECommerce.yaml'
+    url: 'https://rule.kelee.one/Clash/ECommerce.yaml'
+  GoogleFCM:
+    <<: *RuleProviders
+    path: './rules/GoogleFCM.yaml'
+    url: 'https://rule.kelee.one/Clash/GoogleFCM.yaml'
+  Google:
+    <<: *RuleProviders
+    path: './rules/Google.yaml'
+    url: 'https://rule.kelee.one/Clash/Google.yaml'
+  Apple:
+    <<: *RuleProviders
+    path: './rules/Apple.yaml'
+    url: 'https://rule.kelee.one/Clash/Apple.yaml'
+  Microsoft:
+    <<: *RuleProviders
+    path: './rules/Microsoft.yaml'
+    url: 'https://rule.kelee.one/Clash/Microsoft.yaml'
+  Game:
+    <<: *RuleProviders
+    path: './rules/Game.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/Game.yaml'
+  Steam:
+    <<: *RuleProviders
+    path: './rules/Steam.yaml'
+    url: 'https://rule.kelee.one/Clash/Steam.yaml'
+  Speedtest:
+    <<: *RuleProviders
+    path: './rules/Speedtest.yaml'
+    url: 'https://rule.kelee.one/Clash/Speedtest.yaml'
+  Direct:
+    <<: *RuleProviders
+    path: './rules/Direct.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/Direct.yaml'
+  Proxy:
+    <<: *RuleProviders
+    path: './rules/Proxy.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml'
+  Lan:
+    <<: *RuleProviders
+    path: './rules/Lan.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml'
+  PortDirect:
+    <<: *RuleProviders
+    path: './rules/PortDirect.yaml'
+    url: 'https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/rule/Custom_Port_Direct.yaml'
+  DomesticBasic:
+    <<: *RuleProviders
+    path: './rules/DomesticBasic.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/DomesticBasic.yaml'
+  Platform:
+    <<: *RuleProviders
+    path: './rules/Platform.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Platform.yaml'
+
+rules:
+  - RULE-SET,Lan,🎯 全球直连
+  - RULE-SET,Direct,🎯 全球直连
+  - RULE-SET,Communication,💬 即时通讯
+  - RULE-SET,GitHub,🚀 GitHub
+  - RULE-SET,AI,🤖 AI服务
+  - RULE-SET,TikTok,🎶 TikTok
+  - RULE-SET,YouTube,📹 YouTube
+  - RULE-SET,Netflix,🎥 Netflix
+  - RULE-SET,Disney,🎥 DisneyPlus
+  - RULE-SET,HBO,🎥 HBO
+  - RULE-SET,PrimeVideo,🎥 PrimeVideo
+  - RULE-SET,AppleTV,🎥 AppleTV+
+  - RULE-SET,Emby,🎥 Emby
+  - RULE-SET,Spotify,🎻 Spotify
+  - RULE-SET,Bahamut,📺 Bahamut
+  - RULE-SET,ECommerce,🛒 国外电商
+  - RULE-SET,GoogleFCM,📢 谷歌FCM
+  - RULE-SET,Google,🇬 谷歌服务
+  - RULE-SET,Apple,🍎 苹果服务
+  - RULE-SET,Microsoft,Ⓜ️ 微软服务
+  - RULE-SET,Game,🎮 游戏平台
+  - RULE-SET,Steam,🎮 Steam
+  - RULE-SET,Speedtest,🚀 测速工具
+  - RULE-SET,Platform,🇬 谷歌服务
+  - RULE-SET,DomesticBasic,🎯 全球直连
+  - RULE-SET,PortDirect,🔀 非标端口
+  - RULE-SET,Proxy,🚀 手动选择
+  - GEOIP,CN,🎯 全球直连
+  - MATCH,🐟 漏网之鱼
