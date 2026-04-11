@@ -189,6 +189,10 @@ rule-providers:
     <<: *RuleProviders
     path: './rules/Bahamut.yaml'
     url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/Clash/Bahamut.yaml'
+  ForeignMedia:
+    <<: *RuleProviders
+    path: './rules/ForeignMedia.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/ForeignMedia.yaml'
   GoogleFCM:
     <<: *RuleProviders
     path: './rules/GoogleFCM.yaml'
@@ -248,13 +252,7 @@ rules:
   - RULE-SET,TikTok,🎶 TikTok
   - RULE-SET,YouTube,📹 YouTube
   - RULE-SET,Netflix,🎥 Netflix
-  - RULE-SET,Disney,🎥 DisneyPlus
-  - RULE-SET,HBO,🎥 HBO
-  - RULE-SET,PrimeVideo,🎥 PrimeVideo
-  - RULE-SET,AppleTV,🎥 AppleTV+
-  - RULE-SET,Emby,🎥 Emby
-  - RULE-SET,Spotify,🎻 Spotify
-  - RULE-SET,Bahamut,📺 Bahamut
+  - RULE-SET,ForeignMedia,🌎 国外媒体
   - RULE-SET,GoogleFCM,📢 谷歌FCM
   - RULE-SET,Google,🇬 谷歌服务
   - RULE-SET,Apple,🍎 苹果服务
