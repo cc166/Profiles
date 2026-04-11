@@ -87,7 +87,7 @@ RuleProviders: &RuleProviders {type: http, behavior: classical, interval: 3600, 
 
 proxy-groups:
   - {name: 🚀 手动选择, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🇭🇰 香港节点, 🇺🇸 美国节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇹🇼 台湾节点, 🇰🇷 韩国节点]}
-  - {name: 💬 即时通讯, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
+  - {name: 💬 Telegram, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
   - {name: 🌐 社交媒体, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
   - {name: 🚀 GitHub, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
   - {name: 🤖 AI服务, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
@@ -131,10 +131,10 @@ rule-providers:
     <<: *RuleProviders
     path: './rules/AI.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/AI.yaml'
-  Communication:
+  Telegram:
     <<: *RuleProviders
-    path: './rules/Communication.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Communication.yaml'
+    path: './rules/Telegram.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Telegram.yaml'
   SocialMedia:
     <<: *RuleProviders
     path: './rules/SocialMedia.yaml'
@@ -189,7 +189,7 @@ rules:
   - RULE-SET,Direct,🎯 全球直连
   - RULE-SET,ESET_China,🎯 全球直连
   - RULE-SET,AI,🤖 AI服务
-  - RULE-SET,Communication,💬 即时通讯
+  - RULE-SET,Telegram,💬 Telegram
   - RULE-SET,SocialMedia,🌐 社交媒体
   - RULE-SET,GitHub,🚀 GitHub
   - RULE-SET,TikTok,🎶 TikTok

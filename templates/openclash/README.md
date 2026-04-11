@@ -1,7 +1,7 @@
 # OpenClash 模板说明
 
-这版模板已按你的要求调整：
-- 即时通讯 / 社交媒体 / GitHub / YouTube / 国外媒体 / 谷歌服务 / 苹果服务 / 微软服务 / Steam / 测速工具 全部改成 rule-providers 分类
-- 不再直接用 GEOSITE 来分这些核心分类
-- 删除了 国外电商 / 谷歌FCM 分组
+这版模板已按你当前使用习惯调整：
+- 即时通讯分组改为 `Telegram`
+- `SocialMedia` 保留，作为偶尔使用的社交平台分组
+- 核心分类已尽量改成 rule-providers
 - Direct / LAN / Proxy / ESET_China 仍沿用原规则源
