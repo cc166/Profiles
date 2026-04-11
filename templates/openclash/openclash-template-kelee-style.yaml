@@ -1,11 +1,10 @@
-# OpenClash custom template (upstream-first / converter-ready)
+# OpenClash custom template (upstream-first / iKeLee-aligned)
 # 说明：
 # - 保留 iKeLee 的 mihomo / OpenClash 基础框架与常用设置
-# - 分组按 glados 的目录思路整理，但已精简
-# - ChatGPT 已并入「🤖 AI服务」
-# - Disney / HBO / PrimeVideo / AppleTV+ / Emby / Spotify / Bahamut 并入「🌎 国外媒体」
-# - Direct / LAN / Proxy / ESET_China 继续沿用原作者规则源
-# - 本模板不给内置 provider，适合 OpenClash 订阅转换后直接套用
+# - 按 glados 的分组思路做精简
+# - 不内置 provider，适合 OpenClash 订阅转换后直接套用
+# - 关键规则链接尽量按 iKeLee 模板的上游规则来
+# - ChatGPT 合并进 AI；Disney/HBO/PrimeVideo/AppleTV+/Emby/Spotify/Bahamut 合并进国外媒体
 
 port: 7890
 socks-port: 7891
@@ -77,8 +76,6 @@ dns:
     - https://223.5.5.5/dns-query
     - https://223.6.6.6/dns-query
 
-# 节点与订阅由 OpenClash 订阅转换结果注入，本模板不内置 proxy-providers。
-
 FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|HKG|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
 FilterTW: &FilterTW '^(?=.*((?i)🇹🇼|台湾|(\b(TW|TWN|Taiwan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
 FilterJP: &FilterJP '^(?=.*((?i)🇯🇵|日本|东京|大阪|(\b(JP|JPN|Japan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
@@ -123,38 +120,65 @@ rule-providers:
     <<: *RuleProviders
     path: './rules/LAN.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml'
+
   Direct:
     <<: *RuleProviders
     path: './rules/Direct.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/Direct.yaml'
+
   Proxy:
     <<: *RuleProviders
     path: './rules/Proxy.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml'
+
+  AI:
+    <<: *RuleProviders
+    path: './rules/AI.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/AI.yaml'
+
+  TikTok:
+    <<: *RuleProviders
+    path: './rules/TikTok.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml'
+
+  SpeedtestIntl:
+    <<: *RuleProviders
+    path: './rules/SpeedtestInternational.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml'
+
+  Game:
+    <<: *RuleProviders
+    path: './rules/Game.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/Game.yaml'
+
+  Netflix:
+    <<: *RuleProviders
+    path: './rules/Netflix.yaml'
+    url: 'https://rule.kelee.one/Clash/Netflix.yaml'
+
   ESET_China:
     <<: *RuleProviders
     path: './rules/ESET_China.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/ESET_China.yaml'
+
   PortDirect:
     <<: *RuleProviders
     path: './rules/PortDirect.yaml'
     url: 'https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/rule/Custom_Port_Direct.yaml'
 
 rules:
-  - GEOSITE,private,🎯 全球直连
-  - GEOIP,private,🎯 全球直连,no-resolve
   - RULE-SET,LAN,🎯 全球直连
   - RULE-SET,Direct,🎯 全球直连
   - RULE-SET,ESET_China,🎯 全球直连
-  - RULE-SET,Proxy,🐟 漏网之鱼
+  - RULE-SET,AI,🤖 AI服务
+  - RULE-SET,TikTok,🎶 TikTok
+  - RULE-SET,SpeedtestIntl,🚀 测速工具
+  - RULE-SET,Game,🎮 游戏平台
+  - RULE-SET,Netflix,🎥 Netflix
   - GEOSITE,category-communication,💬 即时通讯
   - GEOSITE,category-social-media-!cn,🌐 社交媒体
-  - GEOSITE,openai,🤖 AI服务
-  - GEOSITE,category-ai-!cn,🤖 AI服务
   - GEOSITE,github,🚀 GitHub
-  - GEOSITE,tiktok,🎶 TikTok
   - GEOSITE,youtube,📹 YouTube
-  - GEOSITE,netflix,🎥 Netflix
   - GEOSITE,apple-tvplus,🌎 国外媒体
   - GEOSITE,disney,🌎 国外媒体
   - GEOSITE,hbo,🌎 国外媒体
@@ -168,14 +192,8 @@ rules:
   - GEOSITE,google,🇬 谷歌服务
   - GEOSITE,apple,🍎 苹果服务
   - GEOSITE,microsoft,Ⓜ️ 微软服务
-  - GEOSITE,category-games,🎮 游戏平台
   - GEOSITE,steam,🎮 Steam
-  - GEOSITE,category-speedtest,🚀 测速工具
-  - GEOIP,telegram,💬 即时通讯,no-resolve
-  - GEOIP,twitter,🌐 社交媒体,no-resolve
-  - GEOIP,facebook,🌐 社交媒体,no-resolve
-  - GEOIP,google,🇬 谷歌服务,no-resolve
-  - GEOIP,netflix,🎥 Netflix,no-resolve
+  - RULE-SET,Proxy,🐟 漏网之鱼
   - RULE-SET,PortDirect,🔀 非标端口
   - GEOSITE,cn,🎯 全球直连
   - GEOIP,CN,🎯 全球直连,no-resolve
