@@ -1,8 +1,7 @@
 # OpenClash 模板说明
 
-这是按你当前要求整理的上游优先模板：
-- 保留 iKeLee 的基础框架和设置
-- 关键规则链接按 iKeLee 模板的上游规则来
-- Direct / LAN / Proxy / ESET_China 保持原规则源
-- AI / TikTok / SpeedtestIntl / Game / Netflix 已按你指定恢复成 iKeLee 风格的 rule-providers
-- 不内置 provider，适合 OpenClash 订阅转换后直接套用
+这版模板已按你的要求调整：
+- 即时通讯 / 社交媒体 / GitHub / YouTube / 国外媒体 / 谷歌服务 / 苹果服务 / 微软服务 / Steam / 测速工具 全部改成 rule-providers 分类
+- 不再直接用 GEOSITE 来分这些核心分类
+- 删除了 国外电商 / 谷歌FCM 分组
+- Direct / LAN / Proxy / ESET_China 仍沿用原规则源
