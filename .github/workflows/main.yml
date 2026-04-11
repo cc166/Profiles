@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - 'urls.txt'
+      - 'update_emby.py'
+      - 'custom-rules/custom-scattered-source.txt'
+      - 'update_scattered_rules.py'
   workflow_dispatch:
 
 jobs:
@@ -13,20 +16,23 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Run Script
+      - name: Run Emby generator
         run: python update_emby.py
+
+      - name: Run scattered rule generator
+        run: python update_scattered_rules.py
 
       - name: Commit and Push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add Emby.lsr
-          git commit -m "chore: update Emby.lsr" || exit 0
+          git add Emby.lsr custom-rules/custom-scattered-rules.list
+          git commit -m "chore: update generated rules" || exit 0
           git push
