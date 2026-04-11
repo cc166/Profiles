@@ -1,5 +1,8 @@
 # Custom Scattered Rules
-# scattered custom rules / extracted from screenshots
+# Generated from custom-scattered-source.txt
+
+# Custom Scattered Rules Source
+# maintain this source file, workflow will generate custom-scattered-rules.list
 
 # 通用直连
 DOMAIN,api.99dun.cc,DIRECT
