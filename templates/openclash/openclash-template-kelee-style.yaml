@@ -1,10 +1,8 @@
-# OpenClash custom template (upstream-first / iKeLee-aligned)
-# 说明：
-# - 保留 iKeLee 的 mihomo / OpenClash 基础框架与常用设置
-# - 按 glados 的分组思路做精简
-# - 不内置 provider，适合 OpenClash 订阅转换后直接套用
-# - 关键规则链接尽量按 iKeLee 模板的上游规则来
-# - ChatGPT 合并进 AI；Disney/HBO/PrimeVideo/AppleTV+/Emby/Spotify/Bahamut 合并进国外媒体
+# OpenClash custom template (provider-based categories)
+# - 关键分类全部改成 rule-providers
+# - 不再用 GEOSITE 做这些分类的直接分流
+# - 删除 国外电商 / 谷歌FCM 分组
+# - 订阅节点由 OpenClash 订阅转换结果注入
 
 port: 7890
 socks-port: 7891
@@ -97,12 +95,9 @@ proxy-groups:
   - {name: 📹 YouTube, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
   - {name: 🎥 Netflix, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择]}
   - {name: 🌎 国外媒体, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
-  - {name: 🛒 国外电商, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
-  - {name: 📢 谷歌FCM, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
   - {name: 🇬 谷歌服务, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
   - {name: 🍎 苹果服务, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
   - {name: Ⓜ️ 微软服务, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
-  - {name: 🎮 游戏平台, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
   - {name: 🎮 Steam, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
   - {name: 🚀 测速工具, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🎯 全球直连, 🚀 手动选择]}
   - {name: 🐟 漏网之鱼, type: select, include-all-providers: true, filter: *FilterAll, proxies: [🚀 手动选择, 🎯 全球直连]}
@@ -120,47 +115,70 @@ rule-providers:
     <<: *RuleProviders
     path: './rules/LAN.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml'
-
   Direct:
     <<: *RuleProviders
     path: './rules/Direct.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/Direct.yaml'
-
   Proxy:
     <<: *RuleProviders
     path: './rules/Proxy.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml'
-
-  AI:
-    <<: *RuleProviders
-    path: './rules/AI.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/AI.yaml'
-
-  TikTok:
-    <<: *RuleProviders
-    path: './rules/TikTok.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml'
-
-  SpeedtestIntl:
-    <<: *RuleProviders
-    path: './rules/SpeedtestInternational.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml'
-
-  Game:
-    <<: *RuleProviders
-    path: './rules/Game.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/Game.yaml'
-
-  Netflix:
-    <<: *RuleProviders
-    path: './rules/Netflix.yaml'
-    url: 'https://rule.kelee.one/Clash/Netflix.yaml'
-
   ESET_China:
     <<: *RuleProviders
     path: './rules/ESET_China.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/ESET_China.yaml'
-
+  AI:
+    <<: *RuleProviders
+    path: './rules/AI.yaml'
+    url: 'https://kelee.one/Tool/Clash/Rule/AI.yaml'
+  Communication:
+    <<: *RuleProviders
+    path: './rules/Communication.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Communication.yaml'
+  SocialMedia:
+    <<: *RuleProviders
+    path: './rules/SocialMedia.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/SocialMedia.yaml'
+  GitHub:
+    <<: *RuleProviders
+    path: './rules/GitHub.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/GitHub.yaml'
+  TikTok:
+    <<: *RuleProviders
+    path: './rules/TikTok.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/TikTok.yaml'
+  YouTube:
+    <<: *RuleProviders
+    path: './rules/YouTube.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/YouTube.yaml'
+  Netflix:
+    <<: *RuleProviders
+    path: './rules/Netflix.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Netflix.yaml'
+  ForeignMedia:
+    <<: *RuleProviders
+    path: './rules/ForeignMedia.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/ForeignMedia.yaml'
+  Google:
+    <<: *RuleProviders
+    path: './rules/Google.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Google.yaml'
+  Apple:
+    <<: *RuleProviders
+    path: './rules/Apple.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Apple.yaml'
+  Microsoft:
+    <<: *RuleProviders
+    path: './rules/Microsoft.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Microsoft.yaml'
+  Steam:
+    <<: *RuleProviders
+    path: './rules/Steam.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Steam.yaml'
+  Speedtest:
+    <<: *RuleProviders
+    path: './rules/Speedtest.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Speedtest.yaml'
   PortDirect:
     <<: *RuleProviders
     path: './rules/PortDirect.yaml'
@@ -171,28 +189,18 @@ rules:
   - RULE-SET,Direct,🎯 全球直连
   - RULE-SET,ESET_China,🎯 全球直连
   - RULE-SET,AI,🤖 AI服务
+  - RULE-SET,Communication,💬 即时通讯
+  - RULE-SET,SocialMedia,🌐 社交媒体
+  - RULE-SET,GitHub,🚀 GitHub
   - RULE-SET,TikTok,🎶 TikTok
-  - RULE-SET,SpeedtestIntl,🚀 测速工具
-  - RULE-SET,Game,🎮 游戏平台
+  - RULE-SET,YouTube,📹 YouTube
   - RULE-SET,Netflix,🎥 Netflix
-  - GEOSITE,category-communication,💬 即时通讯
-  - GEOSITE,category-social-media-!cn,🌐 社交媒体
-  - GEOSITE,github,🚀 GitHub
-  - GEOSITE,youtube,📹 YouTube
-  - GEOSITE,apple-tvplus,🌎 国外媒体
-  - GEOSITE,disney,🌎 国外媒体
-  - GEOSITE,hbo,🌎 国外媒体
-  - GEOSITE,primevideo,🌎 国外媒体
-  - GEOSITE,category-emby,🌎 国外媒体
-  - GEOSITE,spotify,🌎 国外媒体
-  - GEOSITE,bahamut,🌎 国外媒体
-  - GEOSITE,category-entertainment,🌎 国外媒体
-  - GEOSITE,category-ecommerce,🛒 国外电商
-  - GEOSITE,googlefcm,📢 谷歌FCM
-  - GEOSITE,google,🇬 谷歌服务
-  - GEOSITE,apple,🍎 苹果服务
-  - GEOSITE,microsoft,Ⓜ️ 微软服务
-  - GEOSITE,steam,🎮 Steam
+  - RULE-SET,ForeignMedia,🌎 国外媒体
+  - RULE-SET,Google,🇬 谷歌服务
+  - RULE-SET,Apple,🍎 苹果服务
+  - RULE-SET,Microsoft,Ⓜ️ 微软服务
+  - RULE-SET,Steam,🎮 Steam
+  - RULE-SET,Speedtest,🚀 测速工具
   - RULE-SET,Proxy,🐟 漏网之鱼
   - RULE-SET,PortDirect,🔀 非标端口
   - GEOSITE,cn,🎯 全球直连
