@@ -1,51 +1,23 @@
 # Emby Rules for Loon
-# Generated from urls.txt and custom additions
+# Generated from urls.txt
 
 DOMAIN,a.emby.my
-DOMAIN,ai.td.ee
-DOMAIN,api.99dun.cc
-DOMAIN,appportal.cqmetro.cn
 DOMAIN,bai.yezi.my
 DOMAIN,bai1.yezi.my
 DOMAIN,bai3.yezi.my
 DOMAIN,bai6.yezi.my
 DOMAIN-SUFFIX,ciallo.party
-DOMAIN-SUFFIX,clun.top
-DOMAIN,codex.ciii.club
 DOMAIN,emby.feiniu.lol
 DOMAIN,emby.heisi.org
 DOMAIN,emby.levilde.bond
 DOMAIN-SUFFIX,emby.my
 DOMAIN,emby.violet.run
-#DOMAIN,emby.wenjian.de
 DOMAIN,emby.younoyes.com
-DOMAIN,emos.137127.xyz
-DOMAIN,emos.200038.xyz
-DOMAIN,emos.255432.xyz
-DOMAIN,emos.liuer.indevs.in
 DOMAIN-SUFFIX,faemby.vip
-#DOMAIN-SUFFIX,feiniu.lol
-DOMAIN,free.lilyemby.com
 DOMAIN,fworks-emby.sylu.net
 DOMAIN,fworks-emby.webn.cc
 DOMAIN,gm.yezi.my
 DOMAIN,gy.meowfly.de
-DOMAIN,hka-emby.aliz.work
-DOMAIN,id.td.ee
 DOMAIN,link00.okemby.org
 DOMAIN,link01.okemby.org
 DOMAIN,lite.cn2gias.uk
-DOMAIN,m5.amap.com
-DOMAIN,media.emos.club
-#DOMAIN,music.wenjian.de
-#DOMAIN-SUFFIX,nangua.de
-DOMAIN,pieclip.okbap.com
-DOMAIN,pro.111196123.xyz
-DOMAIN-SUFFIX,simonvan.space
-DOMAIN-SUFFIX,szze.online
-DOMAIN,testflight.apple.com
-DOMAIN,us.younoyes.com
-DOMAIN,us01.doudou.pet
-DOMAIN,vipzy.yezi.my
-DOMAIN,www.zwduxs.com
-DOMAIN,yinhai.aiinyue.com
