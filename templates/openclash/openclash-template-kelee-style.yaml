@@ -79,12 +79,12 @@ dns:
 
 # 节点与订阅由 OpenClash 订阅转换结果注入，本模板不内置 proxy-providers。
 
-FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|((HK|HKG|Hong)(\d+)?)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
-FilterTW: &FilterTW '^(?=.*((?i)🇹🇼|台湾|((TW|TWN|Taiwan)(\d+)?)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
-FilterJP: &FilterJP '^(?=.*((?i)🇯🇵|日本|东京|大阪|((JP|JPN|Japan)(\d+)?)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
-FilterKR: &FilterKR '^(?=.*((?i)🇰🇷|韩国|首尔|((KR|KOR|Korea)(\d+)?)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
-FilterSG: &FilterSG '^(?=.*((?i)🇸🇬|新加坡|((SG|SGP|Singapore)(\d+)?)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
-FilterUS: &FilterUS '^(?=.*((?i)🇺🇸|美国|洛杉矶|西雅图|纽约|((US|USA|United States)(\d+)?)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterHK: &FilterHK '^(?=.*((?i)🇭🇰|香港|(\b(HK|HKG|Hong)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterTW: &FilterTW '^(?=.*((?i)🇹🇼|台湾|(\b(TW|TWN|Taiwan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterJP: &FilterJP '^(?=.*((?i)🇯🇵|日本|东京|大阪|(\b(JP|JPN|Japan)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterKR: &FilterKR '^(?=.*((?i)🇰🇷|韩国|首尔|(\b(KR|KOR|Korea)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterSG: &FilterSG '^(?=.*((?i)🇸🇬|新加坡|(\b(SG|SGP|Singapore)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
+FilterUS: &FilterUS '^(?=.*((?i)🇺🇸|美国|洛杉矶|西雅图|纽约|(\b(US|USA|United States)(\d+)?\b)))(?!.*((?i)回国|校园|游戏|🎮)).*$'
 FilterAll: &FilterAll '^(?=.*(.))(?!.*((?i)群|邀请|返利|官网|客服|网站|网址|流量|到期|机场|订阅|作者|教程|更新)).*$'
 
 UrlTest: &UrlTest {type: url-test, interval: 6, tolerance: 20, lazy: true, url: 'http://www.google.com/blank.html', disable-udp: false, timeout: 2000, max-failed-times: 3, hidden: true, include-all-providers: true}
