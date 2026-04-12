@@ -173,11 +173,6 @@ rule-providers:
     path: './rules/TikTok.yaml'
     url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/TikTok.yaml'
 
-  SpeedtestIntl:
-    <<: *RuleProviders
-    path: './rules/SpeedtestInternational.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/SpeedtestInternational.yaml'
-
   Game:
     <<: *RuleProviders
     path: './rules/Game.yaml'
@@ -197,7 +192,7 @@ rule-providers:
   Telegram:
     <<: *RuleProviders
     path: './rules/Telegram.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Telegram.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/Telegram.yaml'
 
   SocialMedia:
     <<: *RuleProviders
@@ -207,12 +202,12 @@ rule-providers:
   GitHub:
     <<: *RuleProviders
     path: './rules/GitHub.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/GitHub.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/GitHub.yaml'
 
   YouTube:
     <<: *RuleProviders
     path: './rules/YouTube.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/YouTube.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/YouTube.yaml'
 
   ForeignMedia:
     <<: *RuleProviders
@@ -222,22 +217,22 @@ rule-providers:
   Google:
     <<: *RuleProviders
     path: './rules/Google.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Google.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/Google.yaml'
 
   Apple:
     <<: *RuleProviders
     path: './rules/Apple.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Apple.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/Apple.yaml'
 
   Microsoft:
     <<: *RuleProviders
     path: './rules/Microsoft.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Microsoft.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/Microsoft.yaml'
 
   Steam:
     <<: *RuleProviders
     path: './rules/Steam.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Steam.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/Steam.yaml'
 
 # 规则指向
 rules:
@@ -246,7 +241,6 @@ rules:
   - RULE-SET, Proxy, 兜底后备策略
   - RULE-SET, AI, AI
   - RULE-SET, TikTok, TikTok
-  - RULE-SET, SpeedtestIntl, Speedtest国际
   - RULE-SET, Game, 游戏选择
   - RULE-SET, Netflix, Netflix
   - RULE-SET, ESET_China, DIRECT
