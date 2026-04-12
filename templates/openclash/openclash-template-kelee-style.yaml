@@ -151,47 +151,47 @@ rule-providers:
   LAN:
     <<: *RuleProviders
     path: './rules/Lan.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml'
 
   Direct:
     <<: *RuleProviders
     path: './rules/Direct.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/Direct.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Direct.yaml'
 
   Proxy:
     <<: *RuleProviders
     path: './rules/Proxy.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Proxy.yaml'
 
   AI:
     <<: *RuleProviders
     path: './rules/AI.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/AI.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml'
 
   TikTok:
     <<: *RuleProviders
     path: './rules/TikTok.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/TikTok.yaml'
 
   SpeedtestIntl:
     <<: *RuleProviders
     path: './rules/SpeedtestInternational.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/SpeedtestInternational.yaml'
 
   Game:
     <<: *RuleProviders
     path: './rules/Game.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/Game.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Game.yaml'
 
   Netflix:
     <<: *RuleProviders
     path: './rules/Netflix.yaml'
-    url: 'https://rule.kelee.one/Clash/Netflix.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Netflix.yaml'
 
   ESET_China:
     <<: *RuleProviders
     path: './rules/ESET_China.yaml'
-    url: 'https://kelee.one/Tool/Clash/Rule/ESET_China.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml'
 
 
   Telegram:

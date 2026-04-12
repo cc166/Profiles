@@ -4,3 +4,17 @@
 - 核心保留上游：LAN / Direct / Proxy / AI / TikTok / SpeedtestIntl / Game / Netflix / ESET_China
 - 额外增加你自己的分类：Telegram / SocialMedia / GitHub / YouTube / ForeignMedia / Google / Apple / Microsoft / Steam
 - 这些额外分类来自你同步进 ShuntRules 的 yuumimi 上游规则
+
+
+## 核心规则镜像
+
+以下 9 个 Clash 核心规则已切到你自己的 `ShuntRules/mirror/ClashCore/`：
+- LAN
+- Direct
+- Proxy
+- AI
+- TikTok
+- SpeedtestInternational
+- Game
+- Netflix
+- ESET_China
