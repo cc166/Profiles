@@ -1,6 +1,6 @@
 # OpenClash 模板说明
 
-这版模板按 `ProxyResource` 原始 Clash 示例配置回归整理：
-- 保留上游原有的核心 provider：LAN / Direct / Proxy / AI / TikTok / SpeedtestIntl / Game / Netflix / ESET_China
-- 再额外加入你自己要的分类 provider：Telegram / SocialMedia / GitHub / YouTube / ForeignMedia / Google / Apple / Microsoft / Steam
-- 删除 国外电商 / 谷歌FCM 两个分组
+这版模板采用“ProxyResource 核心 provider + 你自己的额外分类 provider”结构：
+- 核心保留上游：LAN / Direct / Proxy / AI / TikTok / SpeedtestIntl / Game / Netflix / ESET_China
+- 额外增加你自己的分类：Telegram / SocialMedia / GitHub / YouTube / ForeignMedia / Google / Apple / Microsoft / Steam
+- 这些额外分类来自你同步进 ShuntRules 的 yuumimi 上游规则

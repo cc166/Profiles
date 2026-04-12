@@ -121,18 +121,18 @@ RuleProviders: &RuleProviders {type: http, behavior: classical, interval: 3600, 
 
 # 策略组
 proxy-groups: 
-  - {name: Telegram, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT]}
-  - {name: SocialMedia, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT]}
-  - {name: GitHub, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT]}
+  - {name: Telegram, type: select, include-all-providers: true, filter: *FilterAll, proxies: [兜底后备策略, DIRECT]}
+  - {name: SocialMedia, type: select, include-all-providers: true, filter: *FilterAll, proxies: [兜底后备策略, DIRECT]}
+  - {name: GitHub, type: select, include-all-providers: true, filter: *FilterAll, proxies: [兜底后备策略, DIRECT]}
   - {name: AI, type: select, include-all-providers: true, filter: *FilterAll}
   - {name: TikTok, type: select, include-all-providers: true, filter: *FilterAll}
   - {name: YouTube, type: select, include-all-providers: true, filter: *FilterAll}
   - {name: Netflix, type: select, include-all-providers: true, filter: *FilterAll}
-  - {name: ForeignMedia, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT]}
-  - {name: Google, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT]}
-  - {name: Apple, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT]}
-  - {name: Microsoft, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT]}
-  - {name: Steam, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT]}
+  - {name: ForeignMedia, type: select, include-all-providers: true, filter: *FilterAll, proxies: [兜底后备策略, DIRECT]}
+  - {name: Google, type: select, include-all-providers: true, filter: *FilterAll, proxies: [兜底后备策略, DIRECT]}
+  - {name: Apple, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT, 兜底后备策略]}
+  - {name: Microsoft, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT, 兜底后备策略]}
+  - {name: Steam, type: select, include-all-providers: true, filter: *FilterAll, proxies: [DIRECT, 兜底后备策略]}
   - {name: Speedtest国际, type: select, include-all-providers: true, filter: *FilterAll, proxies: [PASS, DIRECT]}
   - {name: 兜底后备策略, type: fallback, proxies: [香港自动策略, 台湾自动策略, 日本自动策略, 韩国自动策略, 新国自动策略, 美国自动策略, 英国自动策略, 法国自动策略, 德国自动策略]}
 
@@ -193,6 +193,52 @@ rule-providers:
     path: './rules/ESET_China.yaml'
     url: 'https://kelee.one/Tool/Clash/Rule/ESET_China.yaml'
 
+
+  Telegram:
+    <<: *RuleProviders
+    path: './rules/Telegram.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Telegram.yaml'
+
+  SocialMedia:
+    <<: *RuleProviders
+    path: './rules/SocialMedia.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/SocialMedia.yaml'
+
+  GitHub:
+    <<: *RuleProviders
+    path: './rules/GitHub.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/GitHub.yaml'
+
+  YouTube:
+    <<: *RuleProviders
+    path: './rules/YouTube.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/YouTube.yaml'
+
+  ForeignMedia:
+    <<: *RuleProviders
+    path: './rules/ForeignMedia.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/ForeignMedia.yaml'
+
+  Google:
+    <<: *RuleProviders
+    path: './rules/Google.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Google.yaml'
+
+  Apple:
+    <<: *RuleProviders
+    path: './rules/Apple.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Apple.yaml'
+
+  Microsoft:
+    <<: *RuleProviders
+    path: './rules/Microsoft.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Microsoft.yaml'
+
+  Steam:
+    <<: *RuleProviders
+    path: './rules/Steam.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/Steam.yaml'
+
 # 规则指向
 rules:
   - RULE-SET, LAN, DIRECT
@@ -204,5 +250,15 @@ rules:
   - RULE-SET, Game, 游戏选择
   - RULE-SET, Netflix, Netflix
   - RULE-SET, ESET_China, DIRECT
+
+  - RULE-SET, Telegram, Telegram
+  - RULE-SET, SocialMedia, SocialMedia
+  - RULE-SET, GitHub, GitHub
+  - RULE-SET, YouTube, YouTube
+  - RULE-SET, ForeignMedia, ForeignMedia
+  - RULE-SET, Google, Google
+  - RULE-SET, Apple, Apple
+  - RULE-SET, Microsoft, Microsoft
+  - RULE-SET, Steam, Steam
   - GEOIP, CN, DIRECT
   - MATCH, 兜底后备策略
