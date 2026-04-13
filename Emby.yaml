@@ -1,0 +1,21 @@
+payload:
+  - DOMAIN,a.emby.my
+  - DOMAIN,bai.yezi.my
+  - DOMAIN,bai1.yezi.my
+  - DOMAIN,bai3.yezi.my
+  - DOMAIN,bai6.yezi.my
+  - DOMAIN-SUFFIX,ciallo.party
+  - DOMAIN,emby.feiniu.lol
+  - DOMAIN,emby.heisi.org
+  - DOMAIN,emby.levilde.bond
+  - DOMAIN-SUFFIX,emby.my
+  - DOMAIN,emby.violet.run
+  - DOMAIN,emby.younoyes.com
+  - DOMAIN-SUFFIX,faemby.vip
+  - DOMAIN,fworks-emby.sylu.net
+  - DOMAIN,fworks-emby.webn.cc
+  - DOMAIN,gm.yezi.my
+  - DOMAIN,gy.meowfly.de
+  - DOMAIN,link00.okemby.org
+  - DOMAIN,link01.okemby.org
+  - DOMAIN,lite.cn2gias.uk
