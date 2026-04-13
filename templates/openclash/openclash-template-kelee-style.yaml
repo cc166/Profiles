@@ -234,6 +234,16 @@ rule-providers:
     path: './rules/Steam.yaml'
     url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/Steam.yaml'
 
+  Emby:
+    <<: *RuleProviders
+    path: './rules/Emby.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/Emby.yaml'
+
+  CustomScattered:
+    <<: *RuleProviders
+    path: './rules/CustomScattered.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/custom-rules/custom-scattered-rules.yaml'
+
 # 规则指向
 rules:
   - RULE-SET, LAN, DIRECT
@@ -254,5 +264,7 @@ rules:
   - RULE-SET, Apple, Apple
   - RULE-SET, Microsoft, Microsoft
   - RULE-SET, Steam, Steam
+  - RULE-SET, Emby, 🌎 国外媒体
+  - RULE-SET, CustomScattered, DIRECT
   - GEOIP, CN, DIRECT
   - MATCH, 兜底后备策略
