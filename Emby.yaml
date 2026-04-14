@@ -1,5 +1,6 @@
-# Updated: 2026-04-13 16:40
 payload:
+# Emby Rules for Loon
+# Generated from urls.txt
   - DOMAIN,a.emby.my
   - DOMAIN,bai.yezi.my
   - DOMAIN,bai1.yezi.my

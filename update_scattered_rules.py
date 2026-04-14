@@ -1,8 +1,8 @@
-import re
 from pathlib import Path
 
 SRC = Path('custom-rules/custom-scattered-source.txt')
-DST = Path('custom-rules/custom-scattered-rules.list')
+DST_LIST = Path('custom-rules/custom-scattered-rules.list')
+DST_LSR = Path('custom-rules/custom-scattered-rules.lsr')
 
 if not SRC.exists():
     raise SystemExit('missing source file: custom-rules/custom-scattered-source.txt')
@@ -50,5 +50,7 @@ for raw in SRC.read_text(encoding='utf-8').splitlines():
     seen.add(key)
     out.append(('#' if commented else '') + normalized)
 
-DST.write_text('\n'.join(out).rstrip() + '\n', encoding='utf-8')
-print('updated', DST)
+text = '\n'.join(out).rstrip() + '\n'
+DST_LIST.write_text(text, encoding='utf-8')
+DST_LSR.write_text(text, encoding='utf-8')
+print('updated', DST_LIST, DST_LSR)

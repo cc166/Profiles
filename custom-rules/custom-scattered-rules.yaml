@@ -1,5 +1,8 @@
-# Updated: 2026-04-13 16:40
 payload:
+# Custom Scattered Rules Source
+# maintain this source file, workflow will generate custom-scattered-rules.list
+
+# 通用直连
   - DOMAIN,api.99dun.cc
   - DOMAIN,ai.td.ee
   - DOMAIN,id.td.ee
@@ -8,10 +11,16 @@ payload:
   - DOMAIN,appportal.cqmetro.cn
   - DOMAIN,m5.amap.com
   - DOMAIN,testflight.apple.com
+
+# helloblock
   - DOMAIN,us01.doudou.pet
+
+# 音乐
   - DOMAIN,music.wenjian.de
   - DOMAIN,nangua.de
   - DOMAIN,yinhai.aiinyue.com
+
+# emos反代
   - DOMAIN,emos.200038.xyz
   - DOMAIN,emos.137127.xyz
   - DOMAIN,clun.top
@@ -19,10 +28,28 @@ payload:
   - DOMAIN,pro.111196123.xyz
   - DOMAIN,emos.liuer.indevs.in
   - DOMAIN,emos.255432.xyz
+
+# 叶子
   - DOMAIN,vipzy.yezi.my
+
+# 解说
   - DOMAIN,pieclip.okbap.com
+
+# 群友提供 star 反代
   - DOMAIN-SUFFIX,szze.online
   - DOMAIN-SUFFIX,simonvan.space
+
+# 肥牛
+#  - DOMAIN-SUFFIX,feiniu.lol
+
+# lily
   - DOMAIN,free.lilyemby.com
+
+# younoyes
   - DOMAIN,us.younoyes.com
+
+# hka
   - DOMAIN,hka-emby.aliz.work
+
+# 南瓜
+#  - DOMAIN,nangua.de

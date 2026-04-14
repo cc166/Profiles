@@ -36,6 +36,6 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add Emby.lsr Emby.yaml custom-rules/custom-scattered-rules.list custom-rules/custom-scattered-rules.yaml
+          git add Emby.lsr Emby.yaml custom-rules/custom-scattered-rules.list custom-rules/custom-scattered-rules.lsr custom-rules/custom-scattered-rules.yaml
           git commit -m "chore: update generated rules" || exit 0
           git push
