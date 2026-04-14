@@ -159,6 +159,16 @@ rule-providers:
     path: './rules/Direct.yaml'
     url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Direct.yaml'
 
+  Emby:
+    <<: *RuleProviders
+    path: './rules/Emby.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/Emby.yaml'
+
+  CustomScattered:
+    <<: *RuleProviders
+    path: './rules/CustomScattered.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/custom-rules/custom-scattered-rules.yaml'
+
   Proxy:
     <<: *RuleProviders
     path: './rules/Proxy.yaml'
@@ -189,15 +199,6 @@ rule-providers:
     path: './rules/ESET_China.yaml'
     url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml'
 
-  Emby:
-    <<: *RuleProviders
-    path: './rules/Emby.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/Emby.yaml'
-
-  CustomScattered:
-    <<: *RuleProviders
-    path: './rules/CustomScattered.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/custom-rules/custom-scattered-rules.yaml'
 
   Telegram:
     <<: *RuleProviders
@@ -249,6 +250,8 @@ rule-providers:
 rules:
   - RULE-SET, LAN, DIRECT
   - RULE-SET, Direct, DIRECT
+  - RULE-SET, Emby, 🌎 国外媒体
+  - RULE-SET, CustomScattered, DIRECT
   - RULE-SET, Proxy, 兜底后备策略
   - RULE-SET, AI, AI
   - RULE-SET, TikTok, TikTok
@@ -256,8 +259,6 @@ rules:
   - RULE-SET, Netflix, Netflix
   - RULE-SET, ESET_China, DIRECT
 
-  - RULE-SET, Emby, 🌎 国外媒体
-  - RULE-SET, CustomScattered, DIRECT
   - RULE-SET, Telegram, Telegram
   - RULE-SET, SocialMedia, SocialMedia
   - RULE-SET, GitHub, GitHub
