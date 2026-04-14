@@ -205,7 +205,7 @@ rule-providers:
   SocialMedia:
     <<: *RuleProviders
     path: './rules/SocialMedia.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/SocialMedia.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/openclash-compat/SocialMedia.yaml'
 
   GitHub:
     <<: *RuleProviders
@@ -220,7 +220,7 @@ rule-providers:
   ForeignMedia:
     <<: *RuleProviders
     path: './rules/ForeignMedia.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/custom/Clash/ForeignMedia.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/openclash-compat/ForeignMedia.yaml'
 
   Google:
     <<: *RuleProviders
