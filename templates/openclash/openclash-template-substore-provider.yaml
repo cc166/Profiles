@@ -190,7 +190,7 @@ rule-providers:
   Netflix:
     <<: *RuleProviders
     path: './rules/Netflix.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Netflix.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/openclash-compat/Netflix.yaml'
 
   ESET_China:
     <<: *RuleProviders
@@ -215,7 +215,7 @@ rule-providers:
   YouTube:
     <<: *RuleProviders
     path: './rules/YouTube.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/YouTube.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/openclash-compat/YouTube.yaml'
 
   ForeignMedia:
     <<: *RuleProviders
@@ -225,17 +225,17 @@ rule-providers:
   Google:
     <<: *RuleProviders
     path: './rules/Google.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/Google.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/openclash-compat/Google.yaml'
 
   Apple:
     <<: *RuleProviders
     path: './rules/Apple.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/Apple.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/openclash-compat/Apple.yaml'
 
   Microsoft:
     <<: *RuleProviders
     path: './rules/Microsoft.yaml'
-    url: 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashPlus/Microsoft.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/openclash-compat/Microsoft.yaml'
 
   Steam:
     <<: *RuleProviders
