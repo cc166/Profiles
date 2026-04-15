@@ -1,9 +1,8 @@
 # OpenClash 模板说明
 
-这版模板当前采用三层规则结构：
-- ClashCore：iKeLee Clash 样板核心 9 项成品镜像
-- ClashPlus：常用扩展成品镜像（Telegram / GitHub / YouTube / Google / Apple / Microsoft / Steam 等）
-- custom：你自己的增强聚合分类（如 SocialMedia / ForeignMedia）
+当前公开仓库仅保留脱敏模板与规则结构说明，不再放置任何带真实节点来源、真实订阅地址、真实 provider 链接的试验配置。
 
-补充：
-- `SpeedtestIntl` 已从模板中移除，因为主要是测速用途且规则量很大。
+如需实际运行配置：
+- 建议使用本地直读配置
+- 或使用 secret gist / 私有存储保存完整最终配置
+- 不在公开仓库中保留真实节点与敏感链路
