@@ -1,0 +1,87 @@
+# Self Use Rules For Loon
+# Generated from self-use-loon-source.txt
+
+# --- 叶子 (Yezi) 系列 ---
+DOMAIN,bai.yezi.my,DIRECT
+DOMAIN,bai1.yezi.my,DIRECT
+DOMAIN,bai3.yezi.my,DIRECT
+DOMAIN,bai6.yezi.my,DIRECT
+DOMAIN,gm.yezi.my,DIRECT
+
+# --- OK Emby 系列 ---
+DOMAIN,link00.okemby.org,DIRECT
+DOMAIN,link01.okemby.org,DIRECT
+
+# --- Emby.my 系列 ---
+DOMAIN-SUFFIX,emby.my,DIRECT
+DOMAIN,a.emby.my,DIRECT
+
+# --- Fworks 系列 ---
+DOMAIN,fworks-emby.webn.cc,DIRECT
+DOMAIN,fworks-emby.sylu.net,DIRECT
+
+# --- 其他独立公益服 ---
+DOMAIN-SUFFIX,ciallo.party,DIRECT
+DOMAIN,emby.younoyes.com,DIRECT
+DOMAIN,emby.violet.run,DIRECT
+DOMAIN,lite.cn2gias.uk,DIRECT
+DOMAIN,emby.levilde.bond,DIRECT
+DOMAIN-SUFFIX,faemby.vip,DIRECT
+DOMAIN,emby.heisi.org,DIRECT
+DOMAIN,emby.feiniu.lol,DIRECT
+DOMAIN,gy.meowfly.de,DIRECT
+
+# Custom Scattered Rules Source
+# maintain this source file, workflow will generate custom-scattered-rules.list
+
+# 通用直连
+DOMAIN,api.99dun.cc,DIRECT
+DOMAIN,ai.td.ee,DIRECT
+DOMAIN,id.td.ee,DIRECT
+DOMAIN,www.zwduxs.com,DIRECT
+DOMAIN,codex.ciii.club,DIRECT
+DOMAIN,appportal.cqmetro.cn,DIRECT
+DOMAIN,m5.amap.com,DIRECT
+DOMAIN,testflight.apple.com,DIRECT
+
+# helloblock
+DOMAIN,us01.doudou.pet,DIRECT
+
+# 音乐
+DOMAIN,music.wenjian.de,DIRECT
+DOMAIN,nangua.de,DIRECT
+DOMAIN,yinhai.aiinyue.com,DIRECT
+
+# emos反代
+DOMAIN,emos.200038.xyz,DIRECT
+DOMAIN,emos.137127.xyz,DIRECT
+DOMAIN,clun.top,DIRECT
+DOMAIN,media.emos.club,DIRECT
+DOMAIN,pro.111196123.xyz,DIRECT
+DOMAIN,emos.liuer.indevs.in,DIRECT
+DOMAIN,emos.255432.xyz,DIRECT
+
+# 叶子
+DOMAIN,vipzy.yezi.my,DIRECT
+
+# 解说
+DOMAIN,pieclip.okbap.com,DIRECT
+
+# 群友提供 star 反代
+DOMAIN-SUFFIX,szze.online,DIRECT
+DOMAIN-SUFFIX,simonvan.space,DIRECT
+
+# 肥牛
+#DOMAIN-SUFFIX,feiniu.lol,DIRECT
+
+# lily
+DOMAIN,free.lilyemby.com,DIRECT
+
+# younoyes
+DOMAIN,us.younoyes.com,DIRECT
+
+# hka
+DOMAIN,hka-emby.aliz.work,DIRECT
+
+# 南瓜
+#DOMAIN,nangua.de,DIRECT
