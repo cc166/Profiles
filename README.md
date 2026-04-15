@@ -22,3 +22,18 @@
 
 ## 自动生成
 - `update_self_use_rules.py`
+
+## 自用规则（分直连 / 代理，分 Loon / OpenClash）
+
+### 自用直连
+- Loon 源：`custom-rules/self-use-loon-source.txt`
+- Loon 生成：`custom-rules/self-use-loon-rules.list`、`custom-rules/self-use-loon-rules.lsr`
+- OpenClash 源：`custom-rules/self-use-openclash-source.txt`
+- OpenClash 生成：`custom-rules/self-use-openclash-rules.yaml`
+
+### 自用代理
+- Loon 源：`custom-rules/self-use-proxy-loon-source.txt`
+- Loon 生成：`custom-rules/self-use-proxy-loon-rules.list`、`custom-rules/self-use-proxy-loon-rules.lsr`
+- OpenClash 源：`custom-rules/self-use-proxy-openclash-source.txt`
+- OpenClash 生成：`custom-rules/self-use-proxy-openclash-rules.yaml`
+
