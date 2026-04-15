@@ -1,68 +1,70 @@
 from pathlib import Path
 import re
 
-SRC = Path('custom-rules/self-use-source.txt')
-DST_LIST = Path('custom-rules/self-use-rules.list')
-DST_LSR = Path('custom-rules/self-use-rules.lsr')
-DST_YAML = Path('custom-rules/self-use-rules.yaml')
+LOON_SRC = Path('custom-rules/self-use-loon-source.txt')
+OC_SRC = Path('custom-rules/self-use-openclash-source.txt')
+LOON_LST = Path('custom-rules/self-use-loon-rules.list')
+LOON_LSR = Path('custom-rules/self-use-loon-rules.lsr')
+OC_YAML = Path('custom-rules/self-use-openclash-rules.yaml')
 
-text = SRC.read_text(encoding='utf-8', errors='ignore')
-lines = text.splitlines()
+def norm_rule_line(s):
+    parts=[p.strip() for p in s.split(',') if p.strip()]
+    if len(parts)>=2 and parts[0].upper() in ('DOMAIN','DOMAIN-SUFFIX'):
+        return parts[0].upper(), parts[1].lower()
+    return None
 
-out_list = ['# Self Use Rules', '# Generated from self-use-source.txt', '']
-out_yaml = ['payload:']
-seen_list = set()
-seen_yaml = set()
-section = ''
-for raw in lines:
-    line = raw.rstrip()
-    s = line.strip()
-    if not s:
-        out_list.append('')
-        out_yaml.append('')
-        continue
-    if s.startswith('## '):
-        section = s[3:].strip().lower()
-        out_list.append('# ' + s[3:].strip())
-        out_yaml.append('# ' + s[3:].strip())
-        continue
-    if s.startswith('#'):
-        out_list.append(line)
-        out_yaml.append(line)
-        continue
-    if section == 'emby':
-        m = re.findall(r'https?://([^:/ 
+def gen_loon(src_text):
+    out=['# Self Use Rules For Loon','# Generated from self-use-loon-source.txt','']
+    seen=set(); section=''
+    for raw in src_text.splitlines():
+        line=raw.rstrip(); s=line.strip()
+        if not s:
+            out.append(''); continue
+        if s.startswith('#') and not s.startswith('## '):
+            out.append(line); continue
+        if s.startswith('## '):
+            out.append('# ' + s[3:].strip()); section=s[3:].strip().lower(); continue
+        if section=='emby':
+            domains=re.findall(r'https?://([^:/ 
 ]+)', s)
-        for domain in m:
-            domain = domain.lower()
-            rule = ('DOMAIN,' + domain) if domain.count('.') > 1 else ('DOMAIN-SUFFIX,' + domain)
-            list_rule = rule + ',DIRECT'
-            if list_rule not in seen_list:
-                seen_list.add(list_rule)
-                out_list.append(list_rule)
-            if rule not in seen_yaml:
-                seen_yaml.add(rule)
-                out_yaml.append('  - ' + rule)
-        continue
-    parts = [p.strip() for p in s.split(',') if p.strip()]
-    if len(parts) >= 2 and parts[0].upper() in ('DOMAIN','DOMAIN-SUFFIX'):
-        rule = f"{parts[0].upper()},{parts[1].lower()}"
-        list_rule = rule + ',DIRECT'
-        if list_rule not in seen_list:
-            seen_list.add(list_rule)
-            out_list.append(list_rule)
-        if rule not in seen_yaml:
-            seen_yaml.add(rule)
-            out_yaml.append('  - ' + rule)
-    else:
-        out_list.append(line)
-
-text_list='
-'.join(out_list).rstrip()+'
+            for d in domains:
+                d=d.lower(); rule=('DOMAIN,'+d) if d.count('.')>1 else ('DOMAIN-SUFFIX,'+d)
+                final=rule+',DIRECT'
+                if final not in seen:
+                    seen.add(final); out.append(final)
+            continue
+        nr=norm_rule_line(s)
+        if nr:
+            final=f'{nr[0]},{nr[1]},DIRECT'
+            if final not in seen:
+                seen.add(final); out.append(final)
+        else:
+            out.append(line)
+    text='
+'.join(out).rstrip()+'
 '
-DST_LIST.write_text(text_list, encoding='utf-8')
-DST_LSR.write_text(text_list, encoding='utf-8')
-DST_YAML.write_text('
-'.join(out_yaml).rstrip()+'
+    LOON_LST.write_text(text, encoding='utf-8')
+    LOON_LSR.write_text(text, encoding='utf-8')
+
+def gen_oc(src_text):
+    out=['payload:']; seen=set()
+    for raw in src_text.splitlines():
+        line=raw.rstrip(); s=line.strip()
+        if not s:
+            out.append(''); continue
+        if s.startswith('#'):
+            out.append(line); continue
+        nr=norm_rule_line(s)
+        if nr:
+            rule=f'{nr[0]},{nr[1]}'
+            if rule not in seen:
+                seen.add(rule); out.append('  - ' + rule)
+        else:
+            out.append(line)
+    OC_YAML.write_text('
+'.join(out).rstrip()+'
 ', encoding='utf-8')
-print('generated self-use rules')
+
+gen_loon(LOON_SRC.read_text(encoding='utf-8', errors='ignore'))
+gen_oc(OC_SRC.read_text(encoding='utf-8', errors='ignore'))
+print('generated separate loon/openclash self-use rules')
