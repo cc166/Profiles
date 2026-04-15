@@ -3,7 +3,8 @@ name: Auto Update Rules
 on:
   push:
     paths:
-      - 'custom-rules/self-use-source.txt'
+      - 'custom-rules/self-use-loon-source.txt'
+      - 'custom-rules/self-use-openclash-source.txt'
       - 'update_self_use_rules.py'
   workflow_dispatch:
 
@@ -15,19 +16,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-
       - name: Run self use generator
         run: python update_self_use_rules.py
-
       - name: Commit and Push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add custom-rules/self-use-rules.list custom-rules/self-use-rules.lsr custom-rules/self-use-rules.yaml
-          git commit -m "chore: update self use rules" || exit 0
+          git add custom-rules/self-use-loon-rules.list custom-rules/self-use-loon-rules.lsr custom-rules/self-use-openclash-rules.yaml
+          git commit -m "chore: update separate self use rules" || exit 0
           git push
