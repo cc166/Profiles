@@ -4,11 +4,16 @@
 
 ## 当前主用
 - `templates/openclash/openclash-template-kelee-style.yaml`
-- `custom-rules/self-use-rules.lsr`
-- `custom-rules/self-use-rules.yaml`
+- `custom-rules/self-use-loon-rules.lsr`
+- `custom-rules/self-use-openclash-rules.yaml`
 
 ## 维护入口
-- 统一自用规则源：`custom-rules/self-use-source.txt`
+- Loon 自用源：`custom-rules/self-use-loon-source.txt`
+- OpenClash 自用源：`custom-rules/self-use-openclash-source.txt`
+
+## 规则边界
+- Loon 自用规则包含 Emby + 零散规则
+- OpenClash 自用规则只包含零散规则，不带 Emby
 
 ## 自动生成
 - `update_self_use_rules.py`
