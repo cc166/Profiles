@@ -10,5 +10,16 @@ proxy-providers:
     interval: 3600
     path: "./proxy_providers/机场名称1.yaml"
 
+rule-providers:
+  GameForeign:
+    type: http
+    behavior: classical
+    interval: 3600
+    format: yaml
+    proxy: DIRECT
+    path: './rules/GameForeign.yaml'
+    url: 'https://raw.githubusercontent.com/cc166/Profiles/master/custom-rules/game-foreign-rules.yaml'
+
 rules:
+  - RULE-SET,GameForeign,游戏选择
   - MATCH,DIRECT
