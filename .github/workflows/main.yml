@@ -3,10 +3,8 @@ name: Auto Update Rules
 on:
   push:
     paths:
-      - 'urls.txt'
-      - 'update_emby.py'
-      - 'custom-rules/custom-scattered-source.txt'
-      - 'update_scattered_rules.py'
+      - 'custom-rules/self-use-source.txt'
+      - 'update_self_use_rules.py'
   workflow_dispatch:
 
 jobs:
@@ -23,19 +21,13 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Run Emby generator
-        run: python update_emby.py
-
-      - name: Run scattered rule generator
-        run: python update_scattered_rules.py
-
-      - name: Run clash-side generators
-        run: python update_clash_side_rules.py
+      - name: Run self use generator
+        run: python update_self_use_rules.py
 
       - name: Commit and Push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add Emby.lsr Emby.yaml custom-rules/custom-scattered-rules.list custom-rules/custom-scattered-rules.lsr custom-rules/custom-scattered-rules.yaml
-          git commit -m "chore: update generated rules" || exit 0
+          git add custom-rules/self-use-rules.list custom-rules/self-use-rules.lsr custom-rules/self-use-rules.yaml
+          git commit -m "chore: update self use rules" || exit 0
           git push
