@@ -4,14 +4,11 @@
 
 ## 当前主用
 - `templates/openclash/openclash-template-kelee-style.yaml`
-- `Emby.lsr` / `Emby.yaml`
-- `custom-rules/custom-scattered-rules.list` / `.lsr` / `.yaml`
+- `custom-rules/self-use-rules.lsr`
+- `custom-rules/self-use-rules.yaml`
 
 ## 维护入口
-- Emby 源：`urls.txt`
-- 自定义零散规则源：`custom-rules/custom-scattered-source.txt`
+- 统一自用规则源：`custom-rules/self-use-source.txt`
 
 ## 自动生成
-- `update_emby.py`
-- `update_scattered_rules.py`
-- `update_clash_side_rules.py`
+- `update_self_use_rules.py`
