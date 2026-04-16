@@ -6,10 +6,8 @@ OC_SRC = Path('custom-rules/self-use-openclash-source.txt')
 PROXY_LOON_SRC = Path('custom-rules/self-use-proxy-loon-source.txt')
 PROXY_OC_SRC = Path('custom-rules/self-use-proxy-openclash-source.txt')
 
-LOON_LST = Path('custom-rules/self-use-loon-rules.list')
 LOON_LSR = Path('custom-rules/self-use-loon-rules.lsr')
 OC_YAML = Path('custom-rules/self-use-openclash-rules.yaml')
-PROXY_LOON_LST = Path('custom-rules/self-use-proxy-loon-rules.list')
 PROXY_LOON_LSR = Path('custom-rules/self-use-proxy-loon-rules.lsr')
 PROXY_OC_YAML = Path('custom-rules/self-use-proxy-openclash-rules.yaml')
 
@@ -82,10 +80,8 @@ def gen_loon_proxy(src_text):
             out.append(line)
     return '\n'.join(out).rstrip()+'\n'
 
-LOON_LST.write_text(gen_loon_direct(LOON_SRC.read_text(encoding='utf-8', errors='ignore')), encoding='utf-8')
-LOON_LSR.write_text(LOON_LST.read_text(encoding='utf-8'), encoding='utf-8')
+LOON_LSR.write_text(gen_loon_direct(LOON_SRC.read_text(encoding='utf-8', errors='ignore')), encoding='utf-8')
 OC_YAML.write_text(gen_yaml(OC_SRC.read_text(encoding='utf-8', errors='ignore'), 'Self Use Rules For OpenClash'), encoding='utf-8')
-PROXY_LOON_LST.write_text(gen_loon_proxy(PROXY_LOON_SRC.read_text(encoding='utf-8', errors='ignore')), encoding='utf-8')
-PROXY_LOON_LSR.write_text(PROXY_LOON_LST.read_text(encoding='utf-8'), encoding='utf-8')
+PROXY_LOON_LSR.write_text(gen_loon_proxy(PROXY_LOON_SRC.read_text(encoding='utf-8', errors='ignore')), encoding='utf-8')
 PROXY_OC_YAML.write_text(gen_yaml(PROXY_OC_SRC.read_text(encoding='utf-8', errors='ignore'), 'Self Use Proxy Rules For OpenClash'), encoding='utf-8')
-print('generated separate self use direct/proxy rules')
+print('generated minimal self use direct/proxy rules')
