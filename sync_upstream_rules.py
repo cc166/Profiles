@@ -23,11 +23,14 @@ shunt = [
     ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml", "upstream/ShuntRules/ESET_China.yaml"),
 ]
 
-# 主源：blackmatrix7
-common = ["Apple","YouTube","GitHub","Google","Microsoft","Telegram","Twitter","Discord","Steam","Emby","PayPal","Speedtest","Scholar"]
+# 主源：blackmatrix7（已确认真实路径）
+bm7_clash_names = ["Apple","YouTube","GitHub","Google","Microsoft","Telegram","Twitter","Discord","Steam","Emby","PayPal","Speedtest","Scholar"]
+bm7_loon_names = ["Apple","YouTube","GitHub","Google","Microsoft","Telegram","Twitter","Discord","Steam","Emby","PayPal","Speedtest","Scholar"]
+
 bm7=[]
-for name in common:
+for name in bm7_clash_names:
     bm7.append((f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/{name}/{name}.yaml", f"upstream/blackmatrix7/clash/{name}.yaml"))
+for name in bm7_loon_names:
     bm7.append((f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/{name}/{name}.list", f"upstream/blackmatrix7/loon/{name}.list"))
 
 report['ShuntRules']={'ok':[],'failed':[]}
