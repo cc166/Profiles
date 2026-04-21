@@ -30,3 +30,5 @@
 - 脚本：`sync_upstream_rules.py`
 - 当前镜像目录：`upstream/ShuntRules/`
 - 用途：定时/手动把上游规则文件同步进本仓库，便于固定引用与留存历史
+
+- 当前镜像范围：LAN / Direct / Proxy / AI / Game / Netflix / YouTube / Apple / Microsoft / Google / GitHub / Telegram / Twitter / Discord / Steam / Emby / PayPal / Speedtest / Scholar / ProxyMedia / ESET_China
