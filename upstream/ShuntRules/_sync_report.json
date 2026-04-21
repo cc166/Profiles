@@ -1,0 +1,69 @@
+{
+  "ok": [
+    "LAN",
+    "Direct",
+    "Proxy",
+    "AI",
+    "Game",
+    "Netflix",
+    "ESET_China"
+  ],
+  "failed": [
+    {
+      "name": "YouTube",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Apple",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Microsoft",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Google",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "GitHub",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Telegram",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Twitter",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Discord",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Steam",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Emby",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "PayPal",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Speedtest",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "Scholar",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "name": "ProxyMedia",
+      "error": "HTTP Error 404: Not Found"
+    }
+  ]
+}
