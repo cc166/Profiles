@@ -44,3 +44,5 @@
 
 - 当前主源已实接：blackmatrix7 常用规则（Apple / YouTube / GitHub / Google / Microsoft / Telegram / Twitter / Discord / Steam / Emby / PayPal / Speedtest / Scholar）
 - yuumimi 补源继续按真实二级目录补查后再接入
+
+- yuumimi 补源当前采用本仓库内最小生成版：基于 `v2fly/domain-list-community` 生成常用 Clash/Loon 规则镜像
