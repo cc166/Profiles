@@ -1,0 +1,14 @@
+# UpdateTime：2026-04-19 21:12:00
+# RuleCount：11
+payload:
+  - DOMAIN,edf.eset.com
+  - DOMAIN,expire.eset.com
+  - DOMAIN,h1-weblb01-v.eset.com
+  - DOMAIN,h3-weblb01-v.eset.com
+  - DOMAIN,iploc.eset.com
+  - DOMAIN,pki.eset.com
+  - DOMAIN,reg01.eset.com
+  - DOMAIN,reg02.eset.com
+  - DOMAIN,reg03.eset.com
+  - DOMAIN,reg04.eset.com
+  - DOMAIN,versioncheck.eset.com
