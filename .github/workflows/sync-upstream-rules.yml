@@ -1,0 +1,32 @@
+name: Sync Upstream Rules
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */6 * * *'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Sync upstream rule mirrors
+        run: python sync_upstream_rules.py
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add upstream/ShuntRules sync_upstream_rules.py
+          if git diff --cached --quiet; then
+            echo "No upstream changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: sync upstream rules"
+          git push
