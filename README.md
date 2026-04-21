@@ -41,3 +41,6 @@
 - 兼容保留：`ShuntRules`
 - OpenClash 优先使用镜像到仓库内的 `.yaml`
 - Loon / 其他 iOS 代理优先使用镜像到仓库内的 `.list` / `.lsr`
+
+- 当前主源已实接：blackmatrix7 常用规则（Apple / YouTube / GitHub / Google / Microsoft / Telegram / Twitter / Discord / Steam / Emby / PayPal / Speedtest / Scholar）
+- yuumimi 补源继续按真实二级目录补查后再接入
