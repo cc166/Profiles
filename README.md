@@ -32,3 +32,5 @@
 - 用途：定时/手动把上游规则文件同步进本仓库，便于固定引用与留存历史
 
 - 当前镜像范围：LAN / Direct / Proxy / AI / Game / Netflix / YouTube / Apple / Microsoft / Google / GitHub / Telegram / Twitter / Discord / Steam / Emby / PayPal / Speedtest / Scholar / ProxyMedia / ESET_China
+
+- 同步策略：单文件失败不终止整轮，同步结果写入 `upstream/ShuntRules/_sync_report.json`
