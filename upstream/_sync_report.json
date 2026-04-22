@@ -9,24 +9,32 @@
         "name": "Direct",
         "url": "https://rule.kelee.one/Clash/Direct.yaml",
         "method": "curl",
-        "error": "challenge or invalid payload content"
+        "error": "challenge or invalid payload content",
+        "kept_last_good": true
       },
       {
         "name": "Game",
         "url": "https://rule.kelee.one/Clash/Game.yaml",
         "method": "curl",
-        "error": "challenge or invalid payload content"
+        "error": "challenge or invalid payload content",
+        "kept_last_good": true
       },
       {
         "name": "Netflix",
         "url": "https://rule.kelee.one/Clash/Netflix.yaml",
         "method": "curl",
-        "error": "challenge or invalid payload content"
+        "error": "challenge or invalid payload content",
+        "kept_last_good": true
       },
       {
         "name": "AI",
         "error": "AI source challenge or invalid payload"
       }
+    ],
+    "kept": [
+      "Direct",
+      "Game",
+      "Netflix"
     ],
     "source": {
       "LAN": {
@@ -38,6 +46,27 @@
         "url": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml",
         "method": "urllib",
         "ua": "minis"
+      },
+      "Direct": {
+        "url": "https://rule.kelee.one/Clash/Direct.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "tries": 6,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Game": {
+        "url": "https://rule.kelee.one/Clash/Game.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "tries": 2,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Netflix": {
+        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "tries": 2,
+        "note": "latest fetch failed; kept existing verified file"
       }
     }
   },
