@@ -36,3 +36,8 @@
 ## 自动生成
 - `update_self_use_rules.py`
 - `sync_upstream_rules.py`
+
+## 上游来源声明
+- `upstream/ShuntRules/` 来源：`cc166/ShuntRules`
+- `upstream/blackmatrix7/` 来源：`blackmatrix7/ios_rule_script`
+- `upstream/yuumimi/` 来源：`yuumimi/rules`（基于其规则生成思路在本仓库内生成补源产物）
