@@ -1,6 +1,6 @@
 from pathlib import Path
 from urllib.request import Request, build_opener, HTTPSHandler
-import ssl, json, subprocess
+import ssl, json, subprocess, time
 
 report = {}
 ctx = ssl.create_default_context()
@@ -13,11 +13,21 @@ def fetch_text(url, ua='minis'):
     with opener.open(req, timeout=60) as resp:
         return resp.read().decode("utf-8", errors="ignore")
 
-def fetch_with_curl(url, ua='clash.meta'):
-    r = subprocess.run(['curl','-L','-k','-A',ua,'-H','Accept: */*','-sS',url], capture_output=True, text=True)
-    if r.returncode != 0:
-        raise RuntimeError(r.stderr.strip() or f'curl exit {r.returncode}')
-    return r.stdout
+def fetch_with_curl(url, ua='clash.meta', tries=1, pause=8):
+    errors = []
+    for idx in range(tries):
+        r = subprocess.run([
+            'curl','-L','-k',
+            '--retry','2','--retry-all-errors',
+            '--connect-timeout','20','--max-time','120',
+            '-A',ua,'-H','Accept: */*','-sS',url
+        ], capture_output=True, text=True)
+        if r.returncode == 0 and r.stdout.strip():
+            return r.stdout
+        errors.append(r.stderr.strip() or f'curl exit {r.returncode}')
+        if idx < tries - 1:
+            time.sleep(pause)
+    raise RuntimeError(' | '.join(errors[-3:]) or 'curl failed')
 
 def looks_like_payload(text):
     head = text[:400].lower()
@@ -50,18 +60,18 @@ for name, (url, method, ua) in static_core.items():
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
 verified_core = {
-    'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'curl', 'clash.meta'),
-    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'curl', 'clash.meta'),
-    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta'),
+    'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'curl', 'clash.meta', 6),
+    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'curl', 'clash.meta', 2),
+    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta', 2),
 }
-for name, (url, method, ua) in verified_core.items():
+for name, (url, method, ua, tries) in verified_core.items():
     try:
-        text = fetch_with_curl(url, ua)
+        text = fetch_with_curl(url, ua, tries)
         if not looks_like_payload(text):
             raise RuntimeError('challenge or invalid payload content')
         save(f'upstream/core/{name}.yaml', text)
         report['core']['ok'].append(name)
-        report['core']['source'][name] = {'url': url, 'method': 'validated-curl', 'ua': ua}
+        report['core']['source'][name] = {'url': url, 'method': 'validated-curl', 'ua': ua, 'tries': tries}
     except Exception as e:
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
