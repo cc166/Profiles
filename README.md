@@ -10,7 +10,7 @@
 - `custom-rules/self-use-proxy-openclash-rules.yaml`
 
 ## 上游镜像结构
-- 基础骨架：`upstream/ShuntRules/`
+- 基础骨架：`upstream/ShuntRules/`（当前为过渡镜像层，待直接切换到 iKeLee 可验证源后再定稿）
 - 主规则源：`upstream/blackmatrix7/`
 - 补规则源：`upstream/yuumimi/`
 - 同步报告：`upstream/_sync_report.json`
@@ -38,6 +38,6 @@
 - `sync_upstream_rules.py`
 
 ## 上游来源声明
-- `upstream/ShuntRules/` 来源：`cc166/ShuntRules`
+- `upstream/ShuntRules/` 当前来源：`cc166/ShuntRules`（过渡镜像层；尚未证明与 iKeLee 当前公开规则逐条一致）
 - `upstream/blackmatrix7/` 来源：`blackmatrix7/ios_rule_script`
 - `upstream/yuumimi/` 来源：`yuumimi/rules`（基于其规则生成思路在本仓库内生成补源产物）
