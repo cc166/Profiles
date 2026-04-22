@@ -2,38 +2,37 @@
   "core": {
     "ok": [
       "LAN",
-      "Direct",
-      "AI",
-      "Game",
-      "Netflix",
       "ESET_China"
     ],
-    "failed": [],
+    "failed": [
+      {
+        "name": "Direct",
+        "url": "https://rule.kelee.one/Clash/Direct.yaml",
+        "method": "curl",
+        "error": "challenge or invalid payload content"
+      },
+      {
+        "name": "Game",
+        "url": "https://rule.kelee.one/Clash/Game.yaml",
+        "method": "curl",
+        "error": "challenge or invalid payload content"
+      },
+      {
+        "name": "Netflix",
+        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
+        "method": "curl",
+        "error": "challenge or invalid payload content"
+      },
+      {
+        "name": "AI",
+        "error": "AI source challenge or invalid payload"
+      }
+    ],
     "source": {
       "LAN": {
         "url": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml",
         "method": "urllib",
         "ua": "minis"
-      },
-      "Direct": {
-        "url": "https://rule.kelee.one/Clash/Direct.yaml",
-        "method": "minis-curl",
-        "ua": "clash.meta"
-      },
-      "AI": {
-        "url": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml",
-        "method": "urllib",
-        "ua": "minis"
-      },
-      "Game": {
-        "url": "https://rule.kelee.one/Clash/Game.yaml",
-        "method": "minis-curl",
-        "ua": "clash.meta"
-      },
-      "Netflix": {
-        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
-        "method": "minis-curl",
-        "ua": "clash.meta"
       },
       "ESET_China": {
         "url": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml",
@@ -89,28 +88,5 @@
       "Scholar"
     ],
     "failed": []
-  },
-  "ai_aggregate": {
-    "ok": [
-      "OpenAI",
-      "BardAI",
-      "Anthropic",
-      "Claude",
-      "Copilot",
-      "Gemini",
-      "Jetbrains"
-    ],
-    "failed": [],
-    "source": [
-      "https://rule.kelee.one/Clash/OpenAI.yaml",
-      "https://rule.kelee.one/Clash/BardAI.yaml",
-      "https://rule.kelee.one/Clash/Anthropic.yaml",
-      "https://rule.kelee.one/Clash/Claude.yaml",
-      "https://rule.kelee.one/Clash/Copilot.yaml",
-      "https://rule.kelee.one/Clash/Gemini.yaml",
-      "https://rule.kelee.one/Clash/Jetbrains.yaml"
-    ],
-    "method": "minis-curl",
-    "ua": "clash.meta"
   }
 }
