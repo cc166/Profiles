@@ -1,12 +1,16 @@
 from pathlib import Path
-from urllib.request import Request, urlopen
-import json
+from urllib.request import Request, build_opener, HTTPSHandler
+import ssl, json
 
 report = {}
+ctx = ssl.create_default_context()
+ctx.check_hostname = False
+ctx.verify_mode = ssl.CERT_NONE
+opener = build_opener(HTTPSHandler(context=ctx))
 
-def fetch_text(url):
-    req = Request(url, headers={"User-Agent": "minis"})
-    with urlopen(req, timeout=60) as resp:
+def fetch_text(url, ua='minis'):
+    req = Request(url, headers={"User-Agent": ua, "Accept": "*/*"})
+    with opener.open(req, timeout=60) as resp:
         return resp.read().decode("utf-8", errors="ignore")
 
 def save(rel, text):
@@ -14,20 +18,21 @@ def save(rel, text):
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text, encoding="utf-8")
 
-# core 一比一复刻层：当前从过渡源复刻，后续可直接替换为 iKeLee 可验证直连源
-core = {
-    'LAN': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml',
-    'Direct': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Direct.yaml',
-    'AI': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml',
-    'Game': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Game.yaml',
-    'Netflix': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Netflix.yaml',
-    'ESET_China': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml',
+# core：已确认部分直接切 iKeLee，未确认部分暂保留过渡源
+core_sources = {
+    'LAN': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml', 'minis'),
+    'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'clash.meta'),
+    'AI': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml', 'minis'),
+    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'clash.meta'),
+    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'clash.meta'),
+    'ESET_China': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml', 'minis'),
 }
-report['core']={'ok':[],'failed':[]}
-for name, url in core.items():
+report['core']={'ok':[],'failed':[],'source':{}}
+for name, (url, ua) in core_sources.items():
     try:
-        save(f'upstream/core/{name}.yaml', fetch_text(url))
+        save(f'upstream/core/{name}.yaml', fetch_text(url, ua))
         report['core']['ok'].append(name)
+        report['core']['source'][name] = url
     except Exception as e:
         report['core']['failed'].append({'name':name,'url':url,'error':str(e)})
 
@@ -86,4 +91,4 @@ for name in yuumimi_sets:
         report['yuumimi']['failed'].append({'name':name,'error':str(e)})
 
 save('upstream/_sync_report.json', json.dumps(report, ensure_ascii=False, indent=2)+'\n')
-print(json.dumps({'core_ok':len(report['core']['ok']),'bm7_ok':len(report['blackmatrix7']['ok']),'yuumimi_ok':len(report['yuumimi']['ok'])}, ensure_ascii=False))
+print(json.dumps({'core_ok':len(report['core']['ok']),'core_failed':len(report['core']['failed'])}, ensure_ascii=False))
