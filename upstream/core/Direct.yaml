@@ -1,0 +1,15 @@
+# UpdateTime：2026-04-19 21:12:00
+# RuleCount：12
+payload:
+  - DOMAIN-SUFFIX,cmp1-hkg1.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp1-lax1.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp1-sgp1.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp1-tyo3.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp2-hkg1.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp2-lax1.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp2-sgp1.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp2-tyo3.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp3-hkg1.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp3-lax1.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp3-sgp1.steamserver.net # 用于判断用户所在地区分配下载CDN的地址
+  - DOMAIN-SUFFIX,cmp3-tyo3.steamserver.net # 用于判断用户所在地区分配下载CDN的地址

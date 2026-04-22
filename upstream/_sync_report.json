@@ -1,13 +1,12 @@
 {
-  "ShuntRules": {
+  "core": {
     "ok": [
-      "upstream/ShuntRules/LAN.yaml",
-      "upstream/ShuntRules/Direct.yaml",
-      "upstream/ShuntRules/Proxy.yaml",
-      "upstream/ShuntRules/AI.yaml",
-      "upstream/ShuntRules/Game.yaml",
-      "upstream/ShuntRules/Netflix.yaml",
-      "upstream/ShuntRules/ESET_China.yaml"
+      "LAN",
+      "Direct",
+      "AI",
+      "Game",
+      "Netflix",
+      "ESET_China"
     ],
     "failed": []
   },
