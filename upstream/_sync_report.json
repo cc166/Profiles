@@ -28,13 +28,15 @@
       },
       {
         "name": "AI",
-        "error": "AI source challenge or invalid payload"
+        "error": "AI source challenge or invalid payload: https://rule.kelee.one/Clash/OpenAI.yaml",
+        "kept_last_good": true
       }
     ],
     "kept": [
       "Direct",
       "Game",
-      "Netflix"
+      "Netflix",
+      "AI"
     ],
     "source": {
       "LAN": {
@@ -64,6 +66,22 @@
       "Netflix": {
         "url": "https://rule.kelee.one/Clash/Netflix.yaml",
         "method": "last-known-good",
+        "ua": "clash.meta",
+        "tries": 2,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "AI": {
+        "url": [
+          "https://rule.kelee.one/Clash/OpenAI.yaml",
+          "https://rule.kelee.one/Clash/BardAI.yaml",
+          "https://rule.kelee.one/Clash/Anthropic.yaml",
+          "https://rule.kelee.one/Clash/Claude.yaml",
+          "https://rule.kelee.one/Clash/Copilot.yaml",
+          "https://rule.kelee.one/Clash/Gemini.yaml",
+          "https://rule.kelee.one/Clash/Jetbrains.yaml",
+          "https://rule.kelee.one/Clash/aiXcoder.yaml"
+        ],
+        "method": "last-known-good-aggregate",
         "ua": "clash.meta",
         "tries": 2,
         "note": "latest fetch failed; kept existing verified file"
