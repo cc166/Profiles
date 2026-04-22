@@ -8,7 +8,12 @@
 - `custom-rules/self-use-openclash-rules.yaml`
 - `custom-rules/self-use-proxy-loon-rules.lsr`
 - `custom-rules/self-use-proxy-openclash-rules.yaml`
-- `custom-rules/game-foreign-rules.yaml`
+
+## 上游镜像结构
+- 基础骨架：`upstream/ShuntRules/`
+- 主规则源：`upstream/blackmatrix7/`
+- 补规则源：`upstream/yuumimi/`
+- 同步报告：`upstream/_sync_report.json`
 
 ## 维护入口
 - Loon 自用直连源：`custom-rules/self-use-loon-source.txt`
@@ -17,32 +22,17 @@
 - OpenClash 自用代理源：`custom-rules/self-use-proxy-openclash-source.txt`
 
 ## 规则边界
-- Loon 只保留 `.lsr` 生成物
-- OpenClash 只保留 `.yaml` 生成物
-- 改 `source.txt` 后由 workflow 自动生成对应产物
-- `game-foreign-rules.yaml` 只保留偏国外游戏平台 / 海外游戏域名
+- Loon 只保留 `.lsr` 自用产物；上游镜像保留 `.list`
+- OpenClash 只保留 `.yaml` 自用产物
+- `source.txt` 改动后自动生成自用规则
+- 上游规则按定时 workflow 自动同步
+- `Game` 使用完整上游规则，不再做 foreign 过滤
+
+## 当前同步范围
+- ShuntRules：`LAN / Direct / Proxy / AI / Game / Netflix / ESET_China`
+- blackmatrix7：`Apple / YouTube / GitHub / Google / Microsoft / Telegram / Twitter / Discord / Steam / Emby / PayPal / Speedtest / Scholar`
+- yuumimi：`Apple / YouTube / GitHub / Google / Microsoft / Telegram / Twitter / Discord / Steam / PayPal / Speedtest / Scholar`
 
 ## 自动生成
 - `update_self_use_rules.py`
-
-## 上游镜像同步
-- workflow：`.github/workflows/sync-upstream-rules.yml`
-- 脚本：`sync_upstream_rules.py`
-- 当前镜像目录：`upstream/ShuntRules/`
-- 用途：定时/手动把上游规则文件同步进本仓库，便于固定引用与留存历史
-
-- 当前镜像范围：LAN / Direct / Proxy / AI / Game / Netflix / YouTube / Apple / Microsoft / Google / GitHub / Telegram / Twitter / Discord / Steam / Emby / PayPal / Speedtest / Scholar / ProxyMedia / ESET_China
-
-- 同步策略：单文件失败不终止整轮，同步结果写入 `upstream/ShuntRules/_sync_report.json`
-
-## 上游镜像策略
-- 主规则源：`blackmatrix7/ios_rule_script`
-- 补充规则源：`yuumimi/rules`
-- 兼容保留：`ShuntRules`
-- OpenClash 优先使用镜像到仓库内的 `.yaml`
-- Loon / 其他 iOS 代理优先使用镜像到仓库内的 `.list` / `.lsr`
-
-- 当前主源已实接：blackmatrix7 常用规则（Apple / YouTube / GitHub / Google / Microsoft / Telegram / Twitter / Discord / Steam / Emby / PayPal / Speedtest / Scholar）
-- yuumimi 补源继续按真实二级目录补查后再接入
-
-- yuumimi 补源当前采用本仓库内最小生成版：基于 `v2fly/domain-list-community` 生成常用 Clash/Loon 规则镜像
+- `sync_upstream_rules.py`
