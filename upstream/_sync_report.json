@@ -93,12 +93,22 @@
   "ai_aggregate": {
     "ok": [
       "OpenAI",
-      "BardAI"
+      "BardAI",
+      "Anthropic",
+      "Claude",
+      "Copilot",
+      "Gemini",
+      "Jetbrains"
     ],
     "failed": [],
     "source": [
       "https://rule.kelee.one/Clash/OpenAI.yaml",
-      "https://rule.kelee.one/Clash/BardAI.yaml"
+      "https://rule.kelee.one/Clash/BardAI.yaml",
+      "https://rule.kelee.one/Clash/Anthropic.yaml",
+      "https://rule.kelee.one/Clash/Claude.yaml",
+      "https://rule.kelee.one/Clash/Copilot.yaml",
+      "https://rule.kelee.one/Clash/Gemini.yaml",
+      "https://rule.kelee.one/Clash/Jetbrains.yaml"
     ],
     "method": "minis-curl",
     "ua": "clash.meta"
