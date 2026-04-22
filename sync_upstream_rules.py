@@ -14,7 +14,7 @@ def save(rel, text):
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text, encoding="utf-8")
 
-# 兼容保留：ShuntRules
+# 基础骨架：ShuntRules
 shunt = [
     ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml", "upstream/ShuntRules/LAN.yaml"),
     ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Direct.yaml", "upstream/ShuntRules/Direct.yaml"),
@@ -27,13 +27,26 @@ shunt = [
 
 # 主源：blackmatrix7
 bm7_names = ["Apple","YouTube","GitHub","Google","Microsoft","Telegram","Twitter","Discord","Steam","Emby","PayPal","Speedtest","Scholar"]
-bm7=[]
-for name in bm7_names:
-    bm7.append((f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/{name}/{name}.yaml", f"upstream/blackmatrix7/clash/{name}.yaml"))
-    bm7.append((f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/{name}/{name}.list", f"upstream/blackmatrix7/loon/{name}.list"))
 
-# 补源：yuumimi（最小可用生成版）
-# 基于 domain-list-community 直接生成常用 domain 规则
+report['ShuntRules']={'ok':[],'failed':[]}
+for url, rel in shunt:
+    try:
+        save(rel, fetch_text(url)); report['ShuntRules']['ok'].append(rel)
+    except Exception as e:
+        report['ShuntRules']['failed'].append({'path':rel,'url':url,'error':str(e)})
+
+report['blackmatrix7']={'ok':[],'failed':[]}
+for name in bm7_names:
+    for url, rel in [
+        (f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/{name}/{name}.yaml", f"upstream/blackmatrix7/clash/{name}.yaml"),
+        (f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/{name}/{name}.list", f"upstream/blackmatrix7/loon/{name}.list"),
+    ]:
+        try:
+            save(rel, fetch_text(url)); report['blackmatrix7']['ok'].append(rel)
+        except Exception as e:
+            report['blackmatrix7']['failed'].append({'path':rel,'url':url,'error':str(e)})
+
+# 补源：yuumimi 最小生成版
 yuumimi_sets = ["apple","youtube","github","google","microsoft","telegram","twitter","discord","steam","paypal","speedtest","category-scholar-!cn"]
 
 def gen_from_dlc(name):
@@ -51,20 +64,6 @@ def gen_from_dlc(name):
         else:
             domains.append(('suffix', line))
     return domains
-
-report['ShuntRules']={'ok':[],'failed':[]}
-for url, rel in shunt:
-    try:
-        save(rel, fetch_text(url)); report['ShuntRules']['ok'].append(rel)
-    except Exception as e:
-        report['ShuntRules']['failed'].append({'path':rel,'url':url,'error':str(e)})
-
-report['blackmatrix7']={'ok':[],'failed':[]}
-for url, rel in bm7:
-    try:
-        save(rel, fetch_text(url)); report['blackmatrix7']['ok'].append(rel)
-    except Exception as e:
-        report['blackmatrix7']['failed'].append({'path':rel,'url':url,'error':str(e)})
 
 report['yuumimi']={'ok':[],'failed':[]}
 for name in yuumimi_sets:
@@ -89,4 +88,4 @@ for name in yuumimi_sets:
         report['yuumimi']['failed'].append({'name':name,'error':str(e)})
 
 save('upstream/_sync_report.json', json.dumps(report, ensure_ascii=False, indent=2)+'\n')
-print(json.dumps({'shunt_ok':len(report['ShuntRules']['ok']),'bm7_ok':len(report['blackmatrix7']['ok']),'yuumimi_ok':len(report['yuumimi']['ok']),'yuumimi_failed':len(report['yuumimi']['failed'])}, ensure_ascii=False))
+print(json.dumps({'shunt_ok':len(report['ShuntRules']['ok']),'bm7_ok':len(report['blackmatrix7']['ok']),'yuumimi_ok':len(report['yuumimi']['ok'])}, ensure_ascii=False))
