@@ -43,7 +43,16 @@ def save(rel, text):
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text, encoding="utf-8")
 
-report['core']={'ok':[],'failed':[],'source':{}}
+def keep_existing_payload(rel):
+    p = Path(rel)
+    if not p.exists():
+        return False
+    try:
+        return looks_like_payload(p.read_text(encoding="utf-8"))
+    except Exception:
+        return False
+
+report['core']={'ok':[],'failed':[],'kept':[],'source':{}}
 static_core = {
     'LAN': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml', 'urllib', 'minis'),
     'ESET_China': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml', 'urllib', 'minis'),
@@ -65,15 +74,20 @@ verified_core = {
     'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta', 2),
 }
 for name, (url, method, ua, tries) in verified_core.items():
+    rel = f'upstream/core/{name}.yaml'
     try:
         text = fetch_with_curl(url, ua, tries)
         if not looks_like_payload(text):
             raise RuntimeError('challenge or invalid payload content')
-        save(f'upstream/core/{name}.yaml', text)
+        save(rel, text)
         report['core']['ok'].append(name)
         report['core']['source'][name] = {'url': url, 'method': 'validated-curl', 'ua': ua, 'tries': tries}
     except Exception as e:
-        report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
+        kept = keep_existing_payload(rel)
+        if kept:
+            report['core']['kept'].append(name)
+            report['core']['source'][name] = {'url': url, 'method': 'last-known-good', 'ua': ua, 'tries': tries, 'note': 'latest fetch failed; kept existing verified file'}
+        report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e),'kept_last_good':kept})
 
 # AI 聚合保持现状：OpenAI + BardAI
 try:
