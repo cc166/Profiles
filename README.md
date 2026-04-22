@@ -10,7 +10,7 @@
 - `custom-rules/self-use-proxy-openclash-rules.yaml`
 
 ## 上游镜像结构
-- 基础骨架：`upstream/ShuntRules/`（当前为过渡镜像层，待直接切换到 iKeLee 可验证源后再定稿）
+- 一比一复刻骨架：`upstream/core/`
 - 主规则源：`upstream/blackmatrix7/`
 - 补规则源：`upstream/yuumimi/`
 - 同步报告：`upstream/_sync_report.json`
@@ -22,14 +22,13 @@
 - OpenClash 自用代理源：`custom-rules/self-use-proxy-openclash-source.txt`
 
 ## 规则边界
-- Loon 只保留 `.lsr` 自用产物；上游镜像保留 `.list`
-- OpenClash 只保留 `.yaml` 自用产物
-- `source.txt` 改动后自动生成自用规则
-- 上游规则按定时 workflow 自动同步
+- `upstream/core/` 用于一比一复刻当前基础骨架规则；后续一旦拿到 iKeLee 可验证直连源，可直接替换同步来源而不改引用路径
+- 主源：`blackmatrix7/ios_rule_script`
+- 补源：`yuumimi/rules`（基于其规则生成思路在本仓库内生成补源产物）
 - `Game` 使用完整上游规则，不再做 foreign 过滤
 
 ## 当前同步范围
-- ShuntRules：`LAN / Direct / Proxy / AI / Game / Netflix / ESET_China`
+- core：`LAN / Direct / AI / Game / Netflix / ESET_China`
 - blackmatrix7：`Apple / YouTube / GitHub / Google / Microsoft / Telegram / Twitter / Discord / Steam / Emby / PayPal / Speedtest / Scholar`
 - yuumimi：`Apple / YouTube / GitHub / Google / Microsoft / Telegram / Twitter / Discord / Steam / PayPal / Speedtest / Scholar`
 
@@ -38,6 +37,6 @@
 - `sync_upstream_rules.py`
 
 ## 上游来源声明
-- `upstream/ShuntRules/` 当前来源：`cc166/ShuntRules`（过渡镜像层；尚未证明与 iKeLee 当前公开规则逐条一致）
+- `upstream/core/` 当前来源：`cc166/ShuntRules` 对应骨架规则（仅作一比一复刻过渡层；待切换到 iKeLee 可验证直连源后继续沿用同一路径）
 - `upstream/blackmatrix7/` 来源：`blackmatrix7/ios_rule_script`
 - `upstream/yuumimi/` 来源：`yuumimi/rules`（基于其规则生成思路在本仓库内生成补源产物）
