@@ -2,13 +2,31 @@
   "core": {
     "ok": [
       "LAN",
-      "Direct",
       "AI",
-      "Game",
-      "Netflix",
       "ESET_China"
     ],
-    "failed": []
+    "failed": [
+      {
+        "name": "Direct",
+        "url": "https://rule.kelee.one/Clash/Direct.yaml",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "name": "Game",
+        "url": "https://rule.kelee.one/Clash/Game.yaml",
+        "error": "HTTP Error 403: Forbidden"
+      },
+      {
+        "name": "Netflix",
+        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
+        "error": "HTTP Error 403: Forbidden"
+      }
+    ],
+    "source": {
+      "LAN": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml",
+      "AI": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml",
+      "ESET_China": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml"
+    }
   },
   "blackmatrix7": {
     "ok": [
