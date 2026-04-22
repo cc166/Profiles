@@ -1,6 +1,6 @@
 from pathlib import Path
 from urllib.request import Request, build_opener, HTTPSHandler
-import ssl, json
+import ssl, json, subprocess
 
 report = {}
 ctx = ssl.create_default_context()
@@ -13,30 +13,35 @@ def fetch_text(url, ua='minis'):
     with opener.open(req, timeout=60) as resp:
         return resp.read().decode("utf-8", errors="ignore")
 
+def fetch_with_curl(url, ua='clash.meta'):
+    r = subprocess.run(['curl','-L','-k','-A',ua,'-H','Accept: */*','-sS',url], capture_output=True, text=True)
+    if r.returncode != 0:
+        raise RuntimeError(r.stderr.strip() or f'curl exit {r.returncode}')
+    return r.stdout
+
 def save(rel, text):
     p = Path(rel)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text, encoding="utf-8")
 
-# core：已确认部分直接切 iKeLee，未确认部分暂保留过渡源
 core_sources = {
-    'LAN': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml', 'minis'),
-    'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'clash.meta'),
-    'AI': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml', 'minis'),
-    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'clash.meta'),
-    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'clash.meta'),
-    'ESET_China': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml', 'minis'),
+    'LAN': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml', 'urllib', 'minis'),
+    'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'curl', 'clash.meta'),
+    'AI': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml', 'urllib', 'minis'),
+    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'curl', 'clash.meta'),
+    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta'),
+    'ESET_China': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml', 'urllib', 'minis'),
 }
 report['core']={'ok':[],'failed':[],'source':{}}
-for name, (url, ua) in core_sources.items():
+for name, (url, method, ua) in core_sources.items():
     try:
-        save(f'upstream/core/{name}.yaml', fetch_text(url, ua))
+        text = fetch_with_curl(url, ua) if method == 'curl' else fetch_text(url, ua)
+        save(f'upstream/core/{name}.yaml', text)
         report['core']['ok'].append(name)
-        report['core']['source'][name] = url
+        report['core']['source'][name] = {'url': url, 'method': method, 'ua': ua}
     except Exception as e:
-        report['core']['failed'].append({'name':name,'url':url,'error':str(e)})
+        report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
-# 主源：blackmatrix7
 bm7_names = ["Apple","YouTube","GitHub","Google","Microsoft","Telegram","Twitter","Discord","Steam","Emby","PayPal","Speedtest","Scholar"]
 report['blackmatrix7']={'ok':[],'failed':[]}
 for name in bm7_names:
@@ -49,7 +54,6 @@ for name in bm7_names:
         except Exception as e:
             report['blackmatrix7']['failed'].append({'path':rel,'url':url,'error':str(e)})
 
-# 补源：yuumimi 最小生成版
 yuumimi_sets = ["apple","youtube","github","google","microsoft","telegram","twitter","discord","steam","paypal","speedtest","category-scholar-!cn"]
 
 def gen_from_dlc(name):
