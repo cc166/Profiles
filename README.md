@@ -37,6 +37,8 @@
 - `sync_upstream_rules.py`
 
 ## 上游来源声明
-- `upstream/core/` 当前来源：`cc166/ShuntRules` 对应骨架规则（仅作一比一复刻过渡层；待切换到 iKeLee 可验证直连源后继续沿用同一路径）
+- `upstream/core/` 当前来源：已部分切到 iKeLee 可验证源；其中 `Direct / Game / Netflix` 已直连同步，`LAN / AI / ESET_China` 暂保留过渡来源
 - `upstream/blackmatrix7/` 来源：`blackmatrix7/ios_rule_script`
 - `upstream/yuumimi/` 来源：`yuumimi/rules`（基于其规则生成思路在本仓库内生成补源产物）
+
+- `upstream/core/` 当前已直接切到 iKeLee 可验证源：`Direct / Game / Netflix`；`LAN / AI / ESET_China` 仍待确认真实规则名后再切
