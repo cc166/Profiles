@@ -17,7 +17,7 @@
       },
       "Direct": {
         "url": "https://rule.kelee.one/Clash/Direct.yaml",
-        "method": "curl",
+        "method": "minis-curl",
         "ua": "clash.meta"
       },
       "AI": {
@@ -27,12 +27,12 @@
       },
       "Game": {
         "url": "https://rule.kelee.one/Clash/Game.yaml",
-        "method": "curl",
+        "method": "minis-curl",
         "ua": "clash.meta"
       },
       "Netflix": {
         "url": "https://rule.kelee.one/Clash/Netflix.yaml",
-        "method": "curl",
+        "method": "minis-curl",
         "ua": "clash.meta"
       },
       "ESET_China": {
