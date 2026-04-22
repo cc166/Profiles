@@ -2,30 +2,44 @@
   "core": {
     "ok": [
       "LAN",
+      "Direct",
       "AI",
+      "Game",
+      "Netflix",
       "ESET_China"
     ],
-    "failed": [
-      {
-        "name": "Direct",
-        "url": "https://rule.kelee.one/Clash/Direct.yaml",
-        "error": "HTTP Error 403: Forbidden"
-      },
-      {
-        "name": "Game",
-        "url": "https://rule.kelee.one/Clash/Game.yaml",
-        "error": "HTTP Error 403: Forbidden"
-      },
-      {
-        "name": "Netflix",
-        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
-        "error": "HTTP Error 403: Forbidden"
-      }
-    ],
+    "failed": [],
     "source": {
-      "LAN": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml",
-      "AI": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml",
-      "ESET_China": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml"
+      "LAN": {
+        "url": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml",
+        "method": "urllib",
+        "ua": "minis"
+      },
+      "Direct": {
+        "url": "https://rule.kelee.one/Clash/Direct.yaml",
+        "method": "curl",
+        "ua": "clash.meta"
+      },
+      "AI": {
+        "url": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml",
+        "method": "urllib",
+        "ua": "minis"
+      },
+      "Game": {
+        "url": "https://rule.kelee.one/Clash/Game.yaml",
+        "method": "curl",
+        "ua": "clash.meta"
+      },
+      "Netflix": {
+        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
+        "method": "curl",
+        "ua": "clash.meta"
+      },
+      "ESET_China": {
+        "url": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml",
+        "method": "urllib",
+        "ua": "minis"
+      }
     }
   },
   "blackmatrix7": {
