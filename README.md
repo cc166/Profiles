@@ -10,7 +10,7 @@
 - `custom-rules/self-use-proxy-openclash-rules.yaml`
 
 ## 上游镜像结构
-- 一比一复刻骨架：`upstream/core/`
+- 一比一复刻骨架：`upstream/core/`（`LAN` 已内联进主配置，不再单独分发）
 - 主规则源：`upstream/blackmatrix7/`
 - 补规则源：`upstream/yuumimi/`
 - 同步报告：`upstream/_sync_report.json`
@@ -28,7 +28,7 @@
 - `Game` 使用完整上游规则，不再做 foreign 过滤
 
 ## 当前同步范围
-- core：`LAN / Direct / AI / Game / Netflix / ESET_China`
+- core：`Direct / AI / Game / Netflix / ESET_China`（`LAN` 已直接内联）
 - blackmatrix7：`Apple / YouTube / GitHub / Google / Microsoft / Telegram / Twitter / Discord / Steam / Emby / PayPal / Speedtest / Scholar`
 - yuumimi：`Apple / YouTube / GitHub / Google / Microsoft / Telegram / Twitter / Discord / Steam / PayPal / Speedtest / Scholar`
 
