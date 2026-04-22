@@ -19,29 +19,73 @@ def fetch_with_curl(url, ua='clash.meta'):
         raise RuntimeError(r.stderr.strip() or f'curl exit {r.returncode}')
     return r.stdout
 
+def looks_like_payload(text):
+    head = text[:400].lower()
+    if '<!doctype html' in head or '<html' in head or 'just a moment' in head:
+        return False
+    for line in text.splitlines()[:20]:
+        if line.strip() == 'payload:':
+            return True
+    return False
+
 def save(rel, text):
     p = Path(rel)
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text, encoding="utf-8")
 
-core_sources = {
+report['core']={'ok':[],'failed':[],'source':{}}
+static_core = {
     'LAN': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml', 'urllib', 'minis'),
-    'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'curl', 'clash.meta'),
-    'AI': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml', 'urllib', 'minis'),
-    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'curl', 'clash.meta'),
-    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta'),
     'ESET_China': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml', 'urllib', 'minis'),
 }
-report['core']={'ok':[],'failed':[],'source':{}}
-for name, (url, method, ua) in core_sources.items():
+for name, (url, method, ua) in static_core.items():
     try:
-        text = fetch_with_curl(url, ua) if method == 'curl' else fetch_text(url, ua)
+        text = fetch_text(url, ua)
+        if not looks_like_payload(text):
+            raise RuntimeError('invalid payload content')
         save(f'upstream/core/{name}.yaml', text)
         report['core']['ok'].append(name)
         report['core']['source'][name] = {'url': url, 'method': method, 'ua': ua}
     except Exception as e:
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
+verified_core = {
+    'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'curl', 'clash.meta'),
+    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'curl', 'clash.meta'),
+    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta'),
+}
+for name, (url, method, ua) in verified_core.items():
+    try:
+        text = fetch_with_curl(url, ua)
+        if not looks_like_payload(text):
+            raise RuntimeError('challenge or invalid payload content')
+        save(f'upstream/core/{name}.yaml', text)
+        report['core']['ok'].append(name)
+        report['core']['source'][name] = {'url': url, 'method': 'validated-curl', 'ua': ua}
+    except Exception as e:
+        report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
+
+# AI 聚合保持现状：OpenAI + BardAI
+try:
+    texts=[fetch_with_curl('https://rule.kelee.one/Clash/OpenAI.yaml','clash.meta'), fetch_with_curl('https://rule.kelee.one/Clash/BardAI.yaml','clash.meta')]
+    seen=set(); out=['payload:']
+    for text in texts:
+        if not looks_like_payload(text):
+            raise RuntimeError('AI source challenge or invalid payload')
+        for raw in text.splitlines():
+            s=raw.strip()
+            if not s or s=='payload:' or s.startswith('#'): continue
+            item=s[2:].strip() if s.startswith('- ') else s
+            item=item.strip().strip('"').strip("'")
+            if item and item not in seen:
+                seen.add(item); out.append(f'  - "{item}"')
+    save('upstream/core/AI.yaml', '\n'.join(out).rstrip()+'\n')
+    report['core']['ok'].append('AI')
+    report['core']['source']['AI']={'url':['https://rule.kelee.one/Clash/OpenAI.yaml','https://rule.kelee.one/Clash/BardAI.yaml'],'method':'validated-curl-aggregate','ua':'clash.meta'}
+except Exception as e:
+    report['core']['failed'].append({'name':'AI','error':str(e)})
+
+# primary/supplement layers keep existing behavior
 bm7_names = ["Apple","YouTube","GitHub","Google","Microsoft","Telegram","Twitter","Discord","Steam","Emby","PayPal","Speedtest","Scholar"]
 report['blackmatrix7']={'ok':[],'failed':[]}
 for name in bm7_names:
@@ -50,12 +94,12 @@ for name in bm7_names:
         (f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/{name}/{name}.list", f"upstream/blackmatrix7/loon/{name}.list"),
     ]:
         try:
-            save(rel, fetch_text(url)); report['blackmatrix7']['ok'].append(rel)
+            text = fetch_text(url)
+            save(rel, text); report['blackmatrix7']['ok'].append(rel)
         except Exception as e:
             report['blackmatrix7']['failed'].append({'path':rel,'url':url,'error':str(e)})
 
 yuumimi_sets = ["apple","youtube","github","google","microsoft","telegram","twitter","discord","steam","paypal","speedtest","category-scholar-!cn"]
-
 def gen_from_dlc(name):
     url = f"https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/{name}"
     content = fetch_text(url)
@@ -71,7 +115,6 @@ def gen_from_dlc(name):
         else:
             domains.append(('suffix', line))
     return domains
-
 report['yuumimi']={'ok':[],'failed':[]}
 for name in yuumimi_sets:
     try:
