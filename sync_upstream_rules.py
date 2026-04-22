@@ -89,13 +89,26 @@ for name, (url, method, ua, tries) in verified_core.items():
             report['core']['source'][name] = {'url': url, 'method': 'last-known-good', 'ua': ua, 'tries': tries, 'note': 'latest fetch failed; kept existing verified file'}
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e),'kept_last_good':kept})
 
-# AI 聚合保持现状：OpenAI + BardAI
+# AI 聚合：扩为 8 项，并在失败时保留 last-known-good
+ai_sources = [
+    'https://rule.kelee.one/Clash/OpenAI.yaml',
+    'https://rule.kelee.one/Clash/BardAI.yaml',
+    'https://rule.kelee.one/Clash/Anthropic.yaml',
+    'https://rule.kelee.one/Clash/Claude.yaml',
+    'https://rule.kelee.one/Clash/Copilot.yaml',
+    'https://rule.kelee.one/Clash/Gemini.yaml',
+    'https://rule.kelee.one/Clash/Jetbrains.yaml',
+    'https://rule.kelee.one/Clash/aiXcoder.yaml',
+]
 try:
-    texts=[fetch_with_curl('https://rule.kelee.one/Clash/OpenAI.yaml','clash.meta'), fetch_with_curl('https://rule.kelee.one/Clash/BardAI.yaml','clash.meta')]
+    texts=[]
+    for url in ai_sources:
+        text = fetch_with_curl(url, 'clash.meta', 2)
+        if not looks_like_payload(text):
+            raise RuntimeError(f'AI source challenge or invalid payload: {url}')
+        texts.append(text)
     seen=set(); out=['payload:']
     for text in texts:
-        if not looks_like_payload(text):
-            raise RuntimeError('AI source challenge or invalid payload')
         for raw in text.splitlines():
             s=raw.strip()
             if not s or s=='payload:' or s.startswith('#'): continue
@@ -105,9 +118,13 @@ try:
                 seen.add(item); out.append(f'  - "{item}"')
     save('upstream/core/AI.yaml', '\n'.join(out).rstrip()+'\n')
     report['core']['ok'].append('AI')
-    report['core']['source']['AI']={'url':['https://rule.kelee.one/Clash/OpenAI.yaml','https://rule.kelee.one/Clash/BardAI.yaml'],'method':'validated-curl-aggregate','ua':'clash.meta'}
+    report['core']['source']['AI']={'url':ai_sources,'method':'validated-curl-aggregate','ua':'clash.meta','tries':2}
 except Exception as e:
-    report['core']['failed'].append({'name':'AI','error':str(e)})
+    kept = keep_existing_payload('upstream/core/AI.yaml')
+    if kept:
+        report['core']['kept'].append('AI')
+        report['core']['source']['AI']={'url':ai_sources,'method':'last-known-good-aggregate','ua':'clash.meta','tries':2,'note':'latest fetch failed; kept existing verified file'}
+    report['core']['failed'].append({'name':'AI','error':str(e),'kept_last_good':kept})
 
 # primary/supplement layers keep existing behavior
 bm7_names = ["Apple","YouTube","GitHub","Google","Microsoft","Telegram","Twitter","Discord","Steam","Emby","PayPal","Speedtest","Scholar"]
