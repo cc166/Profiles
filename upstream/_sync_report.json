@@ -89,18 +89,5 @@
       "Scholar"
     ],
     "failed": []
-  },
-  "ai_aggregate": {
-    "ok": [
-      "OpenAI",
-      "BardAI"
-    ],
-    "failed": [],
-    "source": [
-      "https://rule.kelee.one/Clash/OpenAI.yaml",
-      "https://rule.kelee.one/Clash/BardAI.yaml"
-    ],
-    "method": "minis-curl",
-    "ua": "clash.meta"
   }
 }
