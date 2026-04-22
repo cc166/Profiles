@@ -14,27 +14,25 @@ def save(rel, text):
     p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(text, encoding="utf-8")
 
-# 基础骨架：ShuntRules
-shunt = [
-    ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml", "upstream/ShuntRules/LAN.yaml"),
-    ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Direct.yaml", "upstream/ShuntRules/Direct.yaml"),
-    ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Proxy.yaml", "upstream/ShuntRules/Proxy.yaml"),
-    ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml", "upstream/ShuntRules/AI.yaml"),
-    ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Game.yaml", "upstream/ShuntRules/Game.yaml"),
-    ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Netflix.yaml", "upstream/ShuntRules/Netflix.yaml"),
-    ("https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml", "upstream/ShuntRules/ESET_China.yaml"),
-]
+# core 一比一复刻层：当前从过渡源复刻，后续可直接替换为 iKeLee 可验证直连源
+core = {
+    'LAN': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml',
+    'Direct': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Direct.yaml',
+    'AI': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/AI.yaml',
+    'Game': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Game.yaml',
+    'Netflix': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/Netflix.yaml',
+    'ESET_China': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml',
+}
+report['core']={'ok':[],'failed':[]}
+for name, url in core.items():
+    try:
+        save(f'upstream/core/{name}.yaml', fetch_text(url))
+        report['core']['ok'].append(name)
+    except Exception as e:
+        report['core']['failed'].append({'name':name,'url':url,'error':str(e)})
 
 # 主源：blackmatrix7
 bm7_names = ["Apple","YouTube","GitHub","Google","Microsoft","Telegram","Twitter","Discord","Steam","Emby","PayPal","Speedtest","Scholar"]
-
-report['ShuntRules']={'ok':[],'failed':[]}
-for url, rel in shunt:
-    try:
-        save(rel, fetch_text(url)); report['ShuntRules']['ok'].append(rel)
-    except Exception as e:
-        report['ShuntRules']['failed'].append({'path':rel,'url':url,'error':str(e)})
-
 report['blackmatrix7']={'ok':[],'failed':[]}
 for name in bm7_names:
     for url, rel in [
@@ -88,4 +86,4 @@ for name in yuumimi_sets:
         report['yuumimi']['failed'].append({'name':name,'error':str(e)})
 
 save('upstream/_sync_report.json', json.dumps(report, ensure_ascii=False, indent=2)+'\n')
-print(json.dumps({'shunt_ok':len(report['ShuntRules']['ok']),'bm7_ok':len(report['blackmatrix7']['ok']),'yuumimi_ok':len(report['yuumimi']['ok'])}, ensure_ascii=False))
+print(json.dumps({'core_ok':len(report['core']['ok']),'bm7_ok':len(report['blackmatrix7']['ok']),'yuumimi_ok':len(report['yuumimi']['ok'])}, ensure_ascii=False))
