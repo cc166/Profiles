@@ -44,6 +44,36 @@
 - `upstream/blackmatrix7/` 来源：`blackmatrix7/ios_rule_script`
 - `upstream/yuumimi/` 来源：`yuumimi/rules`（基于其规则生成思路在本仓库内生成补源产物）
 
+## Loon 可直接替换的规则链接
+- 自用直连：`https://raw.githubusercontent.com/cc166/Profiles/master/custom-rules/self-use-loon-rules.lsr`
+- 自用代理：`https://raw.githubusercontent.com/cc166/Profiles/master/custom-rules/self-use-proxy-loon-rules.lsr`
+- Direct：`https://rule.kelee.one/Loon/Direct.lsr`
+- Game：`https://rule.kelee.one/Loon/Game.lsr`
+- Netflix：`https://rule.kelee.one/Loon/Netflix.lsr`
+- AI（建议改为分项组合，不主用 iKeLee 总聚合）：
+  - OpenAI：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/OpenAI/OpenAI.list`
+  - BardAI：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/BardAI/BardAI.list`
+  - Anthropic：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Anthropic/Anthropic.list`
+  - Claude：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Claude/Claude.list`
+  - Copilot：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Copilot/Copilot.list`
+  - Gemini：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Gemini/Gemini.list`
+  - Jetbrains：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Jetbrains/Jetbrains.list`
+  - aiXcoder：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/aiXcoder/aiXcoder.list`
+- 常用分项（bm7）：
+  - Apple：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Apple/Apple.list`
+  - YouTube：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/YouTube/YouTube.list`
+  - GitHub：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/GitHub/GitHub.list`
+  - Google：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Google/Google.list`
+  - Microsoft：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Microsoft/Microsoft.list`
+  - Telegram：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Telegram/Telegram.list`
+  - Twitter：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Twitter/Twitter.list`
+  - Discord：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Discord/Discord.list`
+  - Steam：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Steam/Steam.list`
+  - Emby：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Emby/Emby.list`
+  - PayPal：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/PayPal/PayPal.list`
+  - Speedtest：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Speedtest/Speedtest.list`
+  - Scholar：`https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Scholar/Scholar.list`
+
 ## 同步保底策略
 - 定时：`sync-upstream-rules.yml` 当前为 `23 3 */2 * *`（GitHub Actions cron，UTC，每 2 天一次）
 - `Direct / Game / Netflix`：拉取失败时保留 last-known-good，不覆盖已验证文件
