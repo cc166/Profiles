@@ -23,8 +23,12 @@ def fetch_with_curl(url, ua='clash.meta', tries=1, pause=8):
             '-A',ua,'-H','Accept: */*','-sS',url
         ], capture_output=True, text=True)
         if r.returncode == 0 and r.stdout.strip():
-            return r.stdout
-        errors.append(r.stderr.strip() or f'curl exit {r.returncode}')
+            text = r.stdout
+            if looks_like_payload(text):
+                return text
+            errors.append('challenge or invalid payload content')
+        else:
+            errors.append(r.stderr.strip() or f'curl exit {r.returncode}')
         if idx < tries - 1:
             time.sleep(pause)
     raise RuntimeError(' | '.join(errors[-3:]) or 'curl failed')
@@ -72,8 +76,8 @@ for name, (url, method, ua) in static_core.items():
 
 verified_core = {
     'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'curl', 'clash.meta', 6),
-    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'curl', 'clash.meta', 2),
-    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta', 2),
+    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'curl', 'clash.meta', 4),
+    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta', 4),
 }
 for name, (url, method, ua, tries) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
@@ -109,7 +113,7 @@ ai_sources = [
 try:
     texts=[]
     for url in ai_sources:
-        text = fetch_with_curl(url, 'clash.meta', 2)
+        text = fetch_with_curl(url, 'clash.meta', 3)
         if not looks_like_payload(text):
             raise RuntimeError(f'AI source challenge or invalid payload: {url}')
         texts.append(text)
@@ -124,13 +128,13 @@ try:
                 seen.add(item); out.append(f'  - "{item}"')
     save('upstream/core/AI.yaml', '\n'.join(out).rstrip()+'\n')
     report['core']['ok'].append('AI')
-    report['core']['source']['AI']={'url':ai_sources,'method':'validated-curl-aggregate','ua':'clash.meta','tries':2}
+    report['core']['source']['AI']={'url':ai_sources,'method':'validated-curl-aggregate','ua':'clash.meta','tries':3}
     report['core']['status']['AI'] = 'updated-aggregate'
 except Exception as e:
     kept = keep_existing_payload('upstream/core/AI.yaml')
     if kept:
         report['core']['kept'].append('AI')
-        report['core']['source']['AI']={'url':ai_sources,'method':'last-known-good-aggregate','ua':'clash.meta','tries':2,'note':'latest fetch failed; kept existing verified file'}
+        report['core']['source']['AI']={'url':ai_sources,'method':'last-known-good-aggregate','ua':'clash.meta','tries':3,'note':'latest fetch failed; kept existing verified file'}
         report['core']['status']['AI'] = 'kept-last-known-good-aggregate'
     else:
         report['core']['status']['AI'] = 'failed-aggregate'
