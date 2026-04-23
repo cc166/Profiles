@@ -1,12 +1,13 @@
 {
   "meta": {
     "note": "failed + kept_last_good=true means latest fetch failed but existing verified file was preserved",
-    "schedule_hint": "sync-upstream-rules.yml cron 23 3 * * * (UTC)"
+    "schedule_hint": "sync-upstream-rules.yml cron 23 3 */2 * * (UTC)"
   },
   "core": {
     "ok": [
       "LAN",
-      "ESET_China"
+      "ESET_China",
+      "AI"
     ],
     "failed": [
       {
@@ -29,18 +30,12 @@
         "method": "curl",
         "error": "challenge or invalid payload content | challenge or invalid payload content | challenge or invalid payload content",
         "kept_last_good": true
-      },
-      {
-        "name": "AI",
-        "error": "challenge or invalid payload content | challenge or invalid payload content | challenge or invalid payload content",
-        "kept_last_good": true
       }
     ],
     "kept": [
       "Direct",
       "Game",
-      "Netflix",
-      "AI"
+      "Netflix"
     ],
     "source": {
       "LAN": {
@@ -76,19 +71,17 @@
       },
       "AI": {
         "url": [
-          "https://rule.kelee.one/Clash/OpenAI.yaml",
-          "https://rule.kelee.one/Clash/BardAI.yaml",
-          "https://rule.kelee.one/Clash/Anthropic.yaml",
-          "https://rule.kelee.one/Clash/Claude.yaml",
-          "https://rule.kelee.one/Clash/Copilot.yaml",
-          "https://rule.kelee.one/Clash/Gemini.yaml",
-          "https://rule.kelee.one/Clash/Jetbrains.yaml",
-          "https://rule.kelee.one/Clash/aiXcoder.yaml"
+          "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml",
+          "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BardAI/BardAI.yaml",
+          "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Anthropic/Anthropic.yaml",
+          "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml",
+          "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Copilot/Copilot.yaml",
+          "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml",
+          "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Jetbrains/Jetbrains.yaml",
+          "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/aiXcoder/aiXcoder.yaml"
         ],
-        "method": "last-known-good-aggregate",
-        "ua": "clash.meta",
-        "tries": 3,
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "bm7-raw-aggregate",
+        "ua": "minis"
       }
     },
     "status": {
@@ -97,7 +90,7 @@
       "Direct": "kept-last-known-good",
       "Game": "kept-last-known-good",
       "Netflix": "kept-last-known-good",
-      "AI": "kept-last-known-good-aggregate"
+      "AI": "updated-bm7-aggregate"
     }
   },
   "blackmatrix7": {
