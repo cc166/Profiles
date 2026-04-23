@@ -13,26 +13,26 @@
         "name": "Direct",
         "url": "https://rule.kelee.one/Clash/Direct.yaml",
         "method": "curl",
-        "error": "challenge or invalid payload content",
+        "error": "challenge or invalid payload content | challenge or invalid payload content | challenge or invalid payload content",
         "kept_last_good": true
       },
       {
         "name": "Game",
         "url": "https://rule.kelee.one/Clash/Game.yaml",
         "method": "curl",
-        "error": "challenge or invalid payload content",
+        "error": "challenge or invalid payload content | challenge or invalid payload content | challenge or invalid payload content",
         "kept_last_good": true
       },
       {
         "name": "Netflix",
         "url": "https://rule.kelee.one/Clash/Netflix.yaml",
         "method": "curl",
-        "error": "challenge or invalid payload content",
+        "error": "challenge or invalid payload content | challenge or invalid payload content | challenge or invalid payload content",
         "kept_last_good": true
       },
       {
         "name": "AI",
-        "error": "AI source challenge or invalid payload: https://rule.kelee.one/Clash/OpenAI.yaml",
+        "error": "challenge or invalid payload content | challenge or invalid payload content | challenge or invalid payload content",
         "kept_last_good": true
       }
     ],
@@ -64,14 +64,14 @@
         "url": "https://rule.kelee.one/Clash/Game.yaml",
         "method": "last-known-good",
         "ua": "clash.meta",
-        "tries": 2,
+        "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
       "Netflix": {
         "url": "https://rule.kelee.one/Clash/Netflix.yaml",
         "method": "last-known-good",
         "ua": "clash.meta",
-        "tries": 2,
+        "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
       "AI": {
@@ -87,7 +87,7 @@
         ],
         "method": "last-known-good-aggregate",
         "ua": "clash.meta",
-        "tries": 2,
+        "tries": 3,
         "note": "latest fetch failed; kept existing verified file"
       }
     },
