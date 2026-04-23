@@ -2,7 +2,7 @@ from pathlib import Path
 from urllib.request import Request, build_opener, HTTPSHandler
 import ssl, json, subprocess, time
 
-report = {'meta': {'note': 'failed + kept_last_good=true means latest fetch failed but existing verified file was preserved', 'schedule_hint': 'sync-upstream-rules.yml cron 23 3 * * * (UTC)'}}
+report = {'meta': {'note': 'failed + kept_last_good=true means latest fetch failed but existing verified file was preserved', 'schedule_hint': 'sync-upstream-rules.yml cron 23 3 */2 * * (UTC)'}}
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
@@ -99,23 +99,23 @@ for name, (url, method, ua, tries) in verified_core.items():
             report['core']['status'][name] = 'failed-verified'
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e),'kept_last_good':kept})
 
-# AI 聚合：扩为 8 项，并在失败时保留 last-known-good
+# AI 聚合：改为 blackmatrix7 8 项聚合，并在失败时保留 last-known-good
 ai_sources = [
-    'https://rule.kelee.one/Clash/OpenAI.yaml',
-    'https://rule.kelee.one/Clash/BardAI.yaml',
-    'https://rule.kelee.one/Clash/Anthropic.yaml',
-    'https://rule.kelee.one/Clash/Claude.yaml',
-    'https://rule.kelee.one/Clash/Copilot.yaml',
-    'https://rule.kelee.one/Clash/Gemini.yaml',
-    'https://rule.kelee.one/Clash/Jetbrains.yaml',
-    'https://rule.kelee.one/Clash/aiXcoder.yaml',
+    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml',
+    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BardAI/BardAI.yaml',
+    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Anthropic/Anthropic.yaml',
+    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml',
+    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Copilot/Copilot.yaml',
+    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml',
+    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Jetbrains/Jetbrains.yaml',
+    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/aiXcoder/aiXcoder.yaml',
 ]
 try:
     texts=[]
     for url in ai_sources:
-        text = fetch_with_curl(url, 'clash.meta', 3)
+        text = fetch_text(url, 'minis')
         if not looks_like_payload(text):
-            raise RuntimeError(f'AI source challenge or invalid payload: {url}')
+            raise RuntimeError(f'AI source invalid payload: {url}')
         texts.append(text)
     seen=set(); out=['payload:']
     for text in texts:
@@ -124,20 +124,24 @@ try:
             if not s or s=='payload:' or s.startswith('#'): continue
             item=s[2:].strip() if s.startswith('- ') else s
             item=item.strip().strip('"').strip("'")
+            if item.startswith('IP-CIDR,') and not item.endswith(',no-resolve'):
+                item = item + ',no-resolve'
+            if item.startswith('IP-ASN,') and not item.endswith(',no-resolve'):
+                item = item + ',no-resolve'
             if item and item not in seen:
                 seen.add(item); out.append(f'  - "{item}"')
     save('upstream/core/AI.yaml', '\n'.join(out).rstrip()+'\n')
     report['core']['ok'].append('AI')
-    report['core']['source']['AI']={'url':ai_sources,'method':'validated-curl-aggregate','ua':'clash.meta','tries':3}
-    report['core']['status']['AI'] = 'updated-aggregate'
+    report['core']['source']['AI']={'url':ai_sources,'method':'bm7-raw-aggregate','ua':'minis'}
+    report['core']['status']['AI'] = 'updated-bm7-aggregate'
 except Exception as e:
     kept = keep_existing_payload('upstream/core/AI.yaml')
     if kept:
         report['core']['kept'].append('AI')
-        report['core']['source']['AI']={'url':ai_sources,'method':'last-known-good-aggregate','ua':'clash.meta','tries':3,'note':'latest fetch failed; kept existing verified file'}
-        report['core']['status']['AI'] = 'kept-last-known-good-aggregate'
+        report['core']['source']['AI']={'url':ai_sources,'method':'last-known-good-bm7-aggregate','ua':'minis','note':'latest fetch failed; kept existing verified file'}
+        report['core']['status']['AI'] = 'kept-last-known-good-bm7-aggregate'
     else:
-        report['core']['status']['AI'] = 'failed-aggregate'
+        report['core']['status']['AI'] = 'failed-bm7-aggregate'
     report['core']['failed'].append({'name':'AI','error':str(e),'kept_last_good':kept})
 
 # primary/supplement layers keep existing behavior
