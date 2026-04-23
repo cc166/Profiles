@@ -37,8 +37,15 @@
 - `sync_upstream_rules.py`
 
 ## 上游来源声明
-- `upstream/core/` 当前来源：已部分切到 iKeLee 可验证源；其中 `Direct / Game / Netflix` 已直连同步，`LAN / AI / ESET_China` 暂保留过渡来源
+- `upstream/core/Direct / Game / Netflix`：`https://rule.kelee.one/Clash/*.yaml`（iKeLee 可验证源）
+- `upstream/core/AI`：由 iKeLee 的 `OpenAI / BardAI / Anthropic / Claude / Copilot / Gemini / Jetbrains / aiXcoder` 8 个规则聚合生成
+- `upstream/core/ESET_China`：暂沿用 `cc166/ShuntRules` 过渡静态源
+- `LAN`：已内联进主配置，不再单独分发
 - `upstream/blackmatrix7/` 来源：`blackmatrix7/ios_rule_script`
 - `upstream/yuumimi/` 来源：`yuumimi/rules`（基于其规则生成思路在本仓库内生成补源产物）
 
-- `upstream/core/` 当前已直接切到 iKeLee 可验证源：`Direct / Game / Netflix`；`LAN / AI / ESET_China` 仍待确认真实规则名后再切
+## 同步保底策略
+- 定时：`sync-upstream-rules.yml` 当前为 `23 3 * * *`（GitHub Actions cron，UTC）
+- `Direct / Game / Netflix`：拉取失败时保留 last-known-good，不覆盖已验证文件
+- `AI`：8 源聚合拉取失败时同样保留 last-known-good
+- 以 `upstream/_sync_report.json` 为准：若出现 `kept_last_good: true` 或 `status: kept-last-known-good*`，表示本次抓取失败，但仓库中的正确文件已被保留
