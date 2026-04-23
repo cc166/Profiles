@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "note": "failed + kept_last_good=true means latest fetch failed but existing verified file was preserved",
+    "schedule_hint": "sync-upstream-rules.yml cron 23 3 * * * (UTC)"
+  },
   "core": {
     "ok": [
       "LAN",
@@ -86,6 +90,14 @@
         "tries": 2,
         "note": "latest fetch failed; kept existing verified file"
       }
+    },
+    "status": {
+      "LAN": "updated-static",
+      "ESET_China": "updated-static",
+      "Direct": "kept-last-known-good",
+      "Game": "kept-last-known-good",
+      "Netflix": "kept-last-known-good",
+      "AI": "kept-last-known-good-aggregate"
     }
   },
   "blackmatrix7": {
