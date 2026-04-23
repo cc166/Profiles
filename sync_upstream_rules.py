@@ -2,7 +2,7 @@ from pathlib import Path
 from urllib.request import Request, build_opener, HTTPSHandler
 import ssl, json, subprocess, time
 
-report = {}
+report = {'meta': {'note': 'failed + kept_last_good=true means latest fetch failed but existing verified file was preserved', 'schedule_hint': 'sync-upstream-rules.yml cron 23 3 * * * (UTC)'}}
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
@@ -52,7 +52,7 @@ def keep_existing_payload(rel):
     except Exception:
         return False
 
-report['core']={'ok':[],'failed':[],'kept':[],'source':{}}
+report['core']={'ok':[],'failed':[],'kept':[],'source':{},'status':{}}
 static_core = {
     'LAN': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml', 'urllib', 'minis'),
     'ESET_China': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml', 'urllib', 'minis'),
@@ -65,7 +65,9 @@ for name, (url, method, ua) in static_core.items():
         save(f'upstream/core/{name}.yaml', text)
         report['core']['ok'].append(name)
         report['core']['source'][name] = {'url': url, 'method': method, 'ua': ua}
+        report['core']['status'][name] = 'updated-static'
     except Exception as e:
+        report['core']['status'][name] = 'failed-static'
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
 verified_core = {
@@ -82,11 +84,15 @@ for name, (url, method, ua, tries) in verified_core.items():
         save(rel, text)
         report['core']['ok'].append(name)
         report['core']['source'][name] = {'url': url, 'method': 'validated-curl', 'ua': ua, 'tries': tries}
+        report['core']['status'][name] = 'updated-verified'
     except Exception as e:
         kept = keep_existing_payload(rel)
         if kept:
             report['core']['kept'].append(name)
             report['core']['source'][name] = {'url': url, 'method': 'last-known-good', 'ua': ua, 'tries': tries, 'note': 'latest fetch failed; kept existing verified file'}
+            report['core']['status'][name] = 'kept-last-known-good'
+        else:
+            report['core']['status'][name] = 'failed-verified'
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e),'kept_last_good':kept})
 
 # AI 聚合：扩为 8 项，并在失败时保留 last-known-good
@@ -119,11 +125,15 @@ try:
     save('upstream/core/AI.yaml', '\n'.join(out).rstrip()+'\n')
     report['core']['ok'].append('AI')
     report['core']['source']['AI']={'url':ai_sources,'method':'validated-curl-aggregate','ua':'clash.meta','tries':2}
+    report['core']['status']['AI'] = 'updated-aggregate'
 except Exception as e:
     kept = keep_existing_payload('upstream/core/AI.yaml')
     if kept:
         report['core']['kept'].append('AI')
         report['core']['source']['AI']={'url':ai_sources,'method':'last-known-good-aggregate','ua':'clash.meta','tries':2,'note':'latest fetch failed; kept existing verified file'}
+        report['core']['status']['AI'] = 'kept-last-known-good-aggregate'
+    else:
+        report['core']['status']['AI'] = 'failed-aggregate'
     report['core']['failed'].append({'name':'AI','error':str(e),'kept_last_good':kept})
 
 # primary/supplement layers keep existing behavior
