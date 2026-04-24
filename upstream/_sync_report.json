@@ -140,5 +140,226 @@
       "Scholar"
     ],
     "failed": []
+  },
+  "loon_remote": {
+    "ok": [],
+    "failed": [
+      {
+        "name": "Telegram",
+        "url": "https://rule.kelee.one/Loon/Telegram.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "TikTok",
+        "url": "https://kelee.one/Tool/Loon/Lsr/TikTok.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "AI",
+        "url": "https://kelee.one/Tool/Loon/Lsr/AI.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "AppleAccount",
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "AppStore",
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppStore.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "GitHub",
+        "url": "https://rule.kelee.one/Loon/GitHub.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Netflix",
+        "url": "https://rule.kelee.one/Loon/Netflix.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "YouTube",
+        "url": "https://rule.kelee.one/Loon/YouTube.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Disney",
+        "url": "https://rule.kelee.one/Loon/Disney.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Twitter",
+        "url": "https://rule.kelee.one/Loon/Twitter.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Facebook",
+        "url": "https://rule.kelee.one/Loon/Facebook.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Instagram",
+        "url": "https://rule.kelee.one/Loon/Instagram.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Spotify",
+        "url": "https://rule.kelee.one/Loon/Spotify.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Google",
+        "url": "https://rule.kelee.one/Loon/Google.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      }
+    ],
+    "kept": [
+      "Telegram",
+      "TikTok",
+      "AI",
+      "AppleAccount",
+      "AppStore",
+      "GitHub",
+      "Netflix",
+      "YouTube",
+      "Disney",
+      "Twitter",
+      "Facebook",
+      "Instagram",
+      "Spotify",
+      "Google"
+    ],
+    "source": {
+      "Telegram": {
+        "url": "https://rule.kelee.one/Loon/Telegram.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "TikTok": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/TikTok.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "AI": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/AI.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "AppleAccount": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "AppStore": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppStore.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "GitHub": {
+        "url": "https://rule.kelee.one/Loon/GitHub.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Netflix": {
+        "url": "https://rule.kelee.one/Loon/Netflix.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "YouTube": {
+        "url": "https://rule.kelee.one/Loon/YouTube.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Disney": {
+        "url": "https://rule.kelee.one/Loon/Disney.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Twitter": {
+        "url": "https://rule.kelee.one/Loon/Twitter.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Facebook": {
+        "url": "https://rule.kelee.one/Loon/Facebook.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Instagram": {
+        "url": "https://rule.kelee.one/Loon/Instagram.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Spotify": {
+        "url": "https://rule.kelee.one/Loon/Spotify.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Google": {
+        "url": "https://rule.kelee.one/Loon/Google.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 4,
+        "note": "latest fetch failed; kept existing verified file"
+      }
+    },
+    "status": {
+      "Telegram": "kept-last-known-good",
+      "TikTok": "kept-last-known-good",
+      "AI": "kept-last-known-good",
+      "AppleAccount": "kept-last-known-good",
+      "AppStore": "kept-last-known-good",
+      "GitHub": "kept-last-known-good",
+      "Netflix": "kept-last-known-good",
+      "YouTube": "kept-last-known-good",
+      "Disney": "kept-last-known-good",
+      "Twitter": "kept-last-known-good",
+      "Facebook": "kept-last-known-good",
+      "Instagram": "kept-last-known-good",
+      "Spotify": "kept-last-known-good",
+      "Google": "kept-last-known-good"
+    }
   }
 }
