@@ -5,6 +5,7 @@
 # maintain this source file, workflow will generate custom-scattered-rules.list
 
 # 通用直连
+DOMAIN,ai.input.im,DIRECT
 DOMAIN,api.99dun.cc,DIRECT
 DOMAIN,ai.td.ee,DIRECT
 DOMAIN,id.td.ee,DIRECT
