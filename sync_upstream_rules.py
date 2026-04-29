@@ -1,6 +1,6 @@
 from pathlib import Path
 from urllib.request import Request, build_opener, HTTPSHandler
-import ssl, json, subprocess, time
+import ssl, json, subprocess, time, random
 
 report = {'meta': {'note': 'failed + kept_last_good=true means latest fetch failed but existing verified file was preserved', 'schedule_hint': 'sync-upstream-rules.yml cron 23 3 */2 * * (UTC)'}}
 ctx = ssl.create_default_context()
@@ -16,11 +16,22 @@ def fetch_text(url, ua='minis'):
 def fetch_with_curl(url, ua='clash.meta', tries=1, pause=8):
     errors = []
     for idx in range(tries):
+        # 增加随机延迟，避免被识别为批量爬虫
+        if idx > 0:
+            time.sleep(pause + random.uniform(0, 3))
+        
         r = subprocess.run([
             'curl','-L','-k',
             '--retry','2','--retry-all-errors',
             '--connect-timeout','20','--max-time','120',
-            '-A',ua,'-H','Accept: */*','-sS',url
+            '-A',ua,
+            '-H','Accept: */*',
+            '-H','Accept-Language: en-US,en;q=0.9',
+            '-H','Accept-Encoding: gzip, deflate, br',
+            '-H','Cache-Control: no-cache',
+            '-H','Pragma: no-cache',
+            '--compressed',
+            '-sS',url
         ], capture_output=True, text=True)
         if r.returncode == 0 and r.stdout.strip():
             text = r.stdout
@@ -29,24 +40,33 @@ def fetch_with_curl(url, ua='clash.meta', tries=1, pause=8):
             errors.append('challenge or invalid payload content')
         else:
             errors.append(r.stderr.strip() or f'curl exit {r.returncode}')
-        if idx < tries - 1:
-            time.sleep(pause)
     raise RuntimeError(' | '.join(errors[-3:]) or 'curl failed')
 
 def fetch_plain_with_curl(url, ua='Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', tries=1, pause=8):
     errors = []
     for idx in range(tries):
+        # 增加随机延迟，避免被识别为批量爬虫
+        if idx > 0:
+            time.sleep(pause + random.uniform(0, 3))
+        
         r = subprocess.run([
             'curl','--http1.1','-L','-k','--compressed',
             '--retry','1','--retry-all-errors',
             '--connect-timeout','20','--max-time','120',
-            '-A',ua,'-H','Accept: text/plain,*/*','-sS',url
+            '-A',ua,
+            '-H','Accept: text/plain,*/*',
+            '-H','Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
+            '-H','Accept-Encoding: gzip, deflate, br',
+            '-H','Cache-Control: no-cache',
+            '-H','Pragma: no-cache',
+            '-H','Sec-Fetch-Dest: empty',
+            '-H','Sec-Fetch-Mode: cors',
+            '-H','Sec-Fetch-Site: cross-site',
+            '-sS',url
         ], capture_output=True, text=True)
         if r.returncode == 0 and r.stdout.strip():
             return r.stdout
         errors.append(r.stderr.strip() or f'curl exit {r.returncode}')
-        if idx < tries - 1:
-            time.sleep(pause)
     raise RuntimeError(' | '.join(errors[-3:]) or 'curl failed')
 
 def looks_like_payload(text):
@@ -98,6 +118,8 @@ verified_core = {
 for name, (url, method, ua, tries) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
     try:
+        # 增加随机延迟，避免批量请求被识别
+        time.sleep(random.uniform(1, 3))
         text = fetch_with_curl(url, ua, tries)
         if not looks_like_payload(text):
             raise RuntimeError('challenge or invalid payload content')
@@ -257,6 +279,8 @@ def keep_existing_loon(rel):
 for name, url in loon_remote_sources.items():
     rel = f'upstream/loon/{name}.lsr'
     try:
+        # 增加随机延迟，避免批量请求被识别
+        time.sleep(random.uniform(2, 5))
         text = fetch_plain_with_curl(url, 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 4, 6)
         if not looks_like_loon_rules(text):
             raise RuntimeError('invalid loon rule content')
@@ -275,4 +299,4 @@ for name, url in loon_remote_sources.items():
         report['loon_remote']['failed'].append({'name': name, 'url': url, 'error': str(e), 'kept_last_good': kept})
 
 save('upstream/_sync_report.json', json.dumps(report, ensure_ascii=False, indent=2)+'\n')
-print(json.dumps({'core_ok':len(report['core']['ok']),'core_failed':len(report['core']['failed'])}, ensure_ascii=False))
+print(json.dumps({'core_ok':len(report['core']['ok']),'core_failed':len(report['core']['failed']),'loon_ok':len(report['loon_remote']['ok']),'loon_failed':len(report['loon_remote']['failed'])}, ensure_ascii=False))
