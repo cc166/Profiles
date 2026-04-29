@@ -1,6 +1,6 @@
-# cc166/Profiles - iKeLee 规则镜像
+# Profiles 规则列表
 
-完整镜像 iKeLee 规则，每 2 天自动同步一次。
+个人 Loon 和 Clash 配置规则。
 
 ## 📊 规则列表
 
@@ -55,22 +55,17 @@
 | SpeedtestInternational | 国际测速 | [链接](https://raw.githubusercontent.com/cc166/Profiles/master/upstream/core/SpeedtestInternational.yaml) |
 | TikTok | TikTok | [链接](https://raw.githubusercontent.com/cc166/Profiles/master/upstream/core/TikTok.yaml) |
 
-## 🔄 同步策略
-
-- **同步频率**：每 2 天一次（UTC 03:23 = 北京时间 11:23）
-- **规则来源**：iKeLee 官方（rule.kelee.one 和 kelee.one）
-- **Cloudflare 绕过**：已优化（浏览器特征 Headers + 随机延迟）
-- **保底机制**：`last-known-good` 策略，拉取失败时保留现有文件
-
 ## 📝 使用方法
 
 ### Loon
-```
+
+```ini
 [Remote Rule]
 https://raw.githubusercontent.com/cc166/Profiles/master/upstream/loon/Netflix.lsr, policy=Netflix, tag=Netflix, enabled=true
 ```
 
 ### Clash
+
 ```yaml
 rule-providers:
   Netflix:
@@ -83,10 +78,9 @@ rule-providers:
 
 ## 🔗 相关仓库
 
-- **主用**：[cc166/Profiles](https://github.com/cc166/Profiles) - iKeLee 规则镜像（本仓库）
-- **备用**：[cc166/ShuntRules](https://github.com/cc166/ShuntRules) - 自动跟随 luestr/ShuntRules
-- **上游**：[iKeLee 规则](https://rule.kelee.one/) - 官方规则源
+- **主用**：[cc166/Profiles](https://github.com/cc166/Profiles)
+- **备用**：[cc166/ShuntRules](https://github.com/cc166/ShuntRules)
 
-## 📊 同步报告
+## 致谢
 
-查看最近一次同步结果：[_sync_report.json](https://github.com/cc166/Profiles/blob/master/upstream/_sync_report.json)
+感谢 [iKeLee](https://iKeLee.one) 提供优质规则。
