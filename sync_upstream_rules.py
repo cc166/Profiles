@@ -111,9 +111,14 @@ for name, (url, method, ua) in static_core.items():
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
 verified_core = {
+    # 已有规则（3 项）
     'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'curl', 'clash.meta', 6),
     'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'curl', 'clash.meta', 4),
     'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta', 4),
+    # 新增规则（3 项）
+    'Proxy': ('https://kelee.one/Tool/Clash/Rule/Proxy.yaml', 'curl', 'clash.meta', 4),
+    'SpeedtestInternational': ('https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml', 'curl', 'clash.meta', 4),
+    'TikTok': ('https://kelee.one/Tool/Clash/Rule/TikTok.yaml', 'curl', 'clash.meta', 4),
 }
 for name, (url, method, ua, tries) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
@@ -238,6 +243,7 @@ for name in yuumimi_sets:
 # Loon remote rule mirrors: keep exact upstream content where possible, with last-known-good fallback
 report['loon_remote']={'ok':[],'failed':[],'kept':[],'source':{},'status':{}}
 loon_remote_sources = {
+    # 已有规则（14 项）
     'Telegram': 'https://rule.kelee.one/Loon/Telegram.lsr',
     'TikTok': 'https://kelee.one/Tool/Loon/Lsr/TikTok.lsr',
     'AI': 'https://kelee.one/Tool/Loon/Lsr/AI.lsr',
@@ -252,6 +258,25 @@ loon_remote_sources = {
     'Instagram': 'https://rule.kelee.one/Loon/Instagram.lsr',
     'Spotify': 'https://rule.kelee.one/Loon/Spotify.lsr',
     'Google': 'https://rule.kelee.one/Loon/Google.lsr',
+    # 新增规则（18 项）
+    'Anthropic': 'https://rule.kelee.one/Loon/Anthropic.lsr',
+    'Apple': 'https://rule.kelee.one/Loon/Apple.lsr',
+    'AppleTV': 'https://rule.kelee.one/Loon/AppleTV.lsr',
+    'Bahamut': 'https://rule.kelee.one/Loon/Bahamut.lsr',
+    'Claude': 'https://rule.kelee.one/Loon/Claude.lsr',
+    'Copilot': 'https://rule.kelee.one/Loon/Copilot.lsr',
+    'Emby': 'https://rule.kelee.one/Loon/Emby.lsr',
+    'Game': 'https://rule.kelee.one/Loon/Game.lsr',
+    'Gemini': 'https://rule.kelee.one/Loon/Gemini.lsr',
+    'GoogleFCM': 'https://rule.kelee.one/Loon/GoogleFCM.lsr',
+    'HBO': 'https://rule.kelee.one/Loon/HBO.lsr',
+    'LAN_SPLITTER': 'https://rule.kelee.one/Loon/LAN_SPLITTER.lsr',
+    'Microsoft': 'https://rule.kelee.one/Loon/Microsoft.lsr',
+    'OpenAI': 'https://rule.kelee.one/Loon/OpenAI.lsr',
+    'PrimeVideo': 'https://rule.kelee.one/Loon/PrimeVideo.lsr',
+    'REGION_SPLITTER': 'https://rule.kelee.one/Loon/REGION_SPLITTER.lsr',
+    'Speedtest': 'https://rule.kelee.one/Loon/Speedtest.lsr',
+    'Steam': 'https://rule.kelee.one/Loon/Steam.lsr',
 }
 
 def looks_like_loon_rules(text):
