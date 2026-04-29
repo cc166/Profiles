@@ -2,7 +2,7 @@ from pathlib import Path
 from urllib.request import Request, build_opener, HTTPSHandler
 import ssl, json, subprocess, time, random
 
-report = {'meta': {'note': 'failed + kept_last_good=true means latest fetch failed but existing verified file was preserved', 'schedule_hint': 'sync-upstream-rules.yml cron 23 3 */2 * * (UTC)'}}
+report = {'meta': {'note': 'failed + kept_last_good=true means latest fetch failed but existing verified file was preserved', 'schedule_hint': 'sync-upstream-rules.yml cron 23 3 * * * (UTC, daily)'}}
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
@@ -123,8 +123,8 @@ verified_core = {
 for name, (url, method, ua, tries) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
     try:
-        # 增加随机延迟，避免批量请求被识别
-        time.sleep(random.uniform(1, 3))
+        # 增加随机延迟，模拟真实客户端行为
+        time.sleep(random.uniform(3, 8))
         text = fetch_with_curl(url, ua, tries)
         if not looks_like_payload(text):
             raise RuntimeError('challenge or invalid payload content')
@@ -304,8 +304,8 @@ def keep_existing_loon(rel):
 for name, url in loon_remote_sources.items():
     rel = f'upstream/loon/{name}.lsr'
     try:
-        # 增加随机延迟，避免批量请求被识别
-        time.sleep(random.uniform(2, 5))
+        # 增加随机延迟，模拟真实客户端行为
+        time.sleep(random.uniform(3, 8))
         text = fetch_plain_with_curl(url, 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 4, 6)
         if not looks_like_loon_rules(text):
             raise RuntimeError('invalid loon rule content')

@@ -3,7 +3,7 @@ name: Sync Upstream Rules
 on:
   workflow_dispatch:
   schedule:
-    - cron: '23 3 */2 * *'
+    - cron: '23 3 * * *'
 
 jobs:
   sync:
