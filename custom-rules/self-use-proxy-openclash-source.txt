@@ -1,7 +1,0 @@
-# Self Use Proxy Rules For OpenClash Source
-# 想代理的规则放这里，OpenClash 版本会自动去掉第三列 policy
-
-# 通用代理
-DOMAIN,relay.firefox.com,PROXY
-DOMAIN-SUFFIX,ibm.com,PROXY
-DOMAIN-SUFFIX,plex.tv,PROXY
