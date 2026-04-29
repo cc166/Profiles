@@ -1,7 +1,0 @@
-# Self Use Proxy Rules For Loon Source
-# 想代理的规则放这里，默认按 PROXY 生成
-
-# 通用代理
-DOMAIN,relay.firefox.com,PROXY
-DOMAIN-SUFFIX,ibm.com,PROXY
-DOMAIN-SUFFIX,plex.tv,PROXY
