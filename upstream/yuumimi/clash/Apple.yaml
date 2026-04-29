@@ -744,6 +744,7 @@ payload:
   - "su.itunes.apple.com @cn"
   - "sync.itunes.apple.com @cn"
   - "tf-feedback.itunes.apple.com @cn"
+  - "universal-activity-service.itunes.apple.com @cn"
   - "upp.itunes.apple.com @cn"
   - "www.support.apple.com @cn"
   - "a1.mzstatic.com @cn"
