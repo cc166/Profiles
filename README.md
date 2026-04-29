@@ -2,13 +2,6 @@
 
 个人 Loon 和 Clash 配置仓库。
 
-## 规则列表
-
-完整规则列表请查看 [RULES.md](RULES.md)
-
-- **Loon 规则**：32 项
-- **Clash 规则**：9 项
-
 ## 使用方法
 
 ### Loon
@@ -32,6 +25,10 @@ rule-providers:
     path: ./ruleset/规则名.yaml
     interval: 86400
 ```
+
+## 规则列表
+
+完整规则列表请查看 [RULES.md](RULES.md)
 
 ## 致谢
 
