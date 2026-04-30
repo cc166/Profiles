@@ -62,15 +62,14 @@ LOON_RULES = [
     'Game',
 ]
 
-# iKeLee Clash 规则（12 项 - 核心精简版）
+# iKeLee Clash 规则（11 项 - 核心精简版）
 CLASH_RULES = {
-    # 文件内明确给出的规则（9 项）
+    # 文件内明确给出的规则（8 项）
     'LAN': 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml',
     'Direct': 'https://kelee.one/Tool/Clash/Rule/Direct.yaml',
     'Proxy': 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml',
     'AI': 'https://kelee.one/Tool/Clash/Rule/AI.yaml',
     'TikTok': 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml',
-    'SpeedtestInternational': 'https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml',
     'Game': 'https://kelee.one/Tool/Clash/Rule/Game.yaml',
     'Netflix': 'https://rule.kelee.one/Clash/Netflix.yaml',
     'ESET_China': 'https://kelee.one/Tool/Clash/Rule/ESET_China.yaml',

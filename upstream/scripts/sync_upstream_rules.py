@@ -16,20 +16,20 @@ def fetch_text(url, ua='minis'):
 def fetch_with_curl(url, ua='mihomo/1.18.10', tries=1, pause=8):
     errors = []
     for idx in range(tries):
-        # 增加随机延迟，避免被识别为批量爬虫
-        if idx > 0:
-            time.sleep(pause + random.uniform(0, 3))
+        # 增加随机延迟，避免被识别为批量爬虫（首次请求也延迟）
+        time.sleep(random.uniform(5, 10))
         
         r = subprocess.run([
             'curl','-L','-k',
-            '--retry','2','--retry-all-errors',
-            '--connect-timeout','20','--max-time','120',
+            '--retry','1','--retry-all-errors',
+            '--connect-timeout','30','--max-time','120',
             '-A',ua,
-            '-H','Accept: */*',
-            '-H','Accept-Language: en-US,en;q=0.9',
+            '-H','Accept: application/yaml,text/yaml,*/*',
+            '-H','Accept-Language: zh-CN,zh;q=0.9,en;q=0.8',
             '-H','Accept-Encoding: gzip, deflate, br',
-            '-H','Cache-Control: no-cache',
-            '-H','Pragma: no-cache',
+            '-H','Referer: https://kelee.one/',
+            '-H','Origin: https://kelee.one',
+            '-H','Connection: keep-alive',
             '--compressed',
             '-sS',url
         ], capture_output=True, text=True)
