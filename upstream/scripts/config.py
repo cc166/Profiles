@@ -62,11 +62,13 @@ LOON_RULES = [
     'Game',
 ]
 
-# iKeLee Clash 规则（10 项 - 核心精简版）
+# iKeLee Clash 规则（12 项 - 核心精简版）
 CLASH_RULES = {
-    # 基础规则（2 项）
+    # 基础规则（4 项）
     'Direct': 'https://rule.kelee.one/Clash/Direct.yaml',
     'Proxy': 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml',
+    'LAN': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml',
+    'ESET_China': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml',
     # 核心服务（8 项）
     'AI': None,  # 由 blackmatrix7 8 项聚合生成
     'Netflix': 'https://rule.kelee.one/Clash/Netflix.yaml',
