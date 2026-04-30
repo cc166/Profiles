@@ -187,59 +187,6 @@ except Exception as e:
         report['core']['status']['AI'] = 'failed-bm7-aggregate'
     report['core']['failed'].append({'name':'AI','error':str(e),'kept_last_good':kept})
 
-# primary/supplement layers keep existing behavior
-bm7_names = ["Apple","YouTube","GitHub","Google","Microsoft","Telegram","Twitter","Discord","Steam","Emby","PayPal","Speedtest","Scholar"]
-report['blackmatrix7']={'ok':[],'failed':[]}
-for name in bm7_names:
-    for url, rel in [
-        (f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/{name}/{name}.yaml", f"upstream/blackmatrix7/clash/{name}.yaml"),
-        (f"https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/{name}/{name}.list", f"upstream/blackmatrix7/loon/{name}.list"),
-    ]:
-        try:
-            text = fetch_text(url)
-            save(rel, text); report['blackmatrix7']['ok'].append(rel)
-        except Exception as e:
-            report['blackmatrix7']['failed'].append({'path':rel,'url':url,'error':str(e)})
-
-yuumimi_sets = ["apple","youtube","github","google","microsoft","telegram","twitter","discord","steam","paypal","speedtest","category-scholar-!cn"]
-def gen_from_dlc(name):
-    url = f"https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/{name}"
-    content = fetch_text(url)
-    domains=[]
-    for raw in content.splitlines():
-        line = raw.strip()
-        if not line or line.startswith('#') or line.startswith('include:') or line.startswith('regexp:') or line.startswith('keyword:'):
-            continue
-        if line.startswith('full:'):
-            domains.append(('full', line[5:].strip()))
-        elif line.startswith('domain:'):
-            domains.append(('suffix', line[7:].strip()))
-        else:
-            domains.append(('suffix', line))
-    return domains
-report['yuumimi']={'ok':[],'failed':[]}
-for name in yuumimi_sets:
-    try:
-        domains = gen_from_dlc(name)
-        clash = ['payload:']
-        loon = []
-        for typ, val in domains:
-            if not val:
-                continue
-            if typ == 'full':
-                clash.append(f'  - "{val}"')
-                loon.append(f'DOMAIN,{val}')
-            else:
-                clash.append(f'  - "+.{val}"')
-                loon.append(f'DOMAIN-SUFFIX,{val}')
-        pretty = name.replace('category-scholar-!cn','Scholar').replace('apple','Apple').replace('youtube','YouTube').replace('github','GitHub').replace('google','Google').replace('microsoft','Microsoft').replace('telegram','Telegram').replace('twitter','Twitter').replace('discord','Discord').replace('steam','Steam').replace('paypal','PayPal').replace('speedtest','Speedtest')
-        save(f'upstream/yuumimi/clash/{pretty}.yaml', '\n'.join(clash).rstrip()+'\n')
-        save(f'upstream/yuumimi/loon/{pretty}.list', '\n'.join(loon).rstrip()+'\n')
-        report['yuumimi']['ok'].append(pretty)
-    except Exception as e:
-        report['yuumimi']['failed'].append({'name':name,'error':str(e)})
-
-
 # Loon remote rule mirrors: keep exact upstream content where possible, with last-known-good fallback
 report['loon_remote']={'ok':[],'failed':[],'kept':[],'source':{},'status':{}}
 loon_remote_sources = {
