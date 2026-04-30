@@ -56,17 +56,33 @@ LOON_RULES = [
     'Telegram', 'TikTok', 'Twitter', 'YouTube'
 ]
 
-# iKeLee Clash 规则（9 项）
+# iKeLee Clash 规则（18 项 - 精简版）
 CLASH_RULES = {
+    # 基础规则（4 项）
     'Direct': 'https://rule.kelee.one/Clash/Direct.yaml',
-    'Game': 'https://rule.kelee.one/Clash/Game.yaml',
-    'Netflix': 'https://rule.kelee.one/Clash/Netflix.yaml',
     'Proxy': 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml',
-    'SpeedtestInternational': 'https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml',
-    'TikTok': 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml',
-    'AI': None,  # 由 blackmatrix7 8 项聚合生成
     'LAN': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml',
     'ESET_China': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml',
+    # AI 服务（1 项）
+    'AI': None,  # 由 blackmatrix7 8 项聚合生成
+    # 流媒体（4 项）
+    'Netflix': 'https://rule.kelee.one/Clash/Netflix.yaml',
+    'Disney': 'https://kelee.one/Tool/Clash/Rule/Disney.yaml',
+    'YouTube': 'https://kelee.one/Tool/Clash/Rule/YouTube.yaml',
+    'Spotify': 'https://kelee.one/Tool/Clash/Rule/Spotify.yaml',
+    # 社交媒体（4 项）
+    'Telegram': 'https://kelee.one/Tool/Clash/Rule/Telegram.yaml',
+    'Twitter': 'https://kelee.one/Tool/Clash/Rule/Twitter.yaml',
+    'Facebook': 'https://kelee.one/Tool/Clash/Rule/Facebook.yaml',
+    'Instagram': 'https://kelee.one/Tool/Clash/Rule/Instagram.yaml',
+    # 平台服务（4 项）
+    'Apple': 'https://kelee.one/Tool/Clash/Rule/Apple.yaml',
+    'Google': 'https://kelee.one/Tool/Clash/Rule/Google.yaml',
+    'Microsoft': 'https://kelee.one/Tool/Clash/Rule/Microsoft.yaml',
+    'GitHub': 'https://kelee.one/Tool/Clash/Rule/GitHub.yaml',
+    # 其他（2 项）
+    'Game': 'https://rule.kelee.one/Clash/Game.yaml',
+    'TikTok': 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml',
 }
 
 # blackmatrix7 规则（13 项）
@@ -90,8 +106,8 @@ UA_CLASH = 'clash.meta'
 UA_MINIS = 'minis'
 
 # 请求延迟（秒）
-DELAY_LOON = (5, 15)  # Loon 规则请求延迟范围
-DELAY_CLASH = (5, 15)  # Clash 规则请求延迟范围
+DELAY_LOON = (2, 5)    # Loon 规则请求延迟范围
+DELAY_CLASH = (2, 5)   # Clash 规则请求延迟范围
 DELAY_BM7 = (1, 3)     # blackmatrix7 规则请求延迟范围
 
 # 重试配置
