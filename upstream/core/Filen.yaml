@@ -1,0 +1,13 @@
+# UpdateTime：2026-04-19 21:12:00
+# RuleCount：10
+payload:
+  - DOMAIN,cdn.filen.io
+  - DOMAIN,drive.filen.io
+  - DOMAIN,egest.filen.io
+  - DOMAIN,gateway.filen.io
+  - DOMAIN,ingest.filen.io
+  - DOMAIN,socket.filen.io
+  - DOMAIN,gateway.filen.net
+  - DOMAIN-SUFFIX,filen.io
+  - DOMAIN-SUFFIX,filen.net
+  - DOMAIN-KEYWORD,gateway.filen-

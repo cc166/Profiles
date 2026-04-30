@@ -1,0 +1,8 @@
+# UpdateTime：2026-04-19 21:12:00
+# RuleCount：5
+payload:
+  - DOMAIN,d1k8g7qaebqd28.cloudfront.net
+  - DOMAIN,d1vkxgepojvtmc.cloudfront.net
+  - DOMAIN-SUFFIX,crazymaplestudios.com
+  - DOMAIN-SUFFIX,epubgame.com
+  - DOMAIN-SUFFIX,reelshort.com
