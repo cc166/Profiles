@@ -114,36 +114,37 @@ for name, (url, method, ua) in static_core.items():
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
 verified_core = {
-    # 文件内明确给出的规则（7 项）
-    'Direct': ('https://kelee.one/Tool/Clash/Rule/Direct.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Game': ('https://kelee.one/Tool/Clash/Rule/Game.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Proxy': ('https://kelee.one/Tool/Clash/Rule/Proxy.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'SpeedtestInternational': ('https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'TikTok': ('https://kelee.one/Tool/Clash/Rule/TikTok.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'AI': ('https://kelee.one/Tool/Clash/Rule/AI.yaml', 'curl', 'mihomo/1.18.10', 4),
+    # 文件内明确给出的规则（8 项）
+    'LAN': ('https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml', 'urllib', 'clash.meta'),
+    'Direct': ('https://kelee.one/Tool/Clash/Rule/Direct.yaml', 'urllib', 'clash.meta'),
+    'Proxy': ('https://kelee.one/Tool/Clash/Rule/Proxy.yaml', 'urllib', 'clash.meta'),
+    'AI': ('https://kelee.one/Tool/Clash/Rule/AI.yaml', 'urllib', 'clash.meta'),
+    'TikTok': ('https://kelee.one/Tool/Clash/Rule/TikTok.yaml', 'urllib', 'clash.meta'),
+    'Game': ('https://kelee.one/Tool/Clash/Rule/Game.yaml', 'urllib', 'clash.meta'),
+    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'urllib', 'clash.meta'),
+    'ESET_China': ('https://kelee.one/Tool/Clash/Rule/ESET_China.yaml', 'urllib', 'clash.meta'),
     # 文件里没有的，参考 luestr/ShuntRules（3 项）
-    'Apple': ('https://rule.kelee.one/Clash/Apple.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Google': ('https://rule.kelee.one/Clash/Google.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Telegram': ('https://rule.kelee.one/Clash/Telegram.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Telegram': ('https://rule.kelee.one/Clash/Telegram.yaml', 'urllib', 'clash.meta'),
+    'Google': ('https://rule.kelee.one/Clash/Google.yaml', 'urllib', 'clash.meta'),
+    'Apple': ('https://rule.kelee.one/Clash/Apple.yaml', 'urllib', 'clash.meta'),
 }
-for name, (url, method, ua, tries) in verified_core.items():
+for name, (url, method, ua) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
     try:
-        # 增加随机延迟，模拟真实客户端行为（2-5秒）
+        # 增加随机延迟，避免频繁请求（2-5秒）
         time.sleep(random.uniform(2, 5))
-        text = fetch_with_curl(url, ua, tries)
+        text = fetch_text(url, ua)
         if not looks_like_payload(text):
-            raise RuntimeError('challenge or invalid payload content')
+            raise RuntimeError('invalid payload content')
         save(rel, text)
         report['core']['ok'].append(name)
-        report['core']['source'][name] = {'url': url, 'method': 'validated-curl', 'ua': ua, 'tries': tries}
+        report['core']['source'][name] = {'url': url, 'method': 'urllib', 'ua': ua}
         report['core']['status'][name] = 'updated-verified'
     except Exception as e:
         kept = keep_existing_payload(rel)
         if kept:
             report['core']['kept'].append(name)
-            report['core']['source'][name] = {'url': url, 'method': 'last-known-good', 'ua': ua, 'tries': tries, 'note': 'latest fetch failed; kept existing verified file'}
+            report['core']['source'][name] = {'url': url, 'method': 'last-known-good', 'ua': ua, 'note': 'latest fetch failed; kept existing verified file'}
             report['core']['status'][name] = 'kept-last-known-good'
         else:
             report['core']['status'][name] = 'failed-verified'
