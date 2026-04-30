@@ -76,11 +76,6 @@ rule-providers:
     interval: 86400
 ```
 
-## 🔗 相关仓库
-
-- **主用**：[cc166/Profiles](https://github.com/cc166/Profiles)
-- **备用**：[cc166/ShuntRules](https://github.com/cc166/ShuntRules)
-
 ## 致谢
 
 感谢 [iKeLee](https://iKeLee.one) 提供优质规则。
