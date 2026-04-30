@@ -10,33 +10,33 @@
     "failed": [
       {
         "name": "LAN",
-        "url": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml",
-        "method": "urllib",
-        "error": "HTTP Error 404: Not Found"
+        "url": "https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml",
+        "method": "curl",
+        "error": "challenge or invalid payload content | challenge or invalid payload content"
       },
       {
         "name": "ESET_China",
-        "url": "https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml",
-        "method": "urllib",
-        "error": "HTTP Error 404: Not Found"
+        "url": "https://kelee.one/Tool/Clash/Rule/ESET_China.yaml",
+        "method": "curl",
+        "error": "challenge or invalid payload content | challenge or invalid payload content"
       },
       {
         "name": "Direct",
-        "url": "https://rule.kelee.one/Clash/Direct.yaml",
+        "url": "https://kelee.one/Tool/Clash/Rule/Direct.yaml",
         "method": "curl",
         "error": "challenge or invalid payload content | challenge or invalid payload content | challenge or invalid payload content",
         "kept_last_good": true
       },
       {
         "name": "Game",
-        "url": "https://rule.kelee.one/Clash/Game.yaml",
+        "url": "https://kelee.one/Tool/Clash/Rule/Game.yaml",
         "method": "curl",
         "error": "challenge or invalid payload content | challenge or invalid payload content | challenge or invalid payload content",
         "kept_last_good": true
       },
       {
         "name": "Netflix",
-        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
+        "url": "https://kelee.one/Tool/Clash/Rule/Netflix.yaml",
         "method": "curl",
         "error": "challenge or invalid payload content | challenge or invalid payload content | challenge or invalid payload content",
         "kept_last_good": true
@@ -223,65 +223,65 @@
     ],
     "source": {
       "Direct": {
-        "url": "https://rule.kelee.one/Clash/Direct.yaml",
+        "url": "https://kelee.one/Tool/Clash/Rule/Direct.yaml",
         "method": "last-known-good",
-        "ua": "clash.meta",
+        "ua": "mihomo/1.18.10",
         "tries": 6,
         "note": "latest fetch failed; kept existing verified file"
       },
       "Game": {
-        "url": "https://rule.kelee.one/Clash/Game.yaml",
+        "url": "https://kelee.one/Tool/Clash/Rule/Game.yaml",
         "method": "last-known-good",
-        "ua": "clash.meta",
+        "ua": "mihomo/1.18.10",
         "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
       "Netflix": {
-        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
+        "url": "https://kelee.one/Tool/Clash/Rule/Netflix.yaml",
         "method": "last-known-good",
-        "ua": "clash.meta",
+        "ua": "mihomo/1.18.10",
         "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
       "Proxy": {
         "url": "https://kelee.one/Tool/Clash/Rule/Proxy.yaml",
         "method": "last-known-good",
-        "ua": "clash.meta",
+        "ua": "mihomo/1.18.10",
         "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
       "SpeedtestInternational": {
         "url": "https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml",
         "method": "last-known-good",
-        "ua": "clash.meta",
+        "ua": "mihomo/1.18.10",
         "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
       "TikTok": {
         "url": "https://kelee.one/Tool/Clash/Rule/TikTok.yaml",
         "method": "last-known-good",
-        "ua": "clash.meta",
+        "ua": "mihomo/1.18.10",
         "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
       "ReelShort": {
         "url": "https://kelee.one/Tool/Clash/Rule/ReelShort.yaml",
         "method": "last-known-good",
-        "ua": "clash.meta",
+        "ua": "mihomo/1.18.10",
         "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
       "Filen": {
         "url": "https://kelee.one/Tool/Clash/Rule/Filen.yaml",
         "method": "last-known-good",
-        "ua": "clash.meta",
+        "ua": "mihomo/1.18.10",
         "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
       "Telegram": {
         "url": "https://kelee.one/Tool/Clash/Rule/Telegram.yaml",
         "method": "last-known-good",
-        "ua": "clash.meta",
+        "ua": "mihomo/1.18.10",
         "tries": 4,
         "note": "latest fetch failed; kept existing verified file"
       },
