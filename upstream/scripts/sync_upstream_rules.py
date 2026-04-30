@@ -225,11 +225,11 @@ loon_remote_sources = {
     'Gemini': 'https://rule.kelee.one/Loon/Gemini.lsr',
     'GoogleFCM': 'https://rule.kelee.one/Loon/GoogleFCM.lsr',
     'HBO': 'https://rule.kelee.one/Loon/HBO.lsr',
-    'LAN_SPLITTER': 'https://rule.kelee.one/Loon/LAN_SPLITTER.lsr',
+    'LAN_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr',
     'Microsoft': 'https://rule.kelee.one/Loon/Microsoft.lsr',
     'OpenAI': 'https://rule.kelee.one/Loon/OpenAI.lsr',
     'PrimeVideo': 'https://rule.kelee.one/Loon/PrimeVideo.lsr',
-    'REGION_SPLITTER': 'https://rule.kelee.one/Loon/REGION_SPLITTER.lsr',
+    'REGION_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr',
     'Speedtest': 'https://rule.kelee.one/Loon/Speedtest.lsr',
     'Steam': 'https://rule.kelee.one/Loon/Steam.lsr',
     # 用户要求新增（2 项）

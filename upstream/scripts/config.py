@@ -77,6 +77,16 @@ CLASH_RULES = {
     'Telegram': 'https://rule.kelee.one/Clash/Telegram.yaml',
     'Google': 'https://rule.kelee.one/Clash/Google.yaml',
     'Apple': 'https://rule.kelee.one/Clash/Apple.yaml',
+    # 常见规则补充（9 项）
+    'YouTube': 'https://rule.kelee.one/Clash/YouTube.yaml',
+    'Disney': 'https://rule.kelee.one/Clash/Disney.yaml',
+    'Twitter': 'https://rule.kelee.one/Clash/Twitter.yaml',
+    'Facebook': 'https://rule.kelee.one/Clash/Facebook.yaml',
+    'Instagram': 'https://rule.kelee.one/Clash/Instagram.yaml',
+    'Spotify': 'https://rule.kelee.one/Clash/Spotify.yaml',
+    'GitHub': 'https://rule.kelee.one/Clash/GitHub.yaml',
+    'Microsoft': 'https://rule.kelee.one/Clash/Microsoft.yaml',
+    'Steam': 'https://rule.kelee.one/Clash/Steam.yaml',
 }
 
 # blackmatrix7 规则（13 项）
