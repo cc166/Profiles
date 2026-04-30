@@ -96,27 +96,8 @@ def keep_existing_payload(rel):
         return False
 
 report['core']={'ok':[],'failed':[],'kept':[],'source':{},'status':{}}
-static_core = {
-    'LAN': ('https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml', 'curl', 'mihomo/1.18.10'),
-    'ESET_China': ('https://kelee.one/Tool/Clash/Rule/ESET_China.yaml', 'curl', 'mihomo/1.18.10'),
-}
-for name, (url, method, ua) in static_core.items():
-    try:
-        if method == 'curl':
-            text = fetch_with_curl(url, ua, 2)
-        else:
-            text = fetch_text(url, ua)
-        if not looks_like_payload(text):
-            raise RuntimeError('invalid payload content')
-        save(f'upstream/core/{name}.yaml', text)
-        report['core']['ok'].append(name)
-        report['core']['source'][name] = {'url': url, 'method': method, 'ua': ua}
-        report['core']['status'][name] = 'updated-static'
-    except Exception as e:
-        report['core']['status'][name] = 'failed-static'
-        report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
-# 从 config.py 动态构建 verified_core
+# 从 config.py 动态读取所有 Clash 规则（包括 LAN, ESET_China, AI）
 verified_core = {}
 for name, url in CLASH_RULES.items():
     verified_core[name] = (url, 'urllib', UA_CLASH)
@@ -142,98 +123,48 @@ for name, (url, method, ua) in verified_core.items():
             report['core']['status'][name] = 'failed-verified'
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e),'kept_last_good':kept})
 
-# AI 聚合：改为 blackmatrix7 8 项聚合，并在失败时保留 last-known-good
-ai_sources = [
-    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.yaml',
-    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BardAI/BardAI.yaml',
-    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Anthropic/Anthropic.yaml',
-    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.yaml',
-    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Copilot/Copilot.yaml',
-    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.yaml',
-    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Jetbrains/Jetbrains.yaml',
-    'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/aiXcoder/aiXcoder.yaml',
-]
-try:
-    texts=[]
-    for url in ai_sources:
-        text = fetch_text(url, 'minis')
-        if not looks_like_payload(text):
-            raise RuntimeError(f'AI source invalid payload: {url}')
-        texts.append(text)
-    seen=set(); out=['payload:']
-    for text in texts:
-        for raw in text.splitlines():
-            s=raw.strip()
-            if not s or s=='payload:' or s.startswith('#'): continue
-            item=s[2:].strip() if s.startswith('- ') else s
-            item=item.strip().strip('"').strip("'")
-            if item.startswith('IP-CIDR,') and not item.endswith(',no-resolve'):
-                item = item + ',no-resolve'
-            if item.startswith('IP-ASN,') and not item.endswith(',no-resolve'):
-                item = item + ',no-resolve'
-            if item and item not in seen:
-                seen.add(item); out.append(f'  - "{item}"')
-    save('upstream/core/AI.yaml', '\n'.join(out).rstrip()+'\n')
-    report['core']['ok'].append('AI')
-    report['core']['source']['AI']={'url':ai_sources,'method':'bm7-raw-aggregate','ua':'minis'}
-    report['core']['status']['AI'] = 'updated-bm7-aggregate'
-except Exception as e:
-    kept = keep_existing_payload('upstream/core/AI.yaml')
-    if kept:
-        report['core']['kept'].append('AI')
-        report['core']['source']['AI']={'url':ai_sources,'method':'last-known-good-bm7-aggregate','ua':'minis','note':'latest fetch failed; kept existing verified file'}
-        report['core']['status']['AI'] = 'kept-last-known-good-bm7-aggregate'
-    else:
-        report['core']['status']['AI'] = 'failed-bm7-aggregate'
-    report['core']['failed'].append({'name':'AI','error':str(e),'kept_last_good':kept})
-
 # Loon remote rule mirrors: keep exact upstream content where possible, with last-known-good fallback
 report['loon_remote']={'ok':[],'failed':[],'kept':[],'source':{},'status':{}}
 loon_remote_sources = {
-    # 已有规则（14 项）
-    'Telegram': 'https://rule.kelee.one/Loon/Telegram.lsr',
-    'TikTok': 'https://kelee.one/Tool/Loon/Lsr/TikTok.lsr',
+    # 基础规则（2 项）
+    'LAN_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr',
+    'REGION_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr',
+    # AI 服务（4 项）
     'AI': 'https://kelee.one/Tool/Loon/Lsr/AI.lsr',
-    'AppleAccount': 'https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr',
-    'AppStore': 'https://kelee.one/Tool/Loon/Lsr/AppStore.lsr',
-    'GitHub': 'https://rule.kelee.one/Loon/GitHub.lsr',
+    'OpenAI': 'https://rule.kelee.one/Loon/OpenAI.lsr',
+    'Claude': 'https://rule.kelee.one/Loon/Claude.lsr',
+    'Gemini': 'https://rule.kelee.one/Loon/Gemini.lsr',
+    'Anthropic': 'https://rule.kelee.one/Loon/Anthropic.lsr',
+    'Copilot': 'https://rule.kelee.one/Loon/Copilot.lsr',
+    # 流媒体（6 项）
     'Netflix': 'https://rule.kelee.one/Loon/Netflix.lsr',
-    'YouTube': 'https://rule.kelee.one/Loon/YouTube.lsr',
     'Disney': 'https://rule.kelee.one/Loon/Disney.lsr',
+    'YouTube': 'https://rule.kelee.one/Loon/YouTube.lsr',
+    'Spotify': 'https://rule.kelee.one/Loon/Spotify.lsr',
+    'HBO': 'https://rule.kelee.one/Loon/HBO.lsr',
+    'PrimeVideo': 'https://rule.kelee.one/Loon/PrimeVideo.lsr',
+    'Bahamut': 'https://rule.kelee.one/Loon/Bahamut.lsr',
+    'Emby': 'https://rule.kelee.one/Loon/Emby.lsr',
+    # 社交（4 项）
+    'Telegram': 'https://rule.kelee.one/Loon/Telegram.lsr',
     'Twitter': 'https://rule.kelee.one/Loon/Twitter.lsr',
     'Facebook': 'https://rule.kelee.one/Loon/Facebook.lsr',
     'Instagram': 'https://rule.kelee.one/Loon/Instagram.lsr',
-    'Spotify': 'https://rule.kelee.one/Loon/Spotify.lsr',
-    'Google': 'https://rule.kelee.one/Loon/Google.lsr',
-    # 新增规则（18 项）
-    'Anthropic': 'https://rule.kelee.one/Loon/Anthropic.lsr',
+    # 平台（6 项）
     'Apple': 'https://rule.kelee.one/Loon/Apple.lsr',
+    'AppleAccount': 'https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr',
+    'AppStore': 'https://kelee.one/Tool/Loon/Lsr/AppStore.lsr',
     'AppleTV': 'https://rule.kelee.one/Loon/AppleTV.lsr',
-    'Bahamut': 'https://rule.kelee.one/Loon/Bahamut.lsr',
-    'Claude': 'https://rule.kelee.one/Loon/Claude.lsr',
-    'Copilot': 'https://rule.kelee.one/Loon/Copilot.lsr',
-    'Emby': 'https://rule.kelee.one/Loon/Emby.lsr',
-    'Game': 'https://rule.kelee.one/Loon/Game.lsr',
-    'Gemini': 'https://rule.kelee.one/Loon/Gemini.lsr',
+    'Google': 'https://rule.kelee.one/Loon/Google.lsr',
     'GoogleFCM': 'https://rule.kelee.one/Loon/GoogleFCM.lsr',
-    'HBO': 'https://rule.kelee.one/Loon/HBO.lsr',
-    'LAN_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr',
     'Microsoft': 'https://rule.kelee.one/Loon/Microsoft.lsr',
-    'OpenAI': 'https://rule.kelee.one/Loon/OpenAI.lsr',
-    'PrimeVideo': 'https://rule.kelee.one/Loon/PrimeVideo.lsr',
-    'REGION_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr',
+    'GitHub': 'https://rule.kelee.one/Loon/GitHub.lsr',
+    # 其他（6 项）
+    'TikTok': 'https://kelee.one/Tool/Loon/Lsr/TikTok.lsr',
+    'Game': 'https://rule.kelee.one/Loon/Game.lsr',
     'Speedtest': 'https://rule.kelee.one/Loon/Speedtest.lsr',
     'Steam': 'https://rule.kelee.one/Loon/Steam.lsr',
-    # 用户要求新增（2 项）
     'ReelShort': 'https://kelee.one/Tool/Loon/Lsr/ReelShort.lsr',
-    'Filen': 'https://kelee.one/Tool/Loon/Rule/Filen.list',
-    # 其他常用服务（8 项）
-    'Amazon': 'https://kelee.one/Tool/Loon/Lsr/Amazon.lsr',
-    'Reddit': 'https://kelee.one/Tool/Loon/Lsr/Reddit.lsr',
-    'Twitch': 'https://kelee.one/Tool/Loon/Lsr/Twitch.lsr',
-    'WhatsApp': 'https://kelee.one/Tool/Loon/Lsr/WhatsApp.lsr',
-    'Discord': 'https://kelee.one/Tool/Loon/Lsr/Discord.lsr',
-    'PayPal': 'https://kelee.one/Tool/Loon/Lsr/PayPal.lsr',
     'Proxy': 'https://kelee.one/Tool/Loon/Lsr/Proxy.lsr',
     'Direct': 'https://kelee.one/Tool/Loon/Lsr/Direct.lsr',
 }
