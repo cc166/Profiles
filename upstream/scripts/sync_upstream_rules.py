@@ -119,6 +119,30 @@ verified_core = {
     'Proxy': ('https://kelee.one/Tool/Clash/Rule/Proxy.yaml', 'curl', 'clash.meta', 4),
     'SpeedtestInternational': ('https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml', 'curl', 'clash.meta', 4),
     'TikTok': ('https://kelee.one/Tool/Clash/Rule/TikTok.yaml', 'curl', 'clash.meta', 4),
+    # 用户要求新增（2 项）
+    'ReelShort': ('https://kelee.one/Tool/Clash/Rule/ReelShort.yaml', 'curl', 'clash.meta', 4),
+    'Filen': ('https://kelee.one/Tool/Clash/Rule/Filen.yaml', 'curl', 'clash.meta', 4),
+    # 常用国外服务（10 项）
+    'Apple': ('https://kelee.one/Tool/Clash/Rule/Apple.yaml', 'curl', 'clash.meta', 4),
+    'Google': ('https://kelee.one/Tool/Clash/Rule/Google.yaml', 'curl', 'clash.meta', 4),
+    'Microsoft': ('https://kelee.one/Tool/Clash/Rule/Microsoft.yaml', 'curl', 'clash.meta', 4),
+    'Telegram': ('https://kelee.one/Tool/Clash/Rule/Telegram.yaml', 'curl', 'clash.meta', 4),
+    'Twitter': ('https://kelee.one/Tool/Clash/Rule/Twitter.yaml', 'curl', 'clash.meta', 4),
+    'Facebook': ('https://kelee.one/Tool/Clash/Rule/Facebook.yaml', 'curl', 'clash.meta', 4),
+    'Instagram': ('https://kelee.one/Tool/Clash/Rule/Instagram.yaml', 'curl', 'clash.meta', 4),
+    'YouTube': ('https://kelee.one/Tool/Clash/Rule/YouTube.yaml', 'curl', 'clash.meta', 4),
+    'Disney': ('https://kelee.one/Tool/Clash/Rule/Disney.yaml', 'curl', 'clash.meta', 4),
+    'Spotify': ('https://kelee.one/Tool/Clash/Rule/Spotify.yaml', 'curl', 'clash.meta', 4),
+    'GitHub': ('https://kelee.one/Tool/Clash/Rule/GitHub.yaml', 'curl', 'clash.meta', 4),
+    # 其他常用服务（8 项）
+    'Amazon': ('https://kelee.one/Tool/Clash/Rule/Amazon.yaml', 'curl', 'clash.meta', 4),
+    'Reddit': ('https://kelee.one/Tool/Clash/Rule/Reddit.yaml', 'curl', 'clash.meta', 4),
+    'Twitch': ('https://kelee.one/Tool/Clash/Rule/Twitch.yaml', 'curl', 'clash.meta', 4),
+    'WhatsApp': ('https://kelee.one/Tool/Clash/Rule/WhatsApp.yaml', 'curl', 'clash.meta', 4),
+    'Discord': ('https://kelee.one/Tool/Clash/Rule/Discord.yaml', 'curl', 'clash.meta', 4),
+    'PayPal': ('https://kelee.one/Tool/Clash/Rule/PayPal.yaml', 'curl', 'clash.meta', 4),
+    'Steam': ('https://kelee.one/Tool/Clash/Rule/Steam.yaml', 'curl', 'clash.meta', 4),
+    'HBO': ('https://kelee.one/Tool/Clash/Rule/HBO.yaml', 'curl', 'clash.meta', 4),
 }
 for name, (url, method, ua, tries) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
@@ -224,6 +248,18 @@ loon_remote_sources = {
     'REGION_SPLITTER': 'https://rule.kelee.one/Loon/REGION_SPLITTER.lsr',
     'Speedtest': 'https://rule.kelee.one/Loon/Speedtest.lsr',
     'Steam': 'https://rule.kelee.one/Loon/Steam.lsr',
+    # 用户要求新增（2 项）
+    'ReelShort': 'https://kelee.one/Tool/Loon/Lsr/ReelShort.lsr',
+    'Filen': 'https://kelee.one/Tool/Loon/Rule/Filen.list',
+    # 其他常用服务（8 项）
+    'Amazon': 'https://kelee.one/Tool/Loon/Lsr/Amazon.lsr',
+    'Reddit': 'https://kelee.one/Tool/Loon/Lsr/Reddit.lsr',
+    'Twitch': 'https://kelee.one/Tool/Loon/Lsr/Twitch.lsr',
+    'WhatsApp': 'https://kelee.one/Tool/Loon/Lsr/WhatsApp.lsr',
+    'Discord': 'https://kelee.one/Tool/Loon/Lsr/Discord.lsr',
+    'PayPal': 'https://kelee.one/Tool/Loon/Lsr/PayPal.lsr',
+    'Proxy': 'https://kelee.one/Tool/Loon/Lsr/Proxy.lsr',
+    'Direct': 'https://kelee.one/Tool/Loon/Lsr/Direct.lsr',
 }
 
 def looks_like_loon_rules(text):
