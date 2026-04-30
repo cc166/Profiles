@@ -1,6 +1,9 @@
 from pathlib import Path
 from urllib.request import Request, build_opener, HTTPSHandler
 import ssl, json, subprocess, time, random
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
+from config import CLASH_RULES, UA_CLASH
 
 report = {'meta': {'note': 'failed + kept_last_good=true means latest fetch failed but existing verified file was preserved', 'schedule_hint': 'sync-upstream-rules.yml cron 23 3 * * * (UTC, daily)'}}
 ctx = ssl.create_default_context()
@@ -113,21 +116,10 @@ for name, (url, method, ua) in static_core.items():
         report['core']['status'][name] = 'failed-static'
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
-verified_core = {
-    # 文件内明确给出的规则（8 项）
-    'LAN': ('https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml', 'urllib', 'clash.meta'),
-    'Direct': ('https://kelee.one/Tool/Clash/Rule/Direct.yaml', 'urllib', 'clash.meta'),
-    'Proxy': ('https://kelee.one/Tool/Clash/Rule/Proxy.yaml', 'urllib', 'clash.meta'),
-    'AI': ('https://kelee.one/Tool/Clash/Rule/AI.yaml', 'urllib', 'clash.meta'),
-    'TikTok': ('https://kelee.one/Tool/Clash/Rule/TikTok.yaml', 'urllib', 'clash.meta'),
-    'Game': ('https://kelee.one/Tool/Clash/Rule/Game.yaml', 'urllib', 'clash.meta'),
-    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'urllib', 'clash.meta'),
-    'ESET_China': ('https://kelee.one/Tool/Clash/Rule/ESET_China.yaml', 'urllib', 'clash.meta'),
-    # 文件里没有的，参考 luestr/ShuntRules（3 项）
-    'Telegram': ('https://rule.kelee.one/Clash/Telegram.yaml', 'urllib', 'clash.meta'),
-    'Google': ('https://rule.kelee.one/Clash/Google.yaml', 'urllib', 'clash.meta'),
-    'Apple': ('https://rule.kelee.one/Clash/Apple.yaml', 'urllib', 'clash.meta'),
-}
+# 从 config.py 动态构建 verified_core
+verified_core = {}
+for name, url in CLASH_RULES.items():
+    verified_core[name] = (url, 'urllib', UA_CLASH)
 for name, (url, method, ua) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
     try:
