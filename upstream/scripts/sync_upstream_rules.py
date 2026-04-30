@@ -13,7 +13,7 @@ def fetch_text(url, ua='minis'):
     with opener.open(req, timeout=60) as resp:
         return resp.read().decode("utf-8", errors="ignore")
 
-def fetch_with_curl(url, ua='clash.meta', tries=1, pause=8):
+def fetch_with_curl(url, ua='mihomo/1.18.10', tries=1, pause=8):
     errors = []
     for idx in range(tries):
         # 增加随机延迟，避免被识别为批量爬虫
@@ -94,12 +94,15 @@ def keep_existing_payload(rel):
 
 report['core']={'ok':[],'failed':[],'kept':[],'source':{},'status':{}}
 static_core = {
-    'LAN': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml', 'urllib', 'minis'),
-    'ESET_China': ('https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml', 'urllib', 'minis'),
+    'LAN': ('https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml', 'curl', 'mihomo/1.18.10'),
+    'ESET_China': ('https://kelee.one/Tool/Clash/Rule/ESET_China.yaml', 'curl', 'mihomo/1.18.10'),
 }
 for name, (url, method, ua) in static_core.items():
     try:
-        text = fetch_text(url, ua)
+        if method == 'curl':
+            text = fetch_with_curl(url, ua, 2)
+        else:
+            text = fetch_text(url, ua)
         if not looks_like_payload(text):
             raise RuntimeError('invalid payload content')
         save(f'upstream/core/{name}.yaml', text)
@@ -112,37 +115,37 @@ for name, (url, method, ua) in static_core.items():
 
 verified_core = {
     # 已有规则（3 项）
-    'Direct': ('https://rule.kelee.one/Clash/Direct.yaml', 'curl', 'clash.meta', 6),
-    'Game': ('https://rule.kelee.one/Clash/Game.yaml', 'curl', 'clash.meta', 4),
-    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'clash.meta', 4),
+    'Direct': ('https://kelee.one/Tool/Clash/Rule/Direct.yaml', 'curl', 'mihomo/1.18.10', 6),
+    'Game': ('https://kelee.one/Tool/Clash/Rule/Game.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Netflix': ('https://kelee.one/Tool/Clash/Rule/Netflix.yaml', 'curl', 'mihomo/1.18.10', 4),
     # 新增规则（3 项）
-    'Proxy': ('https://kelee.one/Tool/Clash/Rule/Proxy.yaml', 'curl', 'clash.meta', 4),
-    'SpeedtestInternational': ('https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml', 'curl', 'clash.meta', 4),
-    'TikTok': ('https://kelee.one/Tool/Clash/Rule/TikTok.yaml', 'curl', 'clash.meta', 4),
+    'Proxy': ('https://kelee.one/Tool/Clash/Rule/Proxy.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'SpeedtestInternational': ('https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'TikTok': ('https://kelee.one/Tool/Clash/Rule/TikTok.yaml', 'curl', 'mihomo/1.18.10', 4),
     # 用户要求新增（2 项）
-    'ReelShort': ('https://kelee.one/Tool/Clash/Rule/ReelShort.yaml', 'curl', 'clash.meta', 4),
-    'Filen': ('https://kelee.one/Tool/Clash/Rule/Filen.yaml', 'curl', 'clash.meta', 4),
+    'ReelShort': ('https://kelee.one/Tool/Clash/Rule/ReelShort.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Filen': ('https://kelee.one/Tool/Clash/Rule/Filen.yaml', 'curl', 'mihomo/1.18.10', 4),
     # 常用国外服务（10 项）
-    'Apple': ('https://kelee.one/Tool/Clash/Rule/Apple.yaml', 'curl', 'clash.meta', 4),
-    'Google': ('https://kelee.one/Tool/Clash/Rule/Google.yaml', 'curl', 'clash.meta', 4),
-    'Microsoft': ('https://kelee.one/Tool/Clash/Rule/Microsoft.yaml', 'curl', 'clash.meta', 4),
-    'Telegram': ('https://kelee.one/Tool/Clash/Rule/Telegram.yaml', 'curl', 'clash.meta', 4),
-    'Twitter': ('https://kelee.one/Tool/Clash/Rule/Twitter.yaml', 'curl', 'clash.meta', 4),
-    'Facebook': ('https://kelee.one/Tool/Clash/Rule/Facebook.yaml', 'curl', 'clash.meta', 4),
-    'Instagram': ('https://kelee.one/Tool/Clash/Rule/Instagram.yaml', 'curl', 'clash.meta', 4),
-    'YouTube': ('https://kelee.one/Tool/Clash/Rule/YouTube.yaml', 'curl', 'clash.meta', 4),
-    'Disney': ('https://kelee.one/Tool/Clash/Rule/Disney.yaml', 'curl', 'clash.meta', 4),
-    'Spotify': ('https://kelee.one/Tool/Clash/Rule/Spotify.yaml', 'curl', 'clash.meta', 4),
-    'GitHub': ('https://kelee.one/Tool/Clash/Rule/GitHub.yaml', 'curl', 'clash.meta', 4),
+    'Apple': ('https://kelee.one/Tool/Clash/Rule/Apple.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Google': ('https://kelee.one/Tool/Clash/Rule/Google.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Microsoft': ('https://kelee.one/Tool/Clash/Rule/Microsoft.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Telegram': ('https://kelee.one/Tool/Clash/Rule/Telegram.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Twitter': ('https://kelee.one/Tool/Clash/Rule/Twitter.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Facebook': ('https://kelee.one/Tool/Clash/Rule/Facebook.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Instagram': ('https://kelee.one/Tool/Clash/Rule/Instagram.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'YouTube': ('https://kelee.one/Tool/Clash/Rule/YouTube.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Disney': ('https://kelee.one/Tool/Clash/Rule/Disney.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Spotify': ('https://kelee.one/Tool/Clash/Rule/Spotify.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'GitHub': ('https://kelee.one/Tool/Clash/Rule/GitHub.yaml', 'curl', 'mihomo/1.18.10', 4),
     # 其他常用服务（8 项）
-    'Amazon': ('https://kelee.one/Tool/Clash/Rule/Amazon.yaml', 'curl', 'clash.meta', 4),
-    'Reddit': ('https://kelee.one/Tool/Clash/Rule/Reddit.yaml', 'curl', 'clash.meta', 4),
-    'Twitch': ('https://kelee.one/Tool/Clash/Rule/Twitch.yaml', 'curl', 'clash.meta', 4),
-    'WhatsApp': ('https://kelee.one/Tool/Clash/Rule/WhatsApp.yaml', 'curl', 'clash.meta', 4),
-    'Discord': ('https://kelee.one/Tool/Clash/Rule/Discord.yaml', 'curl', 'clash.meta', 4),
-    'PayPal': ('https://kelee.one/Tool/Clash/Rule/PayPal.yaml', 'curl', 'clash.meta', 4),
-    'Steam': ('https://kelee.one/Tool/Clash/Rule/Steam.yaml', 'curl', 'clash.meta', 4),
-    'HBO': ('https://kelee.one/Tool/Clash/Rule/HBO.yaml', 'curl', 'clash.meta', 4),
+    'Amazon': ('https://kelee.one/Tool/Clash/Rule/Amazon.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Reddit': ('https://kelee.one/Tool/Clash/Rule/Reddit.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Twitch': ('https://kelee.one/Tool/Clash/Rule/Twitch.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'WhatsApp': ('https://kelee.one/Tool/Clash/Rule/WhatsApp.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Discord': ('https://kelee.one/Tool/Clash/Rule/Discord.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'PayPal': ('https://kelee.one/Tool/Clash/Rule/PayPal.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Steam': ('https://kelee.one/Tool/Clash/Rule/Steam.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'HBO': ('https://kelee.one/Tool/Clash/Rule/HBO.yaml', 'curl', 'mihomo/1.18.10', 4),
 }
 for name, (url, method, ua, tries) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
