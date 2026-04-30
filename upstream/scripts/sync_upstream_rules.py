@@ -16,15 +16,18 @@ def fetch_text(url, ua='minis'):
     with opener.open(req, timeout=60) as resp:
         return resp.read().decode("utf-8", errors="ignore")
 
-def fetch_with_curl(url, ua='mihomo/1.18.10', tries=1, pause=8):
+def fetch_with_curl(url, ua='mihomo/1.18.10', tries=3, pause=8):
     errors = []
     for idx in range(tries):
-        # 增加随机延迟，避免被识别为批量爬虫（首次请求也延迟）
-        time.sleep(random.uniform(5, 10))
+        # 增加随机延迟，避免被识别为批量爬虫
+        if idx > 0:
+            time.sleep(pause + random.uniform(0, 5))
+        else:
+            time.sleep(random.uniform(2, 5))
         
         r = subprocess.run([
             'curl','-L','-k',
-            '--retry','1','--retry-all-errors',
+            '--retry','2','--retry-all-errors','--retry-delay','3',
             '--connect-timeout','30','--max-time','120',
             '-A',ua,
             '-H','Accept: application/yaml,text/yaml,*/*',
@@ -40,22 +43,24 @@ def fetch_with_curl(url, ua='mihomo/1.18.10', tries=1, pause=8):
             text = r.stdout
             if looks_like_payload(text):
                 return text
-            errors.append('challenge or invalid payload content')
+            errors.append(f'try {idx+1}: challenge or invalid payload')
         else:
-            errors.append(r.stderr.strip() or f'curl exit {r.returncode}')
+            errors.append(f'try {idx+1}: {r.stderr.strip() or f"curl exit {r.returncode}"}')
     raise RuntimeError(' | '.join(errors[-3:]) or 'curl failed')
 
-def fetch_plain_with_curl(url, ua='Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', tries=1, pause=8):
+def fetch_plain_with_curl(url, ua='Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', tries=3, pause=6):
     errors = []
     for idx in range(tries):
         # 增加随机延迟，避免被识别为批量爬虫
         if idx > 0:
-            time.sleep(pause + random.uniform(0, 3))
+            time.sleep(pause + random.uniform(0, 4))
+        else:
+            time.sleep(random.uniform(1, 3))
         
         r = subprocess.run([
             'curl','--http1.1','-L','-k','--compressed',
-            '--retry','1','--retry-all-errors',
-            '--connect-timeout','20','--max-time','120',
+            '--retry','2','--retry-all-errors','--retry-delay','2',
+            '--connect-timeout','25','--max-time','120',
             '-A',ua,
             '-H','Accept: text/plain,*/*',
             '-H','Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
@@ -69,7 +74,7 @@ def fetch_plain_with_curl(url, ua='Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', t
         ], capture_output=True, text=True)
         if r.returncode == 0 and r.stdout.strip():
             return r.stdout
-        errors.append(r.stderr.strip() or f'curl exit {r.returncode}')
+        errors.append(f'try {idx+1}: {r.stderr.strip() or f"curl exit {r.returncode}"}')
     raise RuntimeError(' | '.join(errors[-3:]) or 'curl failed')
 
 def looks_like_payload(text):
@@ -106,12 +111,19 @@ for name, (url, method, ua) in verified_core.items():
     try:
         # 增加随机延迟，避免频繁请求（2-5秒）
         time.sleep(random.uniform(2, 5))
-        text = fetch_text(url, ua)
+        
+        # 尝试 urllib，失败后回退到 curl
+        try:
+            text = fetch_text(url, ua)
+        except Exception as urllib_err:
+            print(f'  {name}: urllib failed, trying curl... ({urllib_err})')
+            text = fetch_with_curl(url, ua, tries=3, pause=6)
+        
         if not looks_like_payload(text):
             raise RuntimeError('invalid payload content')
         save(rel, text)
         report['core']['ok'].append(name)
-        report['core']['source'][name] = {'url': url, 'method': 'urllib', 'ua': ua}
+        report['core']['source'][name] = {'url': url, 'method': 'urllib-or-curl', 'ua': ua}
         report['core']['status'][name] = 'updated-verified'
     except Exception as e:
         kept = keep_existing_payload(rel)
@@ -196,18 +208,18 @@ for name, url in loon_remote_sources.items():
     try:
         # 增加随机延迟，模拟真实客户端行为（2-5秒）
         time.sleep(random.uniform(2, 5))
-        text = fetch_plain_with_curl(url, 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 2, 3)
+        text = fetch_plain_with_curl(url, 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', tries=3, pause=6)
         if not looks_like_loon_rules(text):
             raise RuntimeError('invalid loon rule content')
         save(rel, text)
         report['loon_remote']['ok'].append(name)
-        report['loon_remote']['source'][name] = {'url': url, 'method': 'validated-curl', 'ua': 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 'tries': 4}
+        report['loon_remote']['source'][name] = {'url': url, 'method': 'validated-curl', 'ua': 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 'tries': 3}
         report['loon_remote']['status'][name] = 'updated-verified'
     except Exception as e:
         kept = keep_existing_loon(rel)
         if kept:
             report['loon_remote']['kept'].append(name)
-            report['loon_remote']['source'][name] = {'url': url, 'method': 'last-known-good', 'ua': 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 'tries': 4, 'note': 'latest fetch failed; kept existing verified file'}
+            report['loon_remote']['source'][name] = {'url': url, 'method': 'last-known-good', 'ua': 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 'tries': 3, 'note': 'latest fetch failed; kept existing verified file'}
             report['loon_remote']['status'][name] = 'kept-last-known-good'
         else:
             report['loon_remote']['status'][name] = 'failed-verified'
