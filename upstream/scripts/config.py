@@ -46,42 +46,35 @@ SCATTERED_LIST = CUSTOM_RULES / "custom-scattered-rules.list"
 SCATTERED_LSR = CUSTOM_RULES / "custom-scattered-rules.lsr"
 
 # ==================== 上游同步配置 ====================
-# iKeLee Loon 规则（32 项）
+# iKeLee Loon 规则（20 项 - 核心精简版）
 LOON_RULES = [
-    'AI', 'Anthropic', 'Apple', 'AppleAccount', 'AppStore', 'AppleTV',
-    'Bahamut', 'Claude', 'Copilot', 'Disney', 'Emby', 'Facebook',
-    'Game', 'Gemini', 'GitHub', 'Google', 'GoogleFCM', 'HBO',
-    'Instagram', 'LAN_SPLITTER', 'Microsoft', 'Netflix', 'OpenAI',
-    'PrimeVideo', 'REGION_SPLITTER', 'Speedtest', 'Spotify', 'Steam',
-    'Telegram', 'TikTok', 'Twitter', 'YouTube'
+    # 基础（2 项）
+    'LAN_SPLITTER', 'REGION_SPLITTER',
+    # AI（4 项）
+    'AI', 'OpenAI', 'Claude', 'Gemini',
+    # 流媒体（4 项）
+    'Netflix', 'Disney', 'YouTube', 'Spotify',
+    # 社交（4 项）
+    'Telegram', 'Twitter', 'Facebook', 'Instagram',
+    # 平台（5 项）
+    'Apple', 'Google', 'Microsoft', 'GitHub', 'TikTok',
+    # 其他（1 项）
+    'Game',
 ]
 
-# iKeLee Clash 规则（18 项 - 精简版）
+# iKeLee Clash 规则（10 项 - 核心精简版）
 CLASH_RULES = {
     # 基础规则（4 项）
     'Direct': 'https://rule.kelee.one/Clash/Direct.yaml',
     'Proxy': 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml',
     'LAN': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml',
     'ESET_China': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml',
-    # AI 服务（1 项）
+    # 核心服务（6 项）
     'AI': None,  # 由 blackmatrix7 8 项聚合生成
-    # 流媒体（4 项）
     'Netflix': 'https://rule.kelee.one/Clash/Netflix.yaml',
-    'Disney': 'https://kelee.one/Tool/Clash/Rule/Disney.yaml',
-    'YouTube': 'https://kelee.one/Tool/Clash/Rule/YouTube.yaml',
-    'Spotify': 'https://kelee.one/Tool/Clash/Rule/Spotify.yaml',
-    # 社交媒体（4 项）
     'Telegram': 'https://kelee.one/Tool/Clash/Rule/Telegram.yaml',
-    'Twitter': 'https://kelee.one/Tool/Clash/Rule/Twitter.yaml',
-    'Facebook': 'https://kelee.one/Tool/Clash/Rule/Facebook.yaml',
-    'Instagram': 'https://kelee.one/Tool/Clash/Rule/Instagram.yaml',
-    # 平台服务（4 项）
-    'Apple': 'https://kelee.one/Tool/Clash/Rule/Apple.yaml',
     'Google': 'https://kelee.one/Tool/Clash/Rule/Google.yaml',
-    'Microsoft': 'https://kelee.one/Tool/Clash/Rule/Microsoft.yaml',
-    'GitHub': 'https://kelee.one/Tool/Clash/Rule/GitHub.yaml',
-    # 其他（2 项）
-    'Game': 'https://rule.kelee.one/Clash/Game.yaml',
+    'Apple': 'https://kelee.one/Tool/Clash/Rule/Apple.yaml',
     'TikTok': 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml',
 }
 
