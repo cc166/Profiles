@@ -147,8 +147,8 @@ verified_core = {
 for name, (url, method, ua, tries) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
     try:
-        # 增加随机延迟，模拟真实客户端行为（5-15秒）
-        time.sleep(random.uniform(5, 15))
+        # 增加随机延迟，模拟真实客户端行为（2-5秒）
+        time.sleep(random.uniform(2, 5))
         text = fetch_with_curl(url, ua, tries)
         if not looks_like_payload(text):
             raise RuntimeError('challenge or invalid payload content')
@@ -287,9 +287,9 @@ def keep_existing_loon(rel):
 for name, url in loon_remote_sources.items():
     rel = f'upstream/loon/{name}.lsr'
     try:
-        # 增加随机延迟，模拟真实客户端行为（5-15秒）
-        time.sleep(random.uniform(5, 15))
-        text = fetch_plain_with_curl(url, 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 4, 6)
+        # 增加随机延迟，模拟真实客户端行为（2-5秒）
+        time.sleep(random.uniform(2, 5))
+        text = fetch_plain_with_curl(url, 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 2, 3)
         if not looks_like_loon_rules(text):
             raise RuntimeError('invalid loon rule content')
         save(rel, text)
