@@ -64,17 +64,17 @@ LOON_RULES = [
 
 # iKeLee Clash 规则（10 项 - 核心精简版）
 CLASH_RULES = {
-    # 基础规则（4 项）
+    # 基础规则（2 项）
     'Direct': 'https://rule.kelee.one/Clash/Direct.yaml',
     'Proxy': 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml',
-    'LAN': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml',
-    'ESET_China': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml',
-    # 核心服务（6 项）
+    # 核心服务（8 项）
     'AI': None,  # 由 blackmatrix7 8 项聚合生成
     'Netflix': 'https://rule.kelee.one/Clash/Netflix.yaml',
     'Telegram': 'https://kelee.one/Tool/Clash/Rule/Telegram.yaml',
     'Google': 'https://kelee.one/Tool/Clash/Rule/Google.yaml',
     'Apple': 'https://kelee.one/Tool/Clash/Rule/Apple.yaml',
+    'Microsoft': 'https://kelee.one/Tool/Clash/Rule/Microsoft.yaml',
+    'GitHub': 'https://kelee.one/Tool/Clash/Rule/GitHub.yaml',
     'TikTok': 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml',
 }
 
