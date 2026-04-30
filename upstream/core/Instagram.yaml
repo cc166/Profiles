@@ -1,0 +1,7 @@
+# UpdateTime：2026-04-28 03:07:24
+# RuleCount：4
+payload:
+  - DOMAIN-SUFFIX,instagr.am
+  - DOMAIN-SUFFIX,cdninstagram.com
+  - DOMAIN-SUFFIX,instagram.com
+  - DOMAIN-KEYWORD,instagram
