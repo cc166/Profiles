@@ -1,9 +1,11 @@
-name: Sync Upstream Rules
+name: Sync Custom Rules
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '23 3 * * *'
+  push:
+    paths:
+      - 'custom-rules/*.lsr'
+      - 'custom-rules/*.yaml'
 
 jobs:
   sync:
@@ -17,16 +19,16 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - name: Sync upstream rule mirrors
-        run: python upstream/scripts/sync_upstream_rules.py
+      - name: Sync custom rules
+        run: python custom-rules/scripts/sync_rules.py
       - name: Commit and Push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add upstream sync_upstream_rules.py
+          git add custom-rules
           if git diff --cached --quiet; then
-            echo "No upstream changes to commit"
+            echo "No custom rules changes to commit"
             exit 0
           fi
-          git commit -m "chore: sync upstream rules"
+          git commit -m "chore: sync custom rules (auto)"
           git push
