@@ -64,20 +64,20 @@ LOON_RULES = [
 
 # iKeLee Clash 规则（12 项 - 核心精简版）
 CLASH_RULES = {
-    # 基础规则（4 项）
-    'Direct': 'https://rule.kelee.one/Clash/Direct.yaml',
+    # 文件内明确给出的规则（9 项）
+    'LAN': 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml',
+    'Direct': 'https://kelee.one/Tool/Clash/Rule/Direct.yaml',
     'Proxy': 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml',
-    'LAN': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/LAN.yaml',
-    'ESET_China': 'https://raw.githubusercontent.com/cc166/ShuntRules/main/mirror/ClashCore/ESET_China.yaml',
-    # 核心服务（8 项）
-    'AI': None,  # 由 blackmatrix7 8 项聚合生成
-    'Netflix': 'https://rule.kelee.one/Clash/Netflix.yaml',
-    'Telegram': 'https://kelee.one/Tool/Clash/Rule/Telegram.yaml',
-    'Google': 'https://kelee.one/Tool/Clash/Rule/Google.yaml',
-    'Apple': 'https://kelee.one/Tool/Clash/Rule/Apple.yaml',
-    'Microsoft': 'https://kelee.one/Tool/Clash/Rule/Microsoft.yaml',
-    'GitHub': 'https://kelee.one/Tool/Clash/Rule/GitHub.yaml',
+    'AI': 'https://kelee.one/Tool/Clash/Rule/AI.yaml',
     'TikTok': 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml',
+    'SpeedtestInternational': 'https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml',
+    'Game': 'https://kelee.one/Tool/Clash/Rule/Game.yaml',
+    'Netflix': 'https://rule.kelee.one/Clash/Netflix.yaml',
+    'ESET_China': 'https://kelee.one/Tool/Clash/Rule/ESET_China.yaml',
+    # 文件里没有的，参考 luestr/ShuntRules（3 项）
+    'Telegram': 'https://rule.kelee.one/Clash/Telegram.yaml',
+    'Google': 'https://rule.kelee.one/Clash/Google.yaml',
+    'Apple': 'https://rule.kelee.one/Clash/Apple.yaml',
 }
 
 # blackmatrix7 规则（13 项）

@@ -114,38 +114,18 @@ for name, (url, method, ua) in static_core.items():
         report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e)})
 
 verified_core = {
-    # 已有规则（3 项）
-    'Direct': ('https://kelee.one/Tool/Clash/Rule/Direct.yaml', 'curl', 'mihomo/1.18.10', 6),
+    # 文件内明确给出的规则（7 项）
+    'Direct': ('https://kelee.one/Tool/Clash/Rule/Direct.yaml', 'curl', 'mihomo/1.18.10', 4),
     'Game': ('https://kelee.one/Tool/Clash/Rule/Game.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Netflix': ('https://kelee.one/Tool/Clash/Rule/Netflix.yaml', 'curl', 'mihomo/1.18.10', 4),
-    # 新增规则（3 项）
+    'Netflix': ('https://rule.kelee.one/Clash/Netflix.yaml', 'curl', 'mihomo/1.18.10', 4),
     'Proxy': ('https://kelee.one/Tool/Clash/Rule/Proxy.yaml', 'curl', 'mihomo/1.18.10', 4),
     'SpeedtestInternational': ('https://kelee.one/Tool/Clash/Rule/SpeedtestInternational.yaml', 'curl', 'mihomo/1.18.10', 4),
     'TikTok': ('https://kelee.one/Tool/Clash/Rule/TikTok.yaml', 'curl', 'mihomo/1.18.10', 4),
-    # 用户要求新增（2 项）
-    'ReelShort': ('https://kelee.one/Tool/Clash/Rule/ReelShort.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Filen': ('https://kelee.one/Tool/Clash/Rule/Filen.yaml', 'curl', 'mihomo/1.18.10', 4),
-    # 常用国外服务（10 项）
-    'Apple': ('https://kelee.one/Tool/Clash/Rule/Apple.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Google': ('https://kelee.one/Tool/Clash/Rule/Google.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Microsoft': ('https://kelee.one/Tool/Clash/Rule/Microsoft.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Telegram': ('https://kelee.one/Tool/Clash/Rule/Telegram.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Twitter': ('https://kelee.one/Tool/Clash/Rule/Twitter.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Facebook': ('https://kelee.one/Tool/Clash/Rule/Facebook.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Instagram': ('https://kelee.one/Tool/Clash/Rule/Instagram.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'YouTube': ('https://kelee.one/Tool/Clash/Rule/YouTube.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Disney': ('https://kelee.one/Tool/Clash/Rule/Disney.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Spotify': ('https://kelee.one/Tool/Clash/Rule/Spotify.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'GitHub': ('https://kelee.one/Tool/Clash/Rule/GitHub.yaml', 'curl', 'mihomo/1.18.10', 4),
-    # 其他常用服务（8 项）
-    'Amazon': ('https://kelee.one/Tool/Clash/Rule/Amazon.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Reddit': ('https://kelee.one/Tool/Clash/Rule/Reddit.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Twitch': ('https://kelee.one/Tool/Clash/Rule/Twitch.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'WhatsApp': ('https://kelee.one/Tool/Clash/Rule/WhatsApp.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Discord': ('https://kelee.one/Tool/Clash/Rule/Discord.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'PayPal': ('https://kelee.one/Tool/Clash/Rule/PayPal.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'Steam': ('https://kelee.one/Tool/Clash/Rule/Steam.yaml', 'curl', 'mihomo/1.18.10', 4),
-    'HBO': ('https://kelee.one/Tool/Clash/Rule/HBO.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'AI': ('https://kelee.one/Tool/Clash/Rule/AI.yaml', 'curl', 'mihomo/1.18.10', 4),
+    # 文件里没有的，参考 luestr/ShuntRules（3 项）
+    'Apple': ('https://rule.kelee.one/Clash/Apple.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Google': ('https://rule.kelee.one/Clash/Google.yaml', 'curl', 'mihomo/1.18.10', 4),
+    'Telegram': ('https://rule.kelee.one/Clash/Telegram.yaml', 'curl', 'mihomo/1.18.10', 4),
 }
 for name, (url, method, ua, tries) in verified_core.items():
     rel = f'upstream/core/{name}.yaml'
