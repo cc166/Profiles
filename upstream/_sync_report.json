@@ -1,0 +1,853 @@
+{
+  "meta": {
+    "note": "failed + kept_last_good=true means latest fetch failed but existing verified file was preserved",
+    "schedule_hint": "sync-upstream-rules.yml cron 23 3 * * * (UTC, daily)"
+  },
+  "core": {
+    "ok": [],
+    "failed": [
+      {
+        "name": "Steam",
+        "url": "https://rule.kelee.one/Clash/Steam.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "GitHub",
+        "url": "https://rule.kelee.one/Clash/GitHub.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Direct",
+        "url": "https://kelee.one/Tool/Clash/Rule/Direct.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "AI",
+        "url": "https://kelee.one/Tool/Clash/Rule/AI.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Instagram",
+        "url": "https://rule.kelee.one/Clash/Instagram.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Netflix",
+        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Proxy",
+        "url": "https://kelee.one/Tool/Clash/Rule/Proxy.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "ESET_China",
+        "url": "https://kelee.one/Tool/Clash/Rule/ESET_China.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Twitter",
+        "url": "https://rule.kelee.one/Clash/Twitter.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "TikTok",
+        "url": "https://kelee.one/Tool/Clash/Rule/TikTok.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Telegram",
+        "url": "https://rule.kelee.one/Clash/Telegram.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Disney",
+        "url": "https://rule.kelee.one/Clash/Disney.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Microsoft",
+        "url": "https://rule.kelee.one/Clash/Microsoft.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "LAN",
+        "url": "https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Google",
+        "url": "https://rule.kelee.one/Clash/Google.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Spotify",
+        "url": "https://rule.kelee.one/Clash/Spotify.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Apple",
+        "url": "https://rule.kelee.one/Clash/Apple.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Game",
+        "url": "https://kelee.one/Tool/Clash/Rule/Game.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "Facebook",
+        "url": "https://rule.kelee.one/Clash/Facebook.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      },
+      {
+        "name": "YouTube",
+        "url": "https://rule.kelee.one/Clash/YouTube.yaml",
+        "method": "urllib",
+        "error": "try 1: challenge or invalid payload | try 2: challenge or invalid payload | try 3: challenge or invalid payload",
+        "kept_last_good": true
+      }
+    ],
+    "kept": [
+      "Steam",
+      "GitHub",
+      "Direct",
+      "AI",
+      "Instagram",
+      "Netflix",
+      "Proxy",
+      "ESET_China",
+      "Twitter",
+      "TikTok",
+      "Telegram",
+      "Disney",
+      "Microsoft",
+      "LAN",
+      "Google",
+      "Spotify",
+      "Apple",
+      "Game",
+      "Facebook",
+      "YouTube"
+    ],
+    "source": {
+      "Steam": {
+        "url": "https://rule.kelee.one/Clash/Steam.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "GitHub": {
+        "url": "https://rule.kelee.one/Clash/GitHub.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Direct": {
+        "url": "https://kelee.one/Tool/Clash/Rule/Direct.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "AI": {
+        "url": "https://kelee.one/Tool/Clash/Rule/AI.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Instagram": {
+        "url": "https://rule.kelee.one/Clash/Instagram.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Netflix": {
+        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Proxy": {
+        "url": "https://kelee.one/Tool/Clash/Rule/Proxy.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "ESET_China": {
+        "url": "https://kelee.one/Tool/Clash/Rule/ESET_China.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Twitter": {
+        "url": "https://rule.kelee.one/Clash/Twitter.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "TikTok": {
+        "url": "https://kelee.one/Tool/Clash/Rule/TikTok.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Telegram": {
+        "url": "https://rule.kelee.one/Clash/Telegram.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Disney": {
+        "url": "https://rule.kelee.one/Clash/Disney.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Microsoft": {
+        "url": "https://rule.kelee.one/Clash/Microsoft.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "LAN": {
+        "url": "https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Google": {
+        "url": "https://rule.kelee.one/Clash/Google.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Spotify": {
+        "url": "https://rule.kelee.one/Clash/Spotify.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Apple": {
+        "url": "https://rule.kelee.one/Clash/Apple.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Game": {
+        "url": "https://kelee.one/Tool/Clash/Rule/Game.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Facebook": {
+        "url": "https://rule.kelee.one/Clash/Facebook.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "YouTube": {
+        "url": "https://rule.kelee.one/Clash/YouTube.yaml",
+        "method": "last-known-good",
+        "ua": "clash.meta",
+        "note": "latest fetch failed; kept existing verified file"
+      }
+    },
+    "status": {
+      "Steam": "kept-last-known-good",
+      "GitHub": "kept-last-known-good",
+      "Direct": "kept-last-known-good",
+      "AI": "kept-last-known-good",
+      "Instagram": "kept-last-known-good",
+      "Netflix": "kept-last-known-good",
+      "Proxy": "kept-last-known-good",
+      "ESET_China": "kept-last-known-good",
+      "Twitter": "kept-last-known-good",
+      "TikTok": "kept-last-known-good",
+      "Telegram": "kept-last-known-good",
+      "Disney": "kept-last-known-good",
+      "Microsoft": "kept-last-known-good",
+      "LAN": "kept-last-known-good",
+      "Google": "kept-last-known-good",
+      "Spotify": "kept-last-known-good",
+      "Apple": "kept-last-known-good",
+      "Game": "kept-last-known-good",
+      "Facebook": "kept-last-known-good",
+      "YouTube": "kept-last-known-good"
+    }
+  },
+  "loon_remote": {
+    "ok": [],
+    "failed": [
+      {
+        "name": "Steam",
+        "url": "https://rule.kelee.one/Loon/Steam.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Gemini",
+        "url": "https://rule.kelee.one/Loon/Gemini.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "TikTok",
+        "url": "https://kelee.one/Tool/Loon/Lsr/TikTok.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Microsoft",
+        "url": "https://rule.kelee.one/Loon/Microsoft.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Proxy",
+        "url": "https://kelee.one/Tool/Loon/Lsr/Proxy.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Claude",
+        "url": "https://rule.kelee.one/Loon/Claude.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Copilot",
+        "url": "https://rule.kelee.one/Loon/Copilot.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Telegram",
+        "url": "https://rule.kelee.one/Loon/Telegram.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Instagram",
+        "url": "https://rule.kelee.one/Loon/Instagram.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "AI",
+        "url": "https://kelee.one/Tool/Loon/Lsr/AI.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "AppleTV",
+        "url": "https://rule.kelee.one/Loon/AppleTV.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Emby",
+        "url": "https://rule.kelee.one/Loon/Emby.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Speedtest",
+        "url": "https://rule.kelee.one/Loon/Speedtest.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "PrimeVideo",
+        "url": "https://rule.kelee.one/Loon/PrimeVideo.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Disney",
+        "url": "https://rule.kelee.one/Loon/Disney.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "GoogleFCM",
+        "url": "https://rule.kelee.one/Loon/GoogleFCM.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "HBO",
+        "url": "https://rule.kelee.one/Loon/HBO.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "ReelShort",
+        "url": "https://kelee.one/Tool/Loon/Lsr/ReelShort.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Game",
+        "url": "https://rule.kelee.one/Loon/Game.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "LAN_SPLITTER",
+        "url": "https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Apple",
+        "url": "https://rule.kelee.one/Loon/Apple.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Direct",
+        "url": "https://kelee.one/Tool/Loon/Lsr/Direct.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Twitter",
+        "url": "https://rule.kelee.one/Loon/Twitter.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Spotify",
+        "url": "https://rule.kelee.one/Loon/Spotify.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "REGION_SPLITTER",
+        "url": "https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "OpenAI",
+        "url": "https://rule.kelee.one/Loon/OpenAI.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "AppleAccount",
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Bahamut",
+        "url": "https://rule.kelee.one/Loon/Bahamut.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Netflix",
+        "url": "https://rule.kelee.one/Loon/Netflix.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Anthropic",
+        "url": "https://rule.kelee.one/Loon/Anthropic.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "YouTube",
+        "url": "https://rule.kelee.one/Loon/YouTube.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "GitHub",
+        "url": "https://rule.kelee.one/Loon/GitHub.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Facebook",
+        "url": "https://rule.kelee.one/Loon/Facebook.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "Google",
+        "url": "https://rule.kelee.one/Loon/Google.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      },
+      {
+        "name": "AppStore",
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppStore.lsr",
+        "error": "invalid loon rule content",
+        "kept_last_good": true
+      }
+    ],
+    "kept": [
+      "Steam",
+      "Gemini",
+      "TikTok",
+      "Microsoft",
+      "Proxy",
+      "Claude",
+      "Copilot",
+      "Telegram",
+      "Instagram",
+      "AI",
+      "AppleTV",
+      "Emby",
+      "Speedtest",
+      "PrimeVideo",
+      "Disney",
+      "GoogleFCM",
+      "HBO",
+      "ReelShort",
+      "Game",
+      "LAN_SPLITTER",
+      "Apple",
+      "Direct",
+      "Twitter",
+      "Spotify",
+      "REGION_SPLITTER",
+      "OpenAI",
+      "AppleAccount",
+      "Bahamut",
+      "Netflix",
+      "Anthropic",
+      "YouTube",
+      "GitHub",
+      "Facebook",
+      "Google",
+      "AppStore"
+    ],
+    "source": {
+      "Steam": {
+        "url": "https://rule.kelee.one/Loon/Steam.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Gemini": {
+        "url": "https://rule.kelee.one/Loon/Gemini.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "TikTok": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/TikTok.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Microsoft": {
+        "url": "https://rule.kelee.one/Loon/Microsoft.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Proxy": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/Proxy.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Claude": {
+        "url": "https://rule.kelee.one/Loon/Claude.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Copilot": {
+        "url": "https://rule.kelee.one/Loon/Copilot.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Telegram": {
+        "url": "https://rule.kelee.one/Loon/Telegram.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Instagram": {
+        "url": "https://rule.kelee.one/Loon/Instagram.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "AI": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/AI.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "AppleTV": {
+        "url": "https://rule.kelee.one/Loon/AppleTV.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Emby": {
+        "url": "https://rule.kelee.one/Loon/Emby.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Speedtest": {
+        "url": "https://rule.kelee.one/Loon/Speedtest.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "PrimeVideo": {
+        "url": "https://rule.kelee.one/Loon/PrimeVideo.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Disney": {
+        "url": "https://rule.kelee.one/Loon/Disney.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "GoogleFCM": {
+        "url": "https://rule.kelee.one/Loon/GoogleFCM.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "HBO": {
+        "url": "https://rule.kelee.one/Loon/HBO.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "ReelShort": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/ReelShort.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Game": {
+        "url": "https://rule.kelee.one/Loon/Game.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "LAN_SPLITTER": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Apple": {
+        "url": "https://rule.kelee.one/Loon/Apple.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Direct": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/Direct.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Twitter": {
+        "url": "https://rule.kelee.one/Loon/Twitter.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Spotify": {
+        "url": "https://rule.kelee.one/Loon/Spotify.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "REGION_SPLITTER": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "OpenAI": {
+        "url": "https://rule.kelee.one/Loon/OpenAI.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "AppleAccount": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Bahamut": {
+        "url": "https://rule.kelee.one/Loon/Bahamut.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Netflix": {
+        "url": "https://rule.kelee.one/Loon/Netflix.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Anthropic": {
+        "url": "https://rule.kelee.one/Loon/Anthropic.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "YouTube": {
+        "url": "https://rule.kelee.one/Loon/YouTube.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "GitHub": {
+        "url": "https://rule.kelee.one/Loon/GitHub.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Facebook": {
+        "url": "https://rule.kelee.one/Loon/Facebook.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "Google": {
+        "url": "https://rule.kelee.one/Loon/Google.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      },
+      "AppStore": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppStore.lsr",
+        "method": "last-known-good",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
+        "tries": 3,
+        "note": "latest fetch failed; kept existing verified file"
+      }
+    },
+    "status": {
+      "Steam": "kept-last-known-good",
+      "Gemini": "kept-last-known-good",
+      "TikTok": "kept-last-known-good",
+      "Microsoft": "kept-last-known-good",
+      "Proxy": "kept-last-known-good",
+      "Claude": "kept-last-known-good",
+      "Copilot": "kept-last-known-good",
+      "Telegram": "kept-last-known-good",
+      "Instagram": "kept-last-known-good",
+      "AI": "kept-last-known-good",
+      "AppleTV": "kept-last-known-good",
+      "Emby": "kept-last-known-good",
+      "Speedtest": "kept-last-known-good",
+      "PrimeVideo": "kept-last-known-good",
+      "Disney": "kept-last-known-good",
+      "GoogleFCM": "kept-last-known-good",
+      "HBO": "kept-last-known-good",
+      "ReelShort": "kept-last-known-good",
+      "Game": "kept-last-known-good",
+      "LAN_SPLITTER": "kept-last-known-good",
+      "Apple": "kept-last-known-good",
+      "Direct": "kept-last-known-good",
+      "Twitter": "kept-last-known-good",
+      "Spotify": "kept-last-known-good",
+      "REGION_SPLITTER": "kept-last-known-good",
+      "OpenAI": "kept-last-known-good",
+      "AppleAccount": "kept-last-known-good",
+      "Bahamut": "kept-last-known-good",
+      "Netflix": "kept-last-known-good",
+      "Anthropic": "kept-last-known-good",
+      "YouTube": "kept-last-known-good",
+      "GitHub": "kept-last-known-good",
+      "Facebook": "kept-last-known-good",
+      "Google": "kept-last-known-good",
+      "AppStore": "kept-last-known-good"
+    }
+  }
+}
