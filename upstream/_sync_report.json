@@ -6,925 +6,443 @@
     "schedule_hint": "sync-upstream-rules.yml cron 23 3 * * * (UTC, daily)"
   },
   "core": {
-    "ok": [],
-    "failed": [
-      {
-        "name": "Direct",
-        "path": "upstream/core/Direct.yaml",
-        "url": "https://kelee.one/Tool/Clash/Rule/Direct.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "LAN",
-        "path": "upstream/core/LAN.yaml",
-        "url": "https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Spotify",
-        "path": "upstream/core/Spotify.yaml",
-        "url": "https://rule.kelee.one/Clash/Spotify.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "AI",
-        "path": "upstream/core/AI.yaml",
-        "url": "https://kelee.one/Tool/Clash/Rule/AI.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "TikTok",
-        "path": "upstream/core/TikTok.yaml",
-        "url": "https://kelee.one/Tool/Clash/Rule/TikTok.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Microsoft",
-        "path": "upstream/core/Microsoft.yaml",
-        "url": "https://rule.kelee.one/Clash/Microsoft.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "YouTube",
-        "path": "upstream/core/YouTube.yaml",
-        "url": "https://rule.kelee.one/Clash/YouTube.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Instagram",
-        "path": "upstream/core/Instagram.yaml",
-        "url": "https://rule.kelee.one/Clash/Instagram.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Game",
-        "path": "upstream/core/Game.yaml",
-        "url": "https://kelee.one/Tool/Clash/Rule/Game.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "ESET_China",
-        "path": "upstream/core/ESET_China.yaml",
-        "url": "https://kelee.one/Tool/Clash/Rule/ESET_China.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Apple",
-        "path": "upstream/core/Apple.yaml",
-        "url": "https://rule.kelee.one/Clash/Apple.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Proxy",
-        "path": "upstream/core/Proxy.yaml",
-        "url": "https://kelee.one/Tool/Clash/Rule/Proxy.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "GitHub",
-        "path": "upstream/core/GitHub.yaml",
-        "url": "https://rule.kelee.one/Clash/GitHub.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Google",
-        "path": "upstream/core/Google.yaml",
-        "url": "https://rule.kelee.one/Clash/Google.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Facebook",
-        "path": "upstream/core/Facebook.yaml",
-        "url": "https://rule.kelee.one/Clash/Facebook.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Netflix",
-        "path": "upstream/core/Netflix.yaml",
-        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Steam",
-        "path": "upstream/core/Steam.yaml",
-        "url": "https://rule.kelee.one/Clash/Steam.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Telegram",
-        "path": "upstream/core/Telegram.yaml",
-        "url": "https://rule.kelee.one/Clash/Telegram.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Twitter",
-        "path": "upstream/core/Twitter.yaml",
-        "url": "https://rule.kelee.one/Clash/Twitter.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Disney",
-        "path": "upstream/core/Disney.yaml",
-        "url": "https://rule.kelee.one/Clash/Disney.yaml",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      }
-    ],
-    "kept": [
-      "Direct",
-      "LAN",
-      "Spotify",
-      "AI",
-      "TikTok",
-      "Microsoft",
-      "YouTube",
-      "Instagram",
-      "Game",
-      "ESET_China",
-      "Apple",
+    "ok": [
       "Proxy",
-      "GitHub",
-      "Google",
       "Facebook",
       "Netflix",
-      "Steam",
-      "Telegram",
+      "GitHub",
+      "Spotify",
+      "Instagram",
+      "Apple",
+      "TikTok",
+      "AI",
+      "Google",
       "Twitter",
-      "Disney"
+      "Microsoft",
+      "Direct",
+      "Game",
+      "LAN",
+      "Disney",
+      "Steam",
+      "YouTube",
+      "ESET_China",
+      "Telegram"
     ],
+    "failed": [],
+    "kept": [],
     "source": {
+      "Proxy": {
+        "url": "https://kelee.one/Tool/Clash/Rule/Proxy.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Facebook": {
+        "url": "https://rule.kelee.one/Clash/Facebook.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Netflix": {
+        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "GitHub": {
+        "url": "https://rule.kelee.one/Clash/GitHub.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Spotify": {
+        "url": "https://rule.kelee.one/Clash/Spotify.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Instagram": {
+        "url": "https://rule.kelee.one/Clash/Instagram.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Apple": {
+        "url": "https://rule.kelee.one/Clash/Apple.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "TikTok": {
+        "url": "https://kelee.one/Tool/Clash/Rule/TikTok.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "AI": {
+        "url": "https://kelee.one/Tool/Clash/Rule/AI.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Google": {
+        "url": "https://rule.kelee.one/Clash/Google.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Twitter": {
+        "url": "https://rule.kelee.one/Clash/Twitter.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Microsoft": {
+        "url": "https://rule.kelee.one/Clash/Microsoft.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
       "Direct": {
         "url": "https://kelee.one/Tool/Clash/Rule/Direct.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Game": {
+        "url": "https://kelee.one/Tool/Clash/Rule/Game.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
       },
       "LAN": {
         "url": "https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Spotify": {
-        "url": "https://rule.kelee.one/Clash/Spotify.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "AI": {
-        "url": "https://kelee.one/Tool/Clash/Rule/AI.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "TikTok": {
-        "url": "https://kelee.one/Tool/Clash/Rule/TikTok.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Microsoft": {
-        "url": "https://rule.kelee.one/Clash/Microsoft.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "YouTube": {
-        "url": "https://rule.kelee.one/Clash/YouTube.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Instagram": {
-        "url": "https://rule.kelee.one/Clash/Instagram.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Game": {
-        "url": "https://kelee.one/Tool/Clash/Rule/Game.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "ESET_China": {
-        "url": "https://kelee.one/Tool/Clash/Rule/ESET_China.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Apple": {
-        "url": "https://rule.kelee.one/Clash/Apple.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Proxy": {
-        "url": "https://kelee.one/Tool/Clash/Rule/Proxy.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "GitHub": {
-        "url": "https://rule.kelee.one/Clash/GitHub.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Google": {
-        "url": "https://rule.kelee.one/Clash/Google.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Facebook": {
-        "url": "https://rule.kelee.one/Clash/Facebook.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Netflix": {
-        "url": "https://rule.kelee.one/Clash/Netflix.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Steam": {
-        "url": "https://rule.kelee.one/Clash/Steam.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Telegram": {
-        "url": "https://rule.kelee.one/Clash/Telegram.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Twitter": {
-        "url": "https://rule.kelee.one/Clash/Twitter.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
       },
       "Disney": {
         "url": "https://rule.kelee.one/Clash/Disney.yaml",
-        "method": "last-known-good",
-        "ua": "clash.meta",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Steam": {
+        "url": "https://rule.kelee.one/Clash/Steam.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "YouTube": {
+        "url": "https://rule.kelee.one/Clash/YouTube.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "ESET_China": {
+        "url": "https://kelee.one/Tool/Clash/Rule/ESET_China.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
+      },
+      "Telegram": {
+        "url": "https://rule.kelee.one/Clash/Telegram.yaml",
+        "method": "curl-http1.1",
+        "ua": "clash.meta"
       }
     },
     "status": {
-      "Direct": "kept-last-known-good",
-      "LAN": "kept-last-known-good",
-      "Spotify": "kept-last-known-good",
-      "AI": "kept-last-known-good",
-      "TikTok": "kept-last-known-good",
-      "Microsoft": "kept-last-known-good",
-      "YouTube": "kept-last-known-good",
-      "Instagram": "kept-last-known-good",
-      "Game": "kept-last-known-good",
-      "ESET_China": "kept-last-known-good",
-      "Apple": "kept-last-known-good",
-      "Proxy": "kept-last-known-good",
-      "GitHub": "kept-last-known-good",
-      "Google": "kept-last-known-good",
-      "Facebook": "kept-last-known-good",
-      "Netflix": "kept-last-known-good",
-      "Steam": "kept-last-known-good",
-      "Telegram": "kept-last-known-good",
-      "Twitter": "kept-last-known-good",
-      "Disney": "kept-last-known-good"
+      "Proxy": "updated-verified",
+      "Facebook": "updated-verified",
+      "Netflix": "updated-verified",
+      "GitHub": "updated-verified",
+      "Spotify": "updated-verified",
+      "Instagram": "updated-verified",
+      "Apple": "updated-verified",
+      "TikTok": "updated-verified",
+      "AI": "updated-verified",
+      "Google": "updated-verified",
+      "Twitter": "updated-verified",
+      "Microsoft": "updated-verified",
+      "Direct": "updated-verified",
+      "Game": "updated-verified",
+      "LAN": "updated-verified",
+      "Disney": "updated-verified",
+      "Steam": "updated-verified",
+      "YouTube": "updated-verified",
+      "ESET_China": "updated-verified",
+      "Telegram": "updated-verified"
     }
   },
   "loon_remote": {
-    "ok": [],
-    "failed": [
-      {
-        "name": "AppStore",
-        "path": "upstream/loon/AppStore.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/AppStore.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Direct",
-        "path": "upstream/loon/Direct.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/Direct.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "SpeedtestInternational",
-        "path": "upstream/loon/SpeedtestInternational.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/SpeedtestInternational.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "AI",
-        "path": "upstream/loon/AI.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/AI.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Spotify",
-        "path": "upstream/loon/Spotify.lsr",
-        "url": "https://rule.kelee.one/Loon/Spotify.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Microsoft",
-        "path": "upstream/loon/Microsoft.lsr",
-        "url": "https://rule.kelee.one/Loon/Microsoft.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "ChinaDownloadCDN",
-        "path": "upstream/loon/ChinaDownloadCDN.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/ChinaDownloadCDN.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "OneDrive",
-        "path": "upstream/loon/OneDrive.lsr",
-        "url": "https://rule.kelee.one/Loon/OneDrive.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "AppleAccount",
-        "path": "upstream/loon/AppleAccount.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Steam",
-        "path": "upstream/loon/Steam.lsr",
-        "url": "https://rule.kelee.one/Loon/Steam.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Instagram",
-        "path": "upstream/loon/Instagram.lsr",
-        "url": "https://rule.kelee.one/Loon/Instagram.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Anthropic",
-        "path": "upstream/loon/Anthropic.lsr",
-        "url": "https://rule.kelee.one/Loon/Anthropic.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Bahamut",
-        "path": "upstream/loon/Bahamut.lsr",
-        "url": "https://rule.kelee.one/Loon/Bahamut.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Game",
-        "path": "upstream/loon/Game.lsr",
-        "url": "https://rule.kelee.one/Loon/Game.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "PrimeVideo",
-        "path": "upstream/loon/PrimeVideo.lsr",
-        "url": "https://rule.kelee.one/Loon/PrimeVideo.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Copilot",
-        "path": "upstream/loon/Copilot.lsr",
-        "url": "https://rule.kelee.one/Loon/Copilot.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "InternationalDownloadCDN",
-        "path": "upstream/loon/InternationalDownloadCDN.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/InternationalDownloadCDN.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "GoogleFCM",
-        "path": "upstream/loon/GoogleFCM.lsr",
-        "url": "https://rule.kelee.one/Loon/GoogleFCM.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Gemini",
-        "path": "upstream/loon/Gemini.lsr",
-        "url": "https://rule.kelee.one/Loon/Gemini.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Apple",
-        "path": "upstream/loon/Apple.lsr",
-        "url": "https://rule.kelee.one/Loon/Apple.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Twitter",
-        "path": "upstream/loon/Twitter.lsr",
-        "url": "https://rule.kelee.one/Loon/Twitter.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "AppleTV",
-        "path": "upstream/loon/AppleTV.lsr",
-        "url": "https://rule.kelee.one/Loon/AppleTV.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Speedtest",
-        "path": "upstream/loon/Speedtest.lsr",
-        "url": "https://rule.kelee.one/Loon/Speedtest.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Netflix",
-        "path": "upstream/loon/Netflix.lsr",
-        "url": "https://rule.kelee.one/Loon/Netflix.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "ReelShort",
-        "path": "upstream/loon/ReelShort.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/ReelShort.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "TikTok",
-        "path": "upstream/loon/TikTok.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/TikTok.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "HBO",
-        "path": "upstream/loon/HBO.lsr",
-        "url": "https://rule.kelee.one/Loon/HBO.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "REGION_SPLITTER",
-        "path": "upstream/loon/REGION_SPLITTER.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Claude",
-        "path": "upstream/loon/Claude.lsr",
-        "url": "https://rule.kelee.one/Loon/Claude.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Proxy",
-        "path": "upstream/loon/Proxy.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/Proxy.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "OpenAI",
-        "path": "upstream/loon/OpenAI.lsr",
-        "url": "https://rule.kelee.one/Loon/OpenAI.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Telegram",
-        "path": "upstream/loon/Telegram.lsr",
-        "url": "https://rule.kelee.one/Loon/Telegram.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Facebook",
-        "path": "upstream/loon/Facebook.lsr",
-        "url": "https://rule.kelee.one/Loon/Facebook.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "DiscoveryPlus",
-        "path": "upstream/loon/DiscoveryPlus.lsr",
-        "url": "https://rule.kelee.one/Loon/DiscoveryPlus.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "LAN_SPLITTER",
-        "path": "upstream/loon/LAN_SPLITTER.lsr",
-        "url": "https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Google",
-        "path": "upstream/loon/Google.lsr",
-        "url": "https://rule.kelee.one/Loon/Google.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Disney",
-        "path": "upstream/loon/Disney.lsr",
-        "url": "https://rule.kelee.one/Loon/Disney.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "YouTube",
-        "path": "upstream/loon/YouTube.lsr",
-        "url": "https://rule.kelee.one/Loon/YouTube.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "GitHub",
-        "path": "upstream/loon/GitHub.lsr",
-        "url": "https://rule.kelee.one/Loon/GitHub.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      },
-      {
-        "name": "Emby",
-        "path": "upstream/loon/Emby.lsr",
-        "url": "https://rule.kelee.one/Loon/Emby.lsr",
-        "error": "invalid rule content",
-        "kept_last_good": true
-      }
-    ],
-    "kept": [
-      "AppStore",
-      "Direct",
-      "SpeedtestInternational",
-      "AI",
-      "Spotify",
-      "Microsoft",
-      "ChinaDownloadCDN",
-      "OneDrive",
-      "AppleAccount",
-      "Steam",
-      "Instagram",
-      "Anthropic",
-      "Bahamut",
-      "Game",
-      "PrimeVideo",
-      "Copilot",
-      "InternationalDownloadCDN",
-      "GoogleFCM",
-      "Gemini",
-      "Apple",
-      "Twitter",
-      "AppleTV",
-      "Speedtest",
-      "Netflix",
-      "ReelShort",
-      "TikTok",
-      "HBO",
-      "REGION_SPLITTER",
-      "Claude",
+    "ok": [
       "Proxy",
-      "OpenAI",
       "Telegram",
       "Facebook",
       "DiscoveryPlus",
-      "LAN_SPLITTER",
-      "Google",
+      "Microsoft",
+      "Gemini",
+      "OpenAI",
+      "SpeedtestInternational",
+      "InternationalDownloadCDN",
+      "ReelShort",
       "Disney",
-      "YouTube",
       "GitHub",
-      "Emby"
+      "Speedtest",
+      "ChinaDownloadCDN",
+      "Apple",
+      "Google",
+      "Twitter",
+      "Anthropic",
+      "GoogleFCM",
+      "AI",
+      "Instagram",
+      "LAN_SPLITTER",
+      "Emby",
+      "TikTok",
+      "OneDrive",
+      "REGION_SPLITTER",
+      "YouTube",
+      "Steam",
+      "Claude",
+      "Spotify",
+      "AppleTV",
+      "Game",
+      "Bahamut",
+      "AppStore",
+      "Copilot",
+      "HBO",
+      "AppleAccount",
+      "Netflix",
+      "Direct",
+      "PrimeVideo"
     ],
+    "failed": [],
+    "kept": [],
     "source": {
-      "AppStore": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/AppStore.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Direct": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/Direct.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "SpeedtestInternational": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/SpeedtestInternational.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "AI": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/AI.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Spotify": {
-        "url": "https://rule.kelee.one/Loon/Spotify.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Microsoft": {
-        "url": "https://rule.kelee.one/Loon/Microsoft.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "ChinaDownloadCDN": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/ChinaDownloadCDN.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "OneDrive": {
-        "url": "https://rule.kelee.one/Loon/OneDrive.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "AppleAccount": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Steam": {
-        "url": "https://rule.kelee.one/Loon/Steam.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Instagram": {
-        "url": "https://rule.kelee.one/Loon/Instagram.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Anthropic": {
-        "url": "https://rule.kelee.one/Loon/Anthropic.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Bahamut": {
-        "url": "https://rule.kelee.one/Loon/Bahamut.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Game": {
-        "url": "https://rule.kelee.one/Loon/Game.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "PrimeVideo": {
-        "url": "https://rule.kelee.one/Loon/PrimeVideo.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Copilot": {
-        "url": "https://rule.kelee.one/Loon/Copilot.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "InternationalDownloadCDN": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/InternationalDownloadCDN.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "GoogleFCM": {
-        "url": "https://rule.kelee.one/Loon/GoogleFCM.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Gemini": {
-        "url": "https://rule.kelee.one/Loon/Gemini.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Apple": {
-        "url": "https://rule.kelee.one/Loon/Apple.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Twitter": {
-        "url": "https://rule.kelee.one/Loon/Twitter.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "AppleTV": {
-        "url": "https://rule.kelee.one/Loon/AppleTV.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Speedtest": {
-        "url": "https://rule.kelee.one/Loon/Speedtest.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Netflix": {
-        "url": "https://rule.kelee.one/Loon/Netflix.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "ReelShort": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/ReelShort.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "TikTok": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/TikTok.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "HBO": {
-        "url": "https://rule.kelee.one/Loon/HBO.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "REGION_SPLITTER": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "Claude": {
-        "url": "https://rule.kelee.one/Loon/Claude.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
       "Proxy": {
         "url": "https://kelee.one/Tool/Loon/Lsr/Proxy.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "OpenAI": {
-        "url": "https://rule.kelee.one/Loon/OpenAI.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
       },
       "Telegram": {
         "url": "https://rule.kelee.one/Loon/Telegram.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
       },
       "Facebook": {
         "url": "https://rule.kelee.one/Loon/Facebook.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
       },
       "DiscoveryPlus": {
         "url": "https://rule.kelee.one/Loon/DiscoveryPlus.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
       },
-      "LAN_SPLITTER": {
-        "url": "https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
+      "Microsoft": {
+        "url": "https://rule.kelee.one/Loon/Microsoft.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
       },
-      "Google": {
-        "url": "https://rule.kelee.one/Loon/Google.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
+      "Gemini": {
+        "url": "https://rule.kelee.one/Loon/Gemini.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "OpenAI": {
+        "url": "https://rule.kelee.one/Loon/OpenAI.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "SpeedtestInternational": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/SpeedtestInternational.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "InternationalDownloadCDN": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/InternationalDownloadCDN.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "ReelShort": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/ReelShort.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
       },
       "Disney": {
         "url": "https://rule.kelee.one/Loon/Disney.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
-      },
-      "YouTube": {
-        "url": "https://rule.kelee.one/Loon/YouTube.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
       },
       "GitHub": {
         "url": "https://rule.kelee.one/Loon/GitHub.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Speedtest": {
+        "url": "https://rule.kelee.one/Loon/Speedtest.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "ChinaDownloadCDN": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/ChinaDownloadCDN.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Apple": {
+        "url": "https://rule.kelee.one/Loon/Apple.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Google": {
+        "url": "https://rule.kelee.one/Loon/Google.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Twitter": {
+        "url": "https://rule.kelee.one/Loon/Twitter.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Anthropic": {
+        "url": "https://rule.kelee.one/Loon/Anthropic.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "GoogleFCM": {
+        "url": "https://rule.kelee.one/Loon/GoogleFCM.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "AI": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/AI.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Instagram": {
+        "url": "https://rule.kelee.one/Loon/Instagram.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "LAN_SPLITTER": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
       },
       "Emby": {
         "url": "https://rule.kelee.one/Loon/Emby.lsr",
-        "method": "last-known-good",
-        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0",
-        "note": "latest fetch failed; kept existing verified file"
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "TikTok": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/TikTok.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "OneDrive": {
+        "url": "https://rule.kelee.one/Loon/OneDrive.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "REGION_SPLITTER": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "YouTube": {
+        "url": "https://rule.kelee.one/Loon/YouTube.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Steam": {
+        "url": "https://rule.kelee.one/Loon/Steam.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Claude": {
+        "url": "https://rule.kelee.one/Loon/Claude.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Spotify": {
+        "url": "https://rule.kelee.one/Loon/Spotify.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "AppleTV": {
+        "url": "https://rule.kelee.one/Loon/AppleTV.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Game": {
+        "url": "https://rule.kelee.one/Loon/Game.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Bahamut": {
+        "url": "https://rule.kelee.one/Loon/Bahamut.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "AppStore": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppStore.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Copilot": {
+        "url": "https://rule.kelee.one/Loon/Copilot.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "HBO": {
+        "url": "https://rule.kelee.one/Loon/HBO.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "AppleAccount": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Netflix": {
+        "url": "https://rule.kelee.one/Loon/Netflix.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "Direct": {
+        "url": "https://kelee.one/Tool/Loon/Lsr/Direct.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
+      },
+      "PrimeVideo": {
+        "url": "https://rule.kelee.one/Loon/PrimeVideo.lsr",
+        "method": "curl-http1.1",
+        "ua": "Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0"
       }
     },
     "status": {
-      "AppStore": "kept-last-known-good",
-      "Direct": "kept-last-known-good",
-      "SpeedtestInternational": "kept-last-known-good",
-      "AI": "kept-last-known-good",
-      "Spotify": "kept-last-known-good",
-      "Microsoft": "kept-last-known-good",
-      "ChinaDownloadCDN": "kept-last-known-good",
-      "OneDrive": "kept-last-known-good",
-      "AppleAccount": "kept-last-known-good",
-      "Steam": "kept-last-known-good",
-      "Instagram": "kept-last-known-good",
-      "Anthropic": "kept-last-known-good",
-      "Bahamut": "kept-last-known-good",
-      "Game": "kept-last-known-good",
-      "PrimeVideo": "kept-last-known-good",
-      "Copilot": "kept-last-known-good",
-      "InternationalDownloadCDN": "kept-last-known-good",
-      "GoogleFCM": "kept-last-known-good",
-      "Gemini": "kept-last-known-good",
-      "Apple": "kept-last-known-good",
-      "Twitter": "kept-last-known-good",
-      "AppleTV": "kept-last-known-good",
-      "Speedtest": "kept-last-known-good",
-      "Netflix": "kept-last-known-good",
-      "ReelShort": "kept-last-known-good",
-      "TikTok": "kept-last-known-good",
-      "HBO": "kept-last-known-good",
-      "REGION_SPLITTER": "kept-last-known-good",
-      "Claude": "kept-last-known-good",
-      "Proxy": "kept-last-known-good",
-      "OpenAI": "kept-last-known-good",
-      "Telegram": "kept-last-known-good",
-      "Facebook": "kept-last-known-good",
-      "DiscoveryPlus": "kept-last-known-good",
-      "LAN_SPLITTER": "kept-last-known-good",
-      "Google": "kept-last-known-good",
-      "Disney": "kept-last-known-good",
-      "YouTube": "kept-last-known-good",
-      "GitHub": "kept-last-known-good",
-      "Emby": "kept-last-known-good"
+      "Proxy": "updated-verified",
+      "Telegram": "updated-verified",
+      "Facebook": "updated-verified",
+      "DiscoveryPlus": "updated-verified",
+      "Microsoft": "updated-verified",
+      "Gemini": "updated-verified",
+      "OpenAI": "updated-verified",
+      "SpeedtestInternational": "updated-verified",
+      "InternationalDownloadCDN": "updated-verified",
+      "ReelShort": "updated-verified",
+      "Disney": "updated-verified",
+      "GitHub": "updated-verified",
+      "Speedtest": "updated-verified",
+      "ChinaDownloadCDN": "updated-verified",
+      "Apple": "updated-verified",
+      "Google": "updated-verified",
+      "Twitter": "updated-verified",
+      "Anthropic": "updated-verified",
+      "GoogleFCM": "updated-verified",
+      "AI": "updated-verified",
+      "Instagram": "updated-verified",
+      "LAN_SPLITTER": "updated-verified",
+      "Emby": "updated-verified",
+      "TikTok": "updated-verified",
+      "OneDrive": "updated-verified",
+      "REGION_SPLITTER": "updated-verified",
+      "YouTube": "updated-verified",
+      "Steam": "updated-verified",
+      "Claude": "updated-verified",
+      "Spotify": "updated-verified",
+      "AppleTV": "updated-verified",
+      "Game": "updated-verified",
+      "Bahamut": "updated-verified",
+      "AppStore": "updated-verified",
+      "Copilot": "updated-verified",
+      "HBO": "updated-verified",
+      "AppleAccount": "updated-verified",
+      "Netflix": "updated-verified",
+      "Direct": "updated-verified",
+      "PrimeVideo": "updated-verified"
     }
   }
 }
