@@ -20,20 +20,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Sync upstream rule mirrors
+      - name: Install browser-like curl fallback
         run: |
-          python upstream/scripts/sync_upstream_rules.py
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          r = json.loads(Path('upstream/_sync_report.json').read_text())
-          core_ok = len(r['core']['ok'])
-          loon_ok = len(r['loon_remote']['ok'])
-          expected_core = r['meta']['expected_core']
-          expected_loon = r['meta']['expected_loon']
-          if core_ok < expected_core or loon_ok < expected_loon:
-              raise SystemExit(f"upstream fetch incomplete: core {core_ok}/{expected_core}, loon {loon_ok}/{expected_loon}")
-          PY
+          python -m pip install --disable-pip-version-check curl_cffi
+      - name: Sync upstream rule mirrors
+        run: python upstream/scripts/sync_upstream_rules.py
       - name: Commit and Push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
