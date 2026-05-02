@@ -2,3 +2,6 @@ __pycache__/
 *.py[cod]
 .venv/
 .DS_Store
+
+# Generated upstream sync reports
+upstream/_sync_report*.json

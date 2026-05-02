@@ -1,7 +1,6 @@
 # Self Use Rules For Loon
-# Generated from self-use-loon-source.txt
+# Canonical editable source; sync to OpenClash with sync_rules.py.
 # Custom Scattered Rules Source
-# maintain this source file, workflow will generate custom-scattered-rules.list
 # 通用直连
 DOMAIN,superapi.buzz,DIRECT
 DOMAIN,ai.input.im,DIRECT

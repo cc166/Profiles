@@ -4,7 +4,7 @@ Sync paired custom rule files in custom-rules/.
 
 Use case:
 - Edit either custom-rules/Foo.lsr (Loon) or custom-rules/Foo.yaml (Clash classical payload).
-- On GitHub Actions push events, the file changed in the triggering commit is the source.
+- When automation supplies git history, the file changed in the triggering commit is the source.
 - For stable pairs without source files, DEFAULT_SOURCE_BY_STEM prevents mtime from picking
   the wrong side on a fresh checkout.
 """

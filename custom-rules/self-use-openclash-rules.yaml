@@ -1,7 +1,7 @@
 payload:
 # Self Use Rules For OpenClash
+# Canonical editable source; sync to OpenClash with sync_rules.py.
 # Custom Scattered Rules Source
-# maintain this source file, workflow will generate custom-scattered-rules.list
 # 通用直连
   - DOMAIN,superapi.buzz
   - DOMAIN,ai.input.im

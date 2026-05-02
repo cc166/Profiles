@@ -30,6 +30,19 @@ rule-providers:
 
 完整规则列表请查看 [RULES.md](RULES.md)
 
+
+## 维护
+
+上游规则镜像由自托管 VM 上的 systemd timer 定时同步并推送，GitHub Actions 不再负责拉取上游。
+
+手动同步入口保留为：
+
+```bash
+python3 upstream/scripts/local_sync_and_push.py
+```
+
+生成的 `upstream/_sync_report*.json` 仅用于本地运行校验，不纳入版本库。
+
 ## 致谢
 
 感谢 [iKeLee](https://iKeLee.one) 提供优质规则。

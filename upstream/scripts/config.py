@@ -120,7 +120,7 @@ RETRY_PAUSE = 6        # 重试间隔基础值（秒）
 
 # ==================== 同步报告配置 ====================
 SYNC_REPORT = UPSTREAM / "_sync_report.json"
-SYNC_SCHEDULE = "sync-upstream-rules.yml cron 23 3 * * * (UTC, daily)"
+SYNC_SCHEDULE = "self-hosted systemd timer; run upstream/scripts/local_sync_and_push.py"
 
 # ==================== AI 聚合配置 ====================
 AI_SOURCES = [

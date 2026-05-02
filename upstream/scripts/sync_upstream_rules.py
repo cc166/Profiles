@@ -132,7 +132,7 @@ def fetch_validated(url: str, ua: str, accept_header: str, validator: Callable[[
     # protected last-good report and fail fast instead of spending minutes on
     # doomed browser/TLS impersonation retries.
     if os.environ.get('GITHUB_ACTIONS') == 'true':
-        raise RuntimeError('GitHub Actions runner is blocked by upstream CDN/Cloudflare; run locally or from an allowed network')
+        raise RuntimeError('CI/remote runner is blocked by upstream CDN/Cloudflare; run from the self-hosted sync VM or another allowed network')
 
     # curl_cffi changes the TLS/JA3 fingerprint; normal curl only changes HTTP headers.
     try:
@@ -229,7 +229,7 @@ def main() -> int:
             'note': 'ok=downloaded this run; failed+kept_last_good=true means latest fetch failed but existing verified file was preserved',
             'expected_core': len(CLASH_RULES),
             'expected_loon': len(LOON_REMOTE_SOURCES),
-            'schedule_hint': 'sync-upstream-rules.yml cron 23 3 * * * (UTC, daily)',
+            'schedule_hint': 'self-hosted systemd timer; run upstream/scripts/local_sync_and_push.py',
         }
     }
     report['core'] = sync_group('core', CLASH_RULES, CORE_DIR, '.yaml', UA_CLASH, 'Accept: application/yaml,text/yaml,*/*;q=0.9', looks_like_payload)
