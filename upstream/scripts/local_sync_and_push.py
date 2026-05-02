@@ -16,10 +16,7 @@ def run(cmd: list[str]) -> None:
     subprocess.run(cmd, cwd=ROOT, check=True)
 
 
-# Keep paired custom rule files in sync before mirroring upstream rules.
-run(['python3', 'sync_rules.py', '--from', 'lsr'])
-run(['python3', 'validate_custom_rules.py'])
-
+# Boundary: upstream mirror only. Custom-rule automation is intentionally separate.
 r = subprocess.run(['python3', str(SYNC)], cwd=ROOT)
 if r.returncode != 0:
     raise SystemExit(r.returncode)
@@ -31,15 +28,16 @@ expected_loon = report['meta']['expected_loon']
 if core_ok != expected_core or loon_ok != expected_loon:
     raise SystemExit(f'incomplete upstream sync: core {core_ok}/{expected_core}, loon {loon_ok}/{expected_loon}')
 
-run(['git', 'add', 'custom-rules', 'upstream'])
+# Only stage mirrored rule outputs; never stage scripts or custom rules from this entry point.
+run(['git', 'add', 'upstream/core', 'upstream/loon'])
 diff = subprocess.run(['git', 'diff', '--cached', '--quiet'], cwd=ROOT)
 if diff.returncode == 0:
-    print('✅ rules already up to date; nothing to push')
+    print('✅ upstream rules already up to date; nothing to push')
     raise SystemExit(0)
 
 run(['git', 'config', '--local', 'user.email', 'minis-local-sync@users.noreply.github.com'])
 run(['git', 'config', '--local', 'user.name', 'minis-local-sync'])
-msg = f'chore: sync rules (local) core {core_ok}/{expected_core}, loon {loon_ok}/{expected_loon}'
+msg = f'chore: sync upstream rules (local) core {core_ok}/{expected_core}, loon {loon_ok}/{expected_loon}'
 run(['git', 'commit', '-m', msg])
 push_cmd = ['git', 'push', 'origin', 'master']
 token = os.environ.get('GITHUB_TOKEN_5')

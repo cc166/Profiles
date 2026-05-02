@@ -197,6 +197,7 @@ def paired_files() -> Iterable[Tuple[Path, Path]]:
     for name in sorted(names):
         lsr = CUSTOM_RULES / f"{name}.lsr"
         yaml = CUSTOM_RULES / f"{name}.yaml"
+        pair = (lsr, yaml)
         if pair in yielded:
             continue
         if lsr.exists() and yaml.exists():
