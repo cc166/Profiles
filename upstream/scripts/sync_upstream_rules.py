@@ -1,232 +1,31 @@
-from pathlib import Path
-from urllib.request import Request, build_opener, HTTPSHandler
-import ssl, json, subprocess, time, random, hashlib
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import json
+import random
+import subprocess
 import sys
+import time
+from pathlib import Path
+
 sys.path.insert(0, str(Path(__file__).parent))
-from config import CLASH_RULES, UA_CLASH
+from config import CLASH_RULES, UA_CLASH, UA_LOON  # noqa: E402
 
-report = {'meta': {'note': 'failed + kept_last_good=true means latest fetch failed but existing verified file was preserved', 'schedule_hint': 'sync-upstream-rules.yml cron 23 3 * * * (UTC, daily)'}}
-ctx = ssl.create_default_context()
-ctx.check_hostname = False
-ctx.verify_mode = ssl.CERT_NONE
-opener = build_opener(HTTPSHandler(context=ctx))
+ROOT = Path(__file__).resolve().parents[2]
+CORE_DIR = ROOT / 'upstream' / 'core'
+LOON_DIR = ROOT / 'upstream' / 'loon'
+REPORT_PATH = ROOT / 'upstream' / '_sync_report.json'
 
-# 随机 User-Agent 池（模拟真实客户端）
-UA_POOL_CLASH = [
-    'clash.meta/1.18.10',
-    'mihomo/1.18.10',
-    'clash-verge/1.7.7',
-]
-
-UA_POOL_LOON = [
-    'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0',
-    'Loon/840 CFNetwork/1494.0.7 Darwin/23.4.0',
-    'Loon/835 CFNetwork/1485.0.3 Darwin/23.1.0',
-]
-
-def get_random_ua(pool):
-    """从 UA 池中随机选择"""
-    return random.choice(pool)
-
-def fetch_text(url, ua='minis'):
-    """urllib 请求，增加更多真实浏览器头"""
-    headers = {
-        "User-Agent": ua,
-        "Accept": "application/yaml,text/yaml,*/*;q=0.9",
-        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Cache-Control": "no-cache",
-        "Pragma": "no-cache",
-    }
-    req = Request(url, headers=headers)
-    with opener.open(req, timeout=60) as resp:
-        return resp.read().decode("utf-8", errors="ignore")
-
-def fetch_with_curl(url, ua='mihomo/1.18.10', tries=3, pause=8):
-    """Clash curl 请求，增强防拦截"""
-    errors = []
-    for idx in range(tries):
-        # 指数退避 + 随机抖动
-        if idx > 0:
-            backoff = pause * (2 ** (idx - 1))  # 指数退避：6s, 12s, 24s
-            jitter = random.uniform(0, backoff * 0.3)  # 30% 抖动
-            time.sleep(backoff + jitter)
-        else:
-            time.sleep(random.uniform(3, 7))  # 首次延迟 3-7s
-        
-        # 每次重试随机选择 UA
-        current_ua = get_random_ua(UA_POOL_CLASH) if idx > 0 else ua
-        
-        # 随机化请求头顺序（部分 CDN 会检测）
-        headers = [
-            ('-H', f'Accept: application/yaml,text/yaml,*/*;q=0.9'),
-            ('-H', f'Accept-Language: zh-CN,zh;q=0.9,en;q=0.8'),
-            ('-H', f'Accept-Encoding: gzip, deflate, br'),
-            ('-H', f'Referer: https://kelee.one/'),
-            ('-H', f'Cache-Control: no-cache'),
-            ('-H', f'Connection: keep-alive'),
-        ]
-        random.shuffle(headers)
-        
-        cmd = ['curl', '-L', '-k', '--retry', '2', '--retry-all-errors', '--retry-delay', '3',
-               '--connect-timeout', '30', '--max-time', '120', '-A', current_ua]
-        for h in headers:
-            cmd.extend(h)
-        cmd.extend(['--compressed', '-sS', url])
-        
-        r = subprocess.run(cmd, capture_output=True, text=True)
-        if r.returncode == 0 and r.stdout.strip():
-            text = r.stdout
-            if looks_like_payload(text):
-                return text
-            errors.append(f'try {idx+1}: challenge or invalid payload')
-        else:
-            errors.append(f'try {idx+1}: {r.stderr.strip() or f"curl exit {r.returncode}"}')
-    raise RuntimeError(' | '.join(errors[-3:]) or 'curl failed')
-
-def fetch_plain_with_curl(url, ua='Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', tries=3, pause=6):
-    """Loon curl 请求，增强防拦截"""
-    errors = []
-    for idx in range(tries):
-        # 指数退避 + 随机抖动
-        if idx > 0:
-            backoff = pause * (2 ** (idx - 1))  # 指数退避：6s, 12s, 24s
-            jitter = random.uniform(0, backoff * 0.3)
-            time.sleep(backoff + jitter)
-        else:
-            time.sleep(random.uniform(2, 5))  # 首次延迟 2-5s
-        
-        # 每次重试随机选择 UA
-        current_ua = get_random_ua(UA_POOL_LOON) if idx > 0 else ua
-        
-        # 随机化请求头顺序
-        headers = [
-            ('-H', 'Accept: text/plain,*/*;q=0.9'),
-            ('-H', 'Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7'),
-            ('-H', 'Accept-Encoding: gzip, deflate, br'),
-            ('-H', 'Cache-Control: no-cache'),
-            ('-H', 'Pragma: no-cache'),
-            ('-H', 'Sec-Fetch-Dest: empty'),
-            ('-H', 'Sec-Fetch-Mode: cors'),
-            ('-H', 'Sec-Fetch-Site: cross-site'),
-        ]
-        random.shuffle(headers)
-        
-        cmd = ['curl', '--http1.1', '-L', '-k', '--compressed',
-               '--retry', '2', '--retry-all-errors', '--retry-delay', '2',
-               '--connect-timeout', '25', '--max-time', '120', '-A', current_ua]
-        for h in headers:
-            cmd.extend(h)
-        cmd.extend(['-sS', url])
-        
-        r = subprocess.run(cmd, capture_output=True, text=True)
-        if r.returncode == 0 and r.stdout.strip():
-            return r.stdout
-        errors.append(f'try {idx+1}: {r.stderr.strip() or f"curl exit {r.returncode}"}')
-    raise RuntimeError(' | '.join(errors[-3:]) or 'curl failed')
-
-def looks_like_payload(text):
-    """检测是否为有效 Clash payload"""
-    head = text[:400].lower()
-    if '<!doctype html' in head or '<html' in head or 'just a moment' in head:
-        return False
-    for line in text.splitlines()[:20]:
-        if line.strip() == 'payload:':
-            return True
-    return False
-
-def looks_like_loon_rules(text):
-    """检测是否为有效 Loon 规则"""
-    head = text[:500].lower()
-    if '<!doctype html' in head or '<html' in head or 'just a moment' in head or 'cf-chl' in head:
-        return False
-    cnt = 0
-    for raw in text.splitlines():
-        s = raw.strip()
-        if not s or s.startswith('#') or s.startswith('//') or s.startswith(';'):
-            continue
-        if ',' in s:
-            cnt += 1
-    return cnt > 0
-
-def save(rel, text):
-    p = Path(rel)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(text, encoding="utf-8")
-
-def keep_existing_payload(rel):
-    p = Path(rel)
-    if not p.exists():
-        return False
-    try:
-        return looks_like_payload(p.read_text(encoding="utf-8"))
-    except Exception:
-        return False
-
-def keep_existing_loon(rel):
-    p = Path(rel)
-    if not p.exists():
-        return False
-    try:
-        return looks_like_loon_rules(p.read_text(encoding='utf-8'))
-    except Exception:
-        return False
-
-# ==================== Clash 规则同步 ====================
-report['core']={'ok':[],'failed':[],'kept':[],'source':{},'status':{}}
-
-# 从 config.py 动态读取所有 Clash 规则
-verified_core = {}
-for name, url in CLASH_RULES.items():
-    verified_core[name] = (url, 'urllib', UA_CLASH)
-
-# 随机打乱同步顺序（避免固定模式被识别）
-items = list(verified_core.items())
-random.shuffle(items)
-
-for name, (url, method, ua) in items:
-    rel = f'upstream/core/{name}.yaml'
-    try:
-        # 随机延迟 3-8s（更长的延迟，更像人类行为）
-        time.sleep(random.uniform(3, 8))
-        
-        # 尝试 urllib，失败后回退到 curl
-        try:
-            text = fetch_text(url, ua)
-        except Exception as urllib_err:
-            print(f'  {name}: urllib failed, trying curl... ({str(urllib_err)[:50]})')
-            text = fetch_with_curl(url, ua, tries=3, pause=6)
-        
-        if not looks_like_payload(text):
-            raise RuntimeError('invalid payload content')
-        save(rel, text)
-        report['core']['ok'].append(name)
-        report['core']['source'][name] = {'url': url, 'method': 'urllib-or-curl', 'ua': ua}
-        report['core']['status'][name] = 'updated-verified'
-    except Exception as e:
-        kept = keep_existing_payload(rel)
-        if kept:
-            report['core']['kept'].append(name)
-            report['core']['source'][name] = {'url': url, 'method': 'last-known-good', 'ua': ua, 'note': 'latest fetch failed; kept existing verified file'}
-            report['core']['status'][name] = 'kept-last-known-good'
-        else:
-            report['core']['status'][name] = 'failed-verified'
-        report['core']['failed'].append({'name':name,'url':url,'method':method,'error':str(e),'kept_last_good':kept})
-
-# ==================== Loon 规则同步 ====================
-report['loon_remote']={'ok':[],'failed':[],'kept':[],'source':{},'status':{}}
-loon_remote_sources = {
-    # 基础规则（2 项）
+# Keep this list in one place; it mirrors every file we publish under upstream/loon.
+LOON_REMOTE_SOURCES = {
     'LAN_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr',
     'REGION_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr',
-    # AI 服务（6 项）
     'AI': 'https://kelee.one/Tool/Loon/Lsr/AI.lsr',
     'OpenAI': 'https://rule.kelee.one/Loon/OpenAI.lsr',
     'Claude': 'https://rule.kelee.one/Loon/Claude.lsr',
     'Gemini': 'https://rule.kelee.one/Loon/Gemini.lsr',
     'Anthropic': 'https://rule.kelee.one/Loon/Anthropic.lsr',
     'Copilot': 'https://rule.kelee.one/Loon/Copilot.lsr',
-    # 流媒体（8 项）
     'Netflix': 'https://rule.kelee.one/Loon/Netflix.lsr',
     'Disney': 'https://rule.kelee.one/Loon/Disney.lsr',
     'YouTube': 'https://rule.kelee.one/Loon/YouTube.lsr',
@@ -236,12 +35,10 @@ loon_remote_sources = {
     'DiscoveryPlus': 'https://rule.kelee.one/Loon/DiscoveryPlus.lsr',
     'Bahamut': 'https://rule.kelee.one/Loon/Bahamut.lsr',
     'Emby': 'https://rule.kelee.one/Loon/Emby.lsr',
-    # 社交（4 项）
     'Telegram': 'https://rule.kelee.one/Loon/Telegram.lsr',
     'Twitter': 'https://rule.kelee.one/Loon/Twitter.lsr',
     'Facebook': 'https://rule.kelee.one/Loon/Facebook.lsr',
     'Instagram': 'https://rule.kelee.one/Loon/Instagram.lsr',
-    # 平台（8 项）
     'Apple': 'https://rule.kelee.one/Loon/Apple.lsr',
     'AppleAccount': 'https://kelee.one/Tool/Loon/Lsr/AppleAccount.lsr',
     'AppStore': 'https://kelee.one/Tool/Loon/Lsr/AppStore.lsr',
@@ -251,7 +48,6 @@ loon_remote_sources = {
     'OneDrive': 'https://rule.kelee.one/Loon/OneDrive.lsr',
     'Microsoft': 'https://rule.kelee.one/Loon/Microsoft.lsr',
     'GitHub': 'https://rule.kelee.one/Loon/GitHub.lsr',
-    # 其他（7 项）
     'TikTok': 'https://kelee.one/Tool/Loon/Lsr/TikTok.lsr',
     'Game': 'https://rule.kelee.one/Loon/Game.lsr',
     'Speedtest': 'https://rule.kelee.one/Loon/Speedtest.lsr',
@@ -264,31 +60,122 @@ loon_remote_sources = {
     'Direct': 'https://kelee.one/Tool/Loon/Lsr/Direct.lsr',
 }
 
-# 随机打乱同步顺序
-loon_items = list(loon_remote_sources.items())
-random.shuffle(loon_items)
+UA_POOL_CLASH = ['clash.meta', 'clash.meta/1.18.10', 'mihomo/1.18.10']
+UA_POOL_LOON = [UA_LOON, 'Loon/840 CFNetwork/1494.0.7 Darwin/23.4.0']
 
-for name, url in loon_items:
-    rel = f'upstream/loon/{name}.lsr'
+
+def curl_fetch(url: str, ua: str, accept: str, tries: int = 4) -> str:
+    errors: list[str] = []
+    for idx in range(tries):
+        if idx:
+            time.sleep(min(20, 2 ** idx) + random.uniform(0, 1.5))
+        current_ua = ua if idx == 0 else random.choice(UA_POOL_CLASH if 'yaml' in accept else UA_POOL_LOON)
+        cmd = [
+            'curl', '--http1.1', '-L', '-k', '--compressed',
+            '--retry', '2', '--retry-all-errors', '--retry-delay', '2',
+            '--connect-timeout', '20', '--max-time', '90',
+            '-A', current_ua,
+            '-H', accept,
+            '-H', 'Accept-Language: zh-CN,zh;q=0.9,en;q=0.8',
+            '-H', 'Cache-Control: no-cache',
+            '-sS', url,
+        ]
+        r = subprocess.run(cmd, cwd=ROOT, text=True, capture_output=True)
+        if r.returncode == 0 and r.stdout.strip():
+            return r.stdout
+        errors.append(r.stderr.strip() or f'curl exit {r.returncode}')
+    raise RuntimeError(' | '.join(errors[-3:]) or 'empty response')
+
+
+def looks_like_payload(text: str) -> bool:
+    head = text[:600].lower()
+    if any(x in head for x in ('<!doctype html', '<html', 'just a moment', 'cf-chl', 'forbidden')):
+        return False
+    return any(line.strip() == 'payload:' for line in text.splitlines()[:30])
+
+
+def looks_like_loon_rules(text: str) -> bool:
+    head = text[:600].lower()
+    if any(x in head for x in ('<!doctype html', '<html', 'just a moment', 'cf-chl', 'forbidden')):
+        return False
+    count = 0
+    for raw in text.splitlines():
+        s = raw.strip()
+        if not s or s.startswith(('#', '//', ';')):
+            continue
+        if ',' in s:
+            count += 1
+            if count >= 1:
+                return True
+    return False
+
+
+def existing_ok(path: Path, kind: str) -> bool:
+    if not path.exists():
+        return False
     try:
-        # 随机延迟 3-8s
-        time.sleep(random.uniform(3, 8))
-        text = fetch_plain_with_curl(url, 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', tries=3, pause=6)
-        if not looks_like_loon_rules(text):
-            raise RuntimeError('invalid loon rule content')
-        save(rel, text)
-        report['loon_remote']['ok'].append(name)
-        report['loon_remote']['source'][name] = {'url': url, 'method': 'validated-curl', 'ua': 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 'tries': 3}
-        report['loon_remote']['status'][name] = 'updated-verified'
-    except Exception as e:
-        kept = keep_existing_loon(rel)
-        if kept:
-            report['loon_remote']['kept'].append(name)
-            report['loon_remote']['source'][name] = {'url': url, 'method': 'last-known-good', 'ua': 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0', 'tries': 3, 'note': 'latest fetch failed; kept existing verified file'}
-            report['loon_remote']['status'][name] = 'kept-last-known-good'
-        else:
-            report['loon_remote']['status'][name] = 'failed-verified'
-        report['loon_remote']['failed'].append({'name': name, 'url': url, 'error': str(e), 'kept_last_good': kept})
+        text = path.read_text(encoding='utf-8')
+    except Exception:
+        return False
+    return looks_like_payload(text) if kind == 'core' else looks_like_loon_rules(text)
 
-save('upstream/_sync_report.json', json.dumps(report, ensure_ascii=False, indent=2)+'\n')
-print(json.dumps({'core_ok':len(report['core']['ok']),'core_failed':len(report['core']['failed']),'loon_ok':len(report['loon_remote']['ok']),'loon_failed':len(report['loon_remote']['failed'])}, ensure_ascii=False))
+
+def save(path: Path, text: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding='utf-8')
+
+
+def sync_group(name: str, items: dict[str, str], out_dir: Path, suffix: str, ua: str, accept: str, validator) -> dict:
+    section = {'ok': [], 'failed': [], 'kept': [], 'source': {}, 'status': {}}
+    pairs = list(items.items())
+    random.shuffle(pairs)
+    for rule_name, url in pairs:
+        rel = f'{out_dir.relative_to(ROOT)}/{rule_name}{suffix}'
+        path = out_dir / f'{rule_name}{suffix}'
+        try:
+            text = curl_fetch(url, ua, accept)
+            if not validator(text):
+                raise RuntimeError('invalid rule content')
+            save(path, text)
+            section['ok'].append(rule_name)
+            section['source'][rule_name] = {'url': url, 'method': 'curl-http1.1', 'ua': ua}
+            section['status'][rule_name] = 'updated-verified'
+        except Exception as exc:
+            kept = existing_ok(path, name)
+            if kept:
+                section['kept'].append(rule_name)
+                section['source'][rule_name] = {'url': url, 'method': 'last-known-good', 'ua': ua, 'note': 'latest fetch failed; kept existing verified file'}
+                section['status'][rule_name] = 'kept-last-known-good'
+            else:
+                section['status'][rule_name] = 'failed-verified'
+            section['failed'].append({'name': rule_name, 'path': rel, 'url': url, 'error': str(exc), 'kept_last_good': kept})
+    return section
+
+
+def main() -> int:
+    report = {
+        'meta': {
+            'note': 'ok=downloaded this run; failed+kept_last_good=true means latest fetch failed but existing verified file was preserved',
+            'expected_core': len(CLASH_RULES),
+            'expected_loon': len(LOON_REMOTE_SOURCES),
+            'schedule_hint': 'sync-upstream-rules.yml cron 23 3 * * * (UTC, daily)',
+        }
+    }
+    report['core'] = sync_group('core', CLASH_RULES, CORE_DIR, '.yaml', UA_CLASH, 'Accept: application/yaml,text/yaml,*/*;q=0.9', looks_like_payload)
+    report['loon_remote'] = sync_group('loon_remote', LOON_REMOTE_SOURCES, LOON_DIR, '.lsr', UA_LOON, 'Accept: text/plain,*/*;q=0.9', looks_like_loon_rules)
+    save(REPORT_PATH, json.dumps(report, ensure_ascii=False, indent=2))
+    summary = {
+        'core_ok': len(report['core']['ok']),
+        'core_failed': len(report['core']['failed']),
+        'core_kept': len(report['core']['kept']),
+        'loon_ok': len(report['loon_remote']['ok']),
+        'loon_failed': len(report['loon_remote']['failed']),
+        'loon_kept': len(report['loon_remote']['kept']),
+    }
+    print(json.dumps(summary, ensure_ascii=False))
+    hard_fail = [x for x in report['core']['failed'] + report['loon_remote']['failed'] if not x.get('kept_last_good')]
+    return 1 if hard_fail else 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())
