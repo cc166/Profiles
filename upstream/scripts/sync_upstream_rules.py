@@ -191,11 +191,7 @@ def save_text(path: Path, text: str) -> None:
 
 
 def sort_section(section: dict) -> dict:
-    section['ok'] = sorted(section['ok'])
-    section['kept'] = sorted(section['kept'])
-    section['failed'] = sorted(section['failed'], key=lambda x: x.get('name', ''))
-    section['source'] = {k: section['source'][k] for k in sorted(section['source'])}
-    section['status'] = {k: section['status'][k] for k in sorted(section['status'])}
+    # Keep insertion order stable with config order; this avoids noisy report diffs.
     return section
 
 
@@ -224,7 +220,7 @@ def sync_group(name: str, items: dict[str, str], out_dir: Path, suffix: str, ua:
 
 def write_json(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
 def main() -> int:
