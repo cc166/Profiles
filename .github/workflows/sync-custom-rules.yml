@@ -11,6 +11,9 @@ on:
 
 jobs:
   sync:
+    concurrency:
+      group: sync-custom-rules
+      cancel-in-progress: true
     runs-on: ubuntu-latest
     permissions:
       contents: write
