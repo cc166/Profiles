@@ -48,7 +48,7 @@
       },
       "AI": {
         "url": "https://kelee.one/Tool/Clash/Rule/AI.yaml",
-        "method": "curl-http1.1/clash.meta",
+        "method": "curl-http1.1/clash.meta/1.18.10",
         "ua": "clash.meta"
       },
       "TikTok": {
