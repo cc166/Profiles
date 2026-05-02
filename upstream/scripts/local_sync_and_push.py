@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -30,5 +31,11 @@ subprocess.run(['git', 'config', '--local', 'user.email', 'minis-local-sync@user
 subprocess.run(['git', 'config', '--local', 'user.name', 'minis-local-sync'], cwd=ROOT, check=True)
 msg = f'chore: sync upstream rules (local) core {core_ok}/{expected_core}, loon {loon_ok}/{expected_loon}'
 subprocess.run(['git', 'commit', '-m', msg], cwd=ROOT, check=True)
-subprocess.run(['git', 'push', 'origin', 'master'], cwd=ROOT, check=True)
+push_cmd = ['git', 'push', 'origin', 'master']
+token = os.environ.get('GITHUB_TOKEN_5')
+if token:
+    import base64
+    auth = base64.b64encode(f'x-access-token:{token}'.encode()).decode()
+    push_cmd = ['git', '-c', f'http.https://github.com/.extraheader=AUTHORIZATION: basic {auth}', 'push', 'origin', 'master']
+subprocess.run(push_cmd, cwd=ROOT, check=True)
 print('✅ committed and pushed:', msg)
