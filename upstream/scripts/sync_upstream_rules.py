@@ -128,6 +128,12 @@ def fetch_validated(url: str, ua: str, accept_header: str, validator: Callable[[
     ua_pool = UA_POOL_CLASH if kind == 'core' else UA_POOL_LOON
     strategies: list[tuple[str, Callable[[], tuple[str, str]]]] = []
 
+    # GitHub-hosted runners are currently blocked by upstream CDN. Keep the
+    # protected last-good report and fail fast instead of spending minutes on
+    # doomed browser/TLS impersonation retries.
+    if os.environ.get('GITHUB_ACTIONS') == 'true':
+        raise RuntimeError('GitHub Actions runner is blocked by upstream CDN/Cloudflare; run locally or from an allowed network')
+
     # curl_cffi changes the TLS/JA3 fingerprint; normal curl only changes HTTP headers.
     try:
         import curl_cffi  # noqa: F401
