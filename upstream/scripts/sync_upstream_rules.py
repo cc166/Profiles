@@ -96,7 +96,7 @@ def curl_once(url: str, ua: str, accept_header: str, http1: bool) -> tuple[str, 
     if http1:
         cmd.append('--http1.1')
     cmd += [
-        '-L', '-k', '--compressed', '--connect-timeout', '20', '--max-time', '90',
+        '-L', '-k', '--compressed', '--connect-timeout', '8', '--max-time', '20',
         '-A', ua,
     ]
     for key, value in browser_headers(url, ua, accept_header).items():
@@ -119,7 +119,7 @@ def curl_cffi_once(url: str, ua: str, accept_header: str) -> tuple[str, str]:
 
     headers = browser_headers(url, ua, accept_header)
     headers['User-Agent'] = BROWSER_UA
-    r = requests.get(url, headers=headers, timeout=45, impersonate='chrome120')
+    r = requests.get(url, headers=headers, timeout=20, impersonate='chrome120')
     return r.text, f'curl_cffi status={r.status_code} ctype={r.headers.get("content-type", "")}'
 
 
@@ -135,16 +135,15 @@ def fetch_validated(url: str, ua: str, accept_header: str, validator: Callable[[
     except Exception as exc:
         errors.append(f'curl_cffi unavailable: {exc.__class__.__name__}')
 
-    for idx in range(4):
+    for idx in range(2):
         current_ua = ua if idx == 0 else random.choice(ua_pool)
         strategies.append((f'curl-http1.1/{current_ua}', lambda u=current_ua: curl_once(url, u, accept_header, True)))
-    for idx in range(2):
-        current_ua = random.choice(ua_pool)
-        strategies.append((f'curl-default/{current_ua}', lambda u=current_ua: curl_once(url, u, accept_header, False)))
+    current_ua = random.choice(ua_pool)
+    strategies.append((f'curl-default/{current_ua}', lambda u=current_ua: curl_once(url, u, accept_header, False)))
 
     for idx, (method, fn) in enumerate(strategies, 1):
         if idx > 1:
-            time.sleep(min(12, idx * 1.5) + random.uniform(0, 1.0))
+            time.sleep(min(3, idx * 0.5) + random.uniform(0, 0.5))
         try:
             text, meta = fn()
         except Exception as exc:
