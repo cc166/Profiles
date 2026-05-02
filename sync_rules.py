@@ -28,7 +28,7 @@ PRESERVE_COMMENTS_BY_STEM = {
     "Emby": True,
 }
 TITLE_BY_YAML_NAME = {
-    "self-use-openclash-rules.yaml": "# Self Use Rules For OpenClash",
+    "self-use-openclash-rules.yaml": "# Local Rules For OpenClash",
 }
 PAIR_ALIASES = [
     (CUSTOM_RULES / "self-use-loon-rules.lsr", CUSTOM_RULES / "self-use-openclash-rules.yaml"),

@@ -20,15 +20,15 @@ UPSTREAM_CORE = UPSTREAM / "core"
 UPSTREAM_BM7 = UPSTREAM / "blackmatrix7"
 UPSTREAM_YUUMIMI = UPSTREAM / "yuumimi"
 
-# ==================== 自用规则配置 ====================
-# Loon 自用规则
+# ==================== 本地规则配置 ====================
+# Loon 本地规则
 LOON_DIRECT_SRC = CUSTOM_RULES / "self-use-loon-source.txt"
 LOON_DIRECT_DST = CUSTOM_RULES / "self-use-loon-rules.lsr"
 
 LOON_PROXY_SRC = CUSTOM_RULES / "self-use-proxy-loon-source.txt"
 LOON_PROXY_DST = CUSTOM_RULES / "self-use-proxy-loon-rules.lsr"
 
-# OpenClash 自用规则
+# OpenClash 本地规则
 OC_DIRECT_SRC = CUSTOM_RULES / "self-use-openclash-source.txt"
 OC_DIRECT_DST = CUSTOM_RULES / "self-use-openclash-rules.yaml"
 
@@ -120,7 +120,7 @@ RETRY_PAUSE = 6        # 重试间隔基础值（秒）
 
 # ==================== 同步报告配置 ====================
 SYNC_REPORT = UPSTREAM / "_sync_report.json"
-SYNC_SCHEDULE = "self-hosted systemd timer; run upstream/scripts/local_sync_and_push.py"
+SYNC_SCHEDULE = "external scheduler; run upstream/scripts/local_sync_and_push.py"
 
 # ==================== AI 聚合配置 ====================
 AI_SOURCES = [

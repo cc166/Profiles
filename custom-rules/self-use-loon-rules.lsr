@@ -1,6 +1,6 @@
-# Self Use Rules For Loon
-# Canonical editable source; sync to OpenClash with sync_rules.py.
-# Custom Scattered Rules Source
+# Local Rules For Loon
+# Canonical editable source; sync with sync_rules.py.
+# Local rule source
 # 通用直连
 DOMAIN,superapi.buzz,DIRECT
 DOMAIN,ai.input.im,DIRECT
