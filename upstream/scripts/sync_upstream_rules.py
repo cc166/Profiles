@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import random
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 import time
+from hashlib import sha256
 from pathlib import Path
 from typing import Callable
 
@@ -66,6 +70,7 @@ LOON_REMOTE_SOURCES = {
 UA_POOL_CLASH = ['clash.meta', 'clash.meta/1.18.10', 'mihomo/1.18.10', 'ClashforWindows/0.20.39']
 UA_POOL_LOON = [UA_LOON, 'Loon/840 CFNetwork/1494.0.7 Darwin/23.4.0', 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0']
 BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+BAD_MARKERS = ('<!doctype html', '<html', 'just a moment', 'cf-chl', 'forbidden', 'access denied')
 
 
 def snippet(text: str, limit: int = 220) -> str:
@@ -74,6 +79,10 @@ def snippet(text: str, limit: int = 220) -> str:
 
 def accept_value(accept_header: str) -> str:
     return accept_header.split(':', 1)[1].strip() if ':' in accept_header else accept_header
+
+
+def normalize_text(text: str) -> str:
+    return text.replace('\r\n', '\n').replace('\r', '\n')
 
 
 def browser_headers(url: str, ua: str, accept_header: str) -> dict[str, str]:
@@ -124,17 +133,16 @@ def curl_cffi_once(url: str, ua: str, accept_header: str) -> tuple[str, str]:
 
 
 def fetch_validated(url: str, ua: str, accept_header: str, validator: Callable[[str], bool], kind: str) -> tuple[str, str]:
+    if os.environ.get('RULESYNC_FORCE_FETCH_FAIL') == '1':
+        raise RuntimeError('forced fetch failure for fallback validation')
+
     errors: list[str] = []
     ua_pool = UA_POOL_CLASH if kind == 'core' else UA_POOL_LOON
     strategies: list[tuple[str, Callable[[], tuple[str, str]]]] = []
 
-    # GitHub-hosted runners are currently blocked by upstream CDN. Keep the
-    # protected last-good report and fail fast instead of spending minutes on
-    # doomed browser/TLS impersonation retries.
     if os.environ.get('GITHUB_ACTIONS') == 'true':
         raise RuntimeError('CI/remote runner is blocked by upstream CDN/Cloudflare; run from an allowed network')
 
-    # curl_cffi changes the TLS/JA3 fingerprint; normal curl only changes HTTP headers.
     try:
         import curl_cffi  # noqa: F401
         strategies.append(('curl_cffi/chrome120', lambda: curl_cffi_once(url, BROWSER_UA, accept_header)))
@@ -155,67 +163,145 @@ def fetch_validated(url: str, ua: str, accept_header: str, validator: Callable[[
         except Exception as exc:
             errors.append(f'{method}: {exc.__class__.__name__}: {exc}')
             continue
+        text = normalize_text(text)
         if text.strip() and validator(text):
             return text, method
         errors.append(f'{method}: invalid ({meta}) head={snippet(text)}')
     raise RuntimeError(' || '.join(errors[-6:]))
 
 
+def has_bad_marker(text: str) -> bool:
+    head = text[:1000].lower()
+    return any(x in head for x in BAD_MARKERS)
+
+
+def payload_rule_lines(text: str) -> int:
+    in_payload = False
+    count = 0
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith('#'):
+            continue
+        if line == 'payload:':
+            in_payload = True
+            continue
+        if in_payload and line.startswith('- '):
+            count += 1
+    return count
+
+
+def loon_rule_lines(text: str) -> int:
+    return sum(
+        1
+        for line in (raw.strip() for raw in text.splitlines())
+        if line and not line.startswith(('#', '//', ';')) and ',' in line
+    )
+
+
 def looks_like_payload(text: str) -> bool:
-    head = text[:800].lower()
-    if any(x in head for x in ('<!doctype html', '<html', 'just a moment', 'cf-chl', 'forbidden', 'access denied')):
+    if has_bad_marker(text):
         return False
-    return any(line.strip() == 'payload:' for line in text.splitlines()[:40])
+    if not any(line.strip() == 'payload:' for line in text.splitlines()[:80]):
+        return False
+    return payload_rule_lines(text) > 0
 
 
 def looks_like_loon_rules(text: str) -> bool:
-    head = text[:800].lower()
-    if any(x in head for x in ('<!doctype html', '<html', 'just a moment', 'cf-chl', 'forbidden', 'access denied')):
+    if has_bad_marker(text):
         return False
-    return any(',' in s for s in (line.strip() for line in text.splitlines()) if s and not s.startswith(('#', '//', ';')))
+    return loon_rule_lines(text) > 0
 
 
-def existing_ok(path: Path, kind: str) -> bool:
+def validate_text(text: str, kind: str) -> tuple[bool, dict]:
+    text = normalize_text(text)
+    line_count = len(text.splitlines())
+    stats = {
+        'bytes': len(text.encode('utf-8')),
+        'lines': line_count,
+        'sha256_16': sha256(text.encode('utf-8')).hexdigest()[:16],
+    }
+    if kind == 'core':
+        stats['rule_lines'] = payload_rule_lines(text)
+        ok = looks_like_payload(text)
+        reason = 'ok' if ok else 'missing payload/rules or blocked html'
+    else:
+        stats['rule_lines'] = loon_rule_lines(text)
+        ok = looks_like_loon_rules(text)
+        reason = 'ok' if ok else 'missing loon rules or blocked html'
+    stats['reason'] = reason
+    return ok, stats
+
+
+def existing_ok(path: Path, kind: str) -> tuple[bool, dict]:
     if not path.exists():
-        return False
+        return False, {'reason': 'missing'}
     try:
         text = path.read_text(encoding='utf-8')
-    except Exception:
-        return False
-    return looks_like_payload(text) if kind == 'core' else looks_like_loon_rules(text)
+    except Exception as exc:
+        return False, {'reason': f'unreadable: {exc.__class__.__name__}'}
+    return validate_text(text, kind)
 
 
 def save_text(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(text, encoding='utf-8')
+    path.write_text(normalize_text(text), encoding='utf-8')
 
 
-def sort_section(section: dict) -> dict:
-    # Keep insertion order stable with config order; this avoids noisy report diffs.
-    return section
+def copy_existing(src: Path, dst: Path) -> None:
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(src, dst)
 
 
-def sync_group(name: str, items: dict[str, str], out_dir: Path, suffix: str, ua: str, accept_header: str, validator: Callable[[str], bool]) -> dict:
-    section = {'ok': [], 'failed': [], 'kept': [], 'source': {}, 'status': {}}
+def sync_group(
+    kind: str,
+    items: dict[str, str],
+    out_dir: Path,
+    suffix: str,
+    ua: str,
+    accept_header: str,
+    validator: Callable[[str], bool],
+    stage_root: Path,
+) -> dict:
+    section = {'ok': [], 'failed': [], 'kept': [], 'source': {}, 'status': {}, 'checks': {}}
+    stage_dir = stage_root / out_dir.relative_to(ROOT)
     for rule_name, url in items.items():
         rel = f'{out_dir.relative_to(ROOT)}/{rule_name}{suffix}'
         path = out_dir / f'{rule_name}{suffix}'
+        stage_path = stage_dir / f'{rule_name}{suffix}'
         try:
-            text, method = fetch_validated(url, ua, accept_header, validator, name)
-            save_text(path, text)
+            text, method = fetch_validated(url, ua, accept_header, validator, kind)
+            ok, stats = validate_text(text, kind)
+            if not ok:
+                raise RuntimeError(stats['reason'])
+            save_text(stage_path, text)
             section['ok'].append(rule_name)
             section['source'][rule_name] = {'url': url, 'method': method, 'ua': ua}
             section['status'][rule_name] = 'updated-verified'
+            section['checks'][rule_name] = stats | {'path': rel, 'source': 'download'}
         except Exception as exc:
-            kept = existing_ok(path, name)
+            kept, stats = existing_ok(path, kind)
             if kept:
+                copy_existing(path, stage_path)
                 section['kept'].append(rule_name)
-                section['source'][rule_name] = {'url': url, 'method': 'last-known-good', 'ua': ua, 'note': 'latest fetch failed; kept existing verified file'}
+                section['source'][rule_name] = {
+                    'url': url,
+                    'method': 'last-known-good',
+                    'ua': ua,
+                    'note': 'latest fetch failed; kept existing verified file',
+                }
                 section['status'][rule_name] = 'kept-last-known-good'
+                section['checks'][rule_name] = stats | {'path': rel, 'source': 'last-known-good'}
             else:
-                section['status'][rule_name] = 'failed-verified'
-            section['failed'].append({'name': rule_name, 'path': rel, 'url': url, 'error': str(exc), 'kept_last_good': kept})
-    return sort_section(section)
+                section['status'][rule_name] = 'failed-no-valid-fallback'
+                section['checks'][rule_name] = stats | {'path': rel, 'source': 'missing-or-invalid'}
+            section['failed'].append({
+                'name': rule_name,
+                'path': rel,
+                'url': url,
+                'error': str(exc),
+                'kept_last_good': kept,
+            })
+    return section
 
 
 def write_json(path: Path, data: dict) -> None:
@@ -223,38 +309,98 @@ def write_json(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
-def main() -> int:
-    report = {
-        'meta': {
-            'note': 'ok=downloaded this run; failed+kept_last_good=true means latest fetch failed but existing verified file was preserved',
-            'expected_core': len(CLASH_RULES),
-            'expected_loon': len(LOON_REMOTE_SOURCES),
-            'schedule_hint': 'external scheduler; run upstream/scripts/local_sync_and_push.py',
-        }
+def publish_stage(stage_root: Path) -> None:
+    for rel in ('upstream/core', 'upstream/loon'):
+        src_dir = stage_root / rel
+        dst_dir = ROOT / rel
+        if not src_dir.exists():
+            continue
+        for src in src_dir.rglob('*'):
+            if not src.is_file():
+                continue
+            dst = dst_dir / src.relative_to(src_dir)
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
+
+
+def summarize(report: dict) -> dict:
+    core = report['core']
+    loon = report['loon_remote']
+    hard_failed = [x for x in core['failed'] + loon['failed'] if not x.get('kept_last_good')]
+    return {
+        'core_ok': len(core['ok']),
+        'core_failed': len(core['failed']),
+        'core_kept': len(core['kept']),
+        'loon_ok': len(loon['ok']),
+        'loon_failed': len(loon['failed']),
+        'loon_kept': len(loon['kept']),
+        'hard_failed': len(hard_failed),
     }
-    report['core'] = sync_group('core', CLASH_RULES, CORE_DIR, '.yaml', UA_CLASH, 'Accept: application/yaml,text/yaml,*/*;q=0.9', looks_like_payload)
-    report['loon_remote'] = sync_group('loon_remote', LOON_REMOTE_SOURCES, LOON_DIR, '.lsr', UA_LOON, 'Accept: text/plain,*/*;q=0.9', looks_like_loon_rules)
+
+
+def check_existing() -> int:
+    groups = [
+        ('core', CLASH_RULES, CORE_DIR, '.yaml'),
+        ('loon_remote', LOON_REMOTE_SOURCES, LOON_DIR, '.lsr'),
+    ]
+    report = {'meta': {'mode': 'check-existing'}, 'core': {'checks': {}}, 'loon_remote': {'checks': {}}}
+    failed = []
+    for kind, items, out_dir, suffix in groups:
+        for rule_name in items:
+            path = out_dir / f'{rule_name}{suffix}'
+            ok, stats = existing_ok(path, kind)
+            rel = f'{out_dir.relative_to(ROOT)}/{rule_name}{suffix}'
+            report[kind]['checks'][rule_name] = stats | {'path': rel, 'valid': ok}
+            if not ok:
+                failed.append(rel)
     summary = {
-        'core_ok': len(report['core']['ok']),
-        'core_failed': len(report['core']['failed']),
-        'core_kept': len(report['core']['kept']),
-        'loon_ok': len(report['loon_remote']['ok']),
-        'loon_failed': len(report['loon_remote']['failed']),
-        'loon_kept': len(report['loon_remote']['kept']),
+        'mode': 'check-existing',
+        'expected_core': len(CLASH_RULES),
+        'expected_loon': len(LOON_REMOTE_SOURCES),
+        'failed': len(failed),
+        'failed_paths': failed[:20],
     }
     print(json.dumps(summary, ensure_ascii=False))
+    return 1 if failed else 0
 
-    failed_count = summary['core_failed'] + summary['loon_failed']
-    allow_kept = os.environ.get('ALLOW_KEPT_ON_FAIL') == '1'
-    if failed_count and not allow_kept:
-        write_json(FAILED_REPORT_PATH, report)
-        print(f'upstream fetch incomplete; kept tracked {REPORT_PATH} unchanged; diagnostics: {FAILED_REPORT_PATH}', file=sys.stderr)
-        return 1
 
-    write_json(REPORT_PATH, report)
-    if FAILED_REPORT_PATH.exists():
-        FAILED_REPORT_PATH.unlink()
-    return 0
+def main() -> int:
+    parser = argparse.ArgumentParser(description='Synchronize verified upstream rule files.')
+    parser.add_argument('--allow-kept', action='store_true', help='accept verified last-known-good files when latest fetch fails')
+    parser.add_argument('--check-existing', action='store_true', help='validate currently published files without network access')
+    args = parser.parse_args()
+
+    if args.check_existing:
+        return check_existing()
+
+    allow_kept = args.allow_kept or os.environ.get('ALLOW_KEPT_ON_FAIL') == '1'
+    with tempfile.TemporaryDirectory(prefix='profiles-upstream-') as tmp:
+        stage_root = Path(tmp)
+        report = {
+            'meta': {
+                'note': 'ok=downloaded this run; kept=verified last-known-good fallback; publish happens only after all expected files pass validation',
+                'expected_core': len(CLASH_RULES),
+                'expected_loon': len(LOON_REMOTE_SOURCES),
+                'allow_kept': allow_kept,
+                'schedule_hint': 'external scheduler; run upstream/scripts/local_sync_and_push.py',
+            }
+        }
+        report['core'] = sync_group('core', CLASH_RULES, CORE_DIR, '.yaml', UA_CLASH, 'Accept: application/yaml,text/yaml,*/*;q=0.9', looks_like_payload, stage_root)
+        report['loon_remote'] = sync_group('loon_remote', LOON_REMOTE_SOURCES, LOON_DIR, '.lsr', UA_LOON, 'Accept: text/plain,*/*;q=0.9', looks_like_loon_rules, stage_root)
+        summary = summarize(report)
+        print(json.dumps(summary, ensure_ascii=False))
+
+        failed_count = summary['core_failed'] + summary['loon_failed']
+        if summary['hard_failed'] or (failed_count and not allow_kept):
+            write_json(FAILED_REPORT_PATH, report)
+            print(f'upstream sync did not pass gate; published files unchanged; diagnostics: {FAILED_REPORT_PATH}', file=sys.stderr)
+            return 1
+
+        publish_stage(stage_root)
+        write_json(REPORT_PATH, report)
+        if FAILED_REPORT_PATH.exists():
+            FAILED_REPORT_PATH.unlink()
+        return 0
 
 
 if __name__ == '__main__':
