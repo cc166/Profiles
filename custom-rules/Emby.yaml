@@ -5,8 +5,8 @@ payload:
   - DOMAIN,bai1.yezi.my
   - DOMAIN,bai3.yezi.my
   - DOMAIN,bai6.yezi.my
-  - DOMAIN-SUFFIX,ciallo.party
   - DOMAIN,a.emby.my
+  - DOMAIN-SUFFIX,ciallo.party
   - DOMAIN,emby.feiniu.lol
   - DOMAIN,emby.heisi.org
   - DOMAIN,emby.levilde.bond
