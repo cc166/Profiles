@@ -1,5 +1,5 @@
-# UpdateTime：2026-05-10 03:07:02
-# RuleCount：718
+# UpdateTime：2026-05-12 03:06:49
+# RuleCount：711
 payload:
   - DOMAIN,lens.l.google.com
   - DOMAIN,mtalk.google.com
@@ -546,13 +546,6 @@ payload:
   - DOMAIN-SUFFIX,googleflights-cn.net
   - DOMAIN-SUFFIX,onefifteen.net
   - DOMAIN-SUFFIX,picasaweb.net
-  - DOMAIN-SUFFIX,download.qatp1.net
-  - DOMAIN-SUFFIX,qagpublic.qatp1.net
-  - DOMAIN-SUFFIX,qualysapi.qatp1.net
-  - DOMAIN-SUFFIX,qgadmin.qcpp1.net
-  - DOMAIN-SUFFIX,scanservice1.qcpp1.net
-  - DOMAIN-SUFFIX,monitoring.qpdp1.net
-  - DOMAIN-SUFFIX,qualysguard.qpdp1.net
   - DOMAIN-SUFFIX,recaptcha.net
   - DOMAIN-SUFFIX,recaptcha-cn.net
   - DOMAIN-SUFFIX,stxmosquitoproject.net
