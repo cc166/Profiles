@@ -1,5 +1,5 @@
-# UpdateTime：2026-04-30 16:30:30
-# RuleCount：81
+# UpdateTime：2026-05-12 15:34:16
+# RuleCount：83
 payload:
   - DOMAIN,engagements.appsflyer.com
   - DOMAIN,roovza-launches.appsflyersdk.com
@@ -82,3 +82,5 @@ payload:
   - DOMAIN-KEYWORD,bytedance.map.
   - DOMAIN-KEYWORD,tiktokcdn.com.
   - DOMAIN-KEYWORD,ttlivecdn.com.
+  - IP-ASN,11983
+  - IP-ASN,138699
