@@ -1,4 +1,4 @@
-# UpdateTime：2026-05-12 15:34:16
+# UpdateTime：2026-05-14 01:33:27
 # RuleCount：9
 payload:
   - IP-CIDR,10.0.0.0/8,no-resolve
