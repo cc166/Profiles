@@ -46,4 +46,4 @@ payload:
 #DOMAIN,nangua.de,DIRECT
 # 用于判断用户所在地区分配下载CDN的地址
   - DOMAIN-SUFFIX,steamserver.net
-  - DOMAIN,emby.n150.asia
+  - DOMAIN,emby.n150.asia,DIRECT  #瞬影

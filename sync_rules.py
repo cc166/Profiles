@@ -15,7 +15,7 @@ import argparse
 import os
 import subprocess
 from pathlib import Path
-from typing import Iterable, Optional, Tuple
+from typing import Iterable, Optional
 
 ROOT = Path(__file__).resolve().parent
 CUSTOM_RULES = ROOT / "custom-rules"
@@ -50,6 +50,16 @@ VALID_RULE_TYPES = {
     "RULE-SET",
     "DOMAIN-SET",
 }
+LOON_POLICY_FIELDS = {
+    "DIRECT",
+    "PROXY",
+    "REJECT",
+    "REJECT-DROP",
+    "REJECT-NO-DROP",
+    "REJECT-TINYGIF",
+    "REJECT-IMG",
+    "REJECT-DICT",
+}
 
 
 def run_git(args: list[str]) -> subprocess.CompletedProcess[str]:
@@ -83,24 +93,24 @@ def changed_files_from_git() -> set[Path]:
     return {ROOT / x for x in candidates if x.endswith((".lsr", ".yaml", ".yml"))}
 
 
-def split_rule(content: str) -> Optional[Tuple[str, str]]:
+def split_rule(content: str) -> Optional[Tuple[str, str, list[str]]]:
     parts = [p.strip() for p in content.split(",")]
     if len(parts) < 2:
         return None
     rule_type = parts[0].upper()
     if rule_type not in VALID_RULE_TYPES:
         return None
-    return rule_type, parts[1]
+    return rule_type, parts[1], parts[2:]
 
 
-def parse_loon_line(line: str) -> Optional[Tuple[str, str]]:
+def parse_loon_line(line: str) -> Optional[Tuple[str, str, list[str]]]:
     stripped = line.strip()
     if not stripped or stripped.startswith(("#", "//", ";")):
         return None
     return split_rule(stripped)
 
 
-def parse_clash_line(line: str) -> Optional[Tuple[str, str]]:
+def parse_clash_line(line: str) -> Optional[Tuple[str, str, list[str]]]:
     stripped = line.strip()
     if not stripped or stripped == "payload:" or stripped.startswith(("#", "//", ";")):
         return None
@@ -114,6 +124,12 @@ def normalize_value(rule_type: str, value: str) -> str:
     if rule_type in {"DOMAIN", "DOMAIN-SUFFIX", "DOMAIN-KEYWORD"}:
         return value.lower()
     return value
+
+
+def format_rule(rule_type: str, value: str, extras: list[str]) -> str:
+    parts = [rule_type, normalize_value(rule_type, value)]
+    parts.extend(x for x in extras if x)
+    return ",".join(parts)
 
 
 def loon_to_clash(loon_file: Path, clash_file: Path) -> None:
@@ -139,8 +155,9 @@ def loon_to_clash(loon_file: Path, clash_file: Path) -> None:
             continue
         parsed = parse_loon_line(raw)
         if parsed:
-            rule_type, value = parsed
-            lines.append(f"  - {rule_type},{normalize_value(rule_type, value)}")
+            rule_type, value, extras = parsed
+            extras = [x for x in extras if x.upper() not in LOON_POLICY_FIELDS]
+            lines.append(f"  - {format_rule(rule_type, value, extras)}")
     clash_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -161,8 +178,10 @@ def clash_to_loon(clash_file: Path, loon_file: Path) -> None:
             continue
         parsed = parse_clash_line(raw)
         if parsed:
-            rule_type, value = parsed
-            lines.append(f"{rule_type},{normalize_value(rule_type, value)}")
+            rule_type, value, extras = parsed
+            if not extras:
+                extras = ["DIRECT"]
+            lines.append(format_rule(rule_type, value, extras))
     loon_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
