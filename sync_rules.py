@@ -167,10 +167,6 @@ def clash_to_loon(clash_file: Path, loon_file: Path) -> None:
 
 
 def choose_source(lsr_file: Path, yaml_file: Path, changed: set[Path]) -> Optional[str]:
-    default_source = DEFAULT_SOURCE_BY_STEM.get(lsr_file.stem)
-    if default_source:
-        return default_source
-
     lsr_changed = lsr_file in changed
     yaml_changed = yaml_file in changed
     if lsr_changed and not yaml_changed:
@@ -179,6 +175,14 @@ def choose_source(lsr_file: Path, yaml_file: Path, changed: set[Path]) -> Option
         return "yaml"
     if lsr_changed and yaml_changed:
         return "lsr" if lsr_file.stat().st_mtime >= yaml_file.stat().st_mtime else "yaml"
+
+    # Stable pairs may have a preferred source only when Git history / working tree
+    # does not identify which side was edited. Do not let the default override an
+    # explicit YAML edit; custom-rules must stay bidirectional.
+    default_source = DEFAULT_SOURCE_BY_STEM.get(lsr_file.stem)
+    if default_source:
+        return default_source
+
     if lsr_file.exists() and yaml_file.exists():
         return "lsr" if lsr_file.stat().st_mtime >= yaml_file.stat().st_mtime else "yaml"
     return None
