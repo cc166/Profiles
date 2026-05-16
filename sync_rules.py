@@ -93,24 +93,33 @@ def changed_files_from_git() -> set[Path]:
     return {ROOT / x for x in candidates if x.endswith((".lsr", ".yaml", ".yml"))}
 
 
-def split_rule(content: str) -> Optional[Tuple[str, str, list[str]]]:
-    parts = [p.strip() for p in content.split(",")]
+def split_inline_comment(content: str) -> tuple[str, str]:
+    for idx, char in enumerate(content):
+        if char == "#" and idx > 0 and content[idx - 1].isspace():
+            body = content[:idx].rstrip()
+            return body, content[len(body):]
+    return content, ""
+
+
+def split_rule(content: str) -> Optional[tuple[str, str, list[str], str]]:
+    body, comment = split_inline_comment(content)
+    parts = [p.strip() for p in body.split(",")]
     if len(parts) < 2:
         return None
     rule_type = parts[0].upper()
     if rule_type not in VALID_RULE_TYPES:
         return None
-    return rule_type, parts[1], parts[2:]
+    return rule_type, parts[1], parts[2:], comment
 
 
-def parse_loon_line(line: str) -> Optional[Tuple[str, str, list[str]]]:
+def parse_loon_line(line: str) -> Optional[tuple[str, str, list[str], str]]:
     stripped = line.strip()
     if not stripped or stripped.startswith(("#", "//", ";")):
         return None
     return split_rule(stripped)
 
 
-def parse_clash_line(line: str) -> Optional[Tuple[str, str, list[str]]]:
+def parse_clash_line(line: str) -> Optional[tuple[str, str, list[str], str]]:
     stripped = line.strip()
     if not stripped or stripped == "payload:" or stripped.startswith(("#", "//", ";")):
         return None
@@ -126,10 +135,10 @@ def normalize_value(rule_type: str, value: str) -> str:
     return value
 
 
-def format_rule(rule_type: str, value: str, extras: list[str]) -> str:
+def format_rule(rule_type: str, value: str, extras: list[str], comment: str = "") -> str:
     parts = [rule_type, normalize_value(rule_type, value)]
     parts.extend(x for x in extras if x)
-    return ",".join(parts)
+    return ",".join(parts) + comment
 
 
 def loon_to_clash(loon_file: Path, clash_file: Path) -> None:
@@ -155,9 +164,9 @@ def loon_to_clash(loon_file: Path, clash_file: Path) -> None:
             continue
         parsed = parse_loon_line(raw)
         if parsed:
-            rule_type, value, extras = parsed
+            rule_type, value, extras, comment = parsed
             extras = [x for x in extras if x.upper() not in LOON_POLICY_FIELDS]
-            lines.append(f"  - {format_rule(rule_type, value, extras)}")
+            lines.append(f"  - {format_rule(rule_type, value, extras, comment)}")
     clash_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -178,10 +187,12 @@ def clash_to_loon(clash_file: Path, loon_file: Path) -> None:
             continue
         parsed = parse_clash_line(raw)
         if parsed:
-            rule_type, value, extras = parsed
-            if not extras:
-                extras = ["DIRECT"]
-            lines.append(format_rule(rule_type, value, extras))
+            rule_type, value, extras, comment = parsed
+            policy = [x for x in extras if x.upper() in LOON_POLICY_FIELDS]
+            rest = [x for x in extras if x.upper() not in LOON_POLICY_FIELDS]
+            if not policy:
+                policy = ["DIRECT"]
+            lines.append(format_rule(rule_type, value, [*policy, *rest], comment))
     loon_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -207,8 +218,8 @@ def choose_source(lsr_file: Path, yaml_file: Path, changed: set[Path]) -> Option
     return None
 
 
-def paired_files() -> Iterable[Tuple[Path, Path]]:
-    yielded: set[Tuple[Path, Path]] = set()
+def paired_files() -> Iterable[tuple[Path, Path]]:
+    yielded: set[tuple[Path, Path]] = set()
     for lsr, yaml in PAIR_ALIASES:
         if lsr.exists() and yaml.exists():
             pair = (lsr, yaml)
