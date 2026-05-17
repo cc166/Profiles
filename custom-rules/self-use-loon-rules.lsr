@@ -30,14 +30,12 @@ DOMAIN,emos.255432.xyz,DIRECT
 DOMAIN,vipzy.yezi.my,DIRECT
 # 解说
 DOMAIN,pieclip.okbap.com,DIRECT
-# 群友提供 star 反代
-DOMAIN-SUFFIX,szze.online,DIRECT
-DOMAIN-SUFFIX,simonvan.space,DIRECT
 # 肥牛
 #DOMAIN-SUFFIX,feiniu.lol,DIRECT
 # lily
 DOMAIN,free.lilyemby.com,DIRECT
 DOMAIN,cfstream.lilyya.top,DIRECT
+DOMAIN-SUFFIX,nginxlily.cyou，DIRECT
 # younoyes
 DOMAIN,us.younoyes.com,DIRECT
 # hka
