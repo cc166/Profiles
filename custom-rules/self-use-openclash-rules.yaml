@@ -31,14 +31,12 @@ payload:
   - DOMAIN,vipzy.yezi.my
 # 解说
   - DOMAIN,pieclip.okbap.com
-# 群友提供 star 反代
-  - DOMAIN-SUFFIX,szze.online
-  - DOMAIN-SUFFIX,simonvan.space
 # 肥牛
 #DOMAIN-SUFFIX,feiniu.lol,DIRECT
 # lily
   - DOMAIN,free.lilyemby.com
   - DOMAIN,cfstream.lilyya.top
+  - DOMAIN-SUFFIX,nginxlily.cyou，direct
 # younoyes
   - DOMAIN,us.younoyes.com
 # hka
