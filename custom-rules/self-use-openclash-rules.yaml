@@ -46,3 +46,5 @@ payload:
 # 用于判断用户所在地区分配下载CDN的地址
   - DOMAIN-SUFFIX,steamserver.net
   - DOMAIN,emby.n150.asia  #瞬影
+  - DOMAIN,emby.n150.asia  #瞬影
+  - DOMAIN,yd01.n150.asia  #瞬影
