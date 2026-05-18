@@ -45,3 +45,5 @@ DOMAIN,hka-emby.aliz.work,DIRECT
 # 用于判断用户所在地区分配下载CDN的地址
 DOMAIN-SUFFIX,steamserver.net,DIRECT
 DOMAIN,emby.n150.asia,DIRECT  #瞬影
+DOMAIN,emby.n150.asia,DIRECT  #瞬影
+DOMAIN,yd01.n150.asia,DIRECT  #瞬影
