@@ -45,3 +45,4 @@ payload:
 #DOMAIN,nangua.de,DIRECT
 # 用于判断用户所在地区分配下载CDN的地址
   - DOMAIN-SUFFIX,steamserver.net
+  - DOMAIN-SUFFIX,n150.asia  #瞬影
