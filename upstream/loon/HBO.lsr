@@ -1,4 +1,4 @@
-# UpdateTime：2026-05-20 03:11:45
+# UpdateTime：2026-05-22 03:11:19
 # RuleCount：49
 DOMAIN-SUFFIX, execute-api.ap-southeast-1.amazonaws.com
 DOMAIN-SUFFIX, execute-api.us-east-1.amazonaws.com
