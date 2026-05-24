@@ -1,4 +1,4 @@
-# UpdateTime：2026-05-14 01:33:27
+# UpdateTime：2026-05-25 02:38:46
 # RuleCount：83
 payload:
   - DOMAIN,engagements.appsflyer.com
@@ -82,5 +82,5 @@ payload:
   - DOMAIN-KEYWORD,bytedance.map.
   - DOMAIN-KEYWORD,tiktokcdn.com.
   - DOMAIN-KEYWORD,ttlivecdn.com.
-  - IP-ASN,11983
-  - IP-ASN,138699
+  - IP-ASN,11983,no-resolve
+  - IP-ASN,138699,no-resolve

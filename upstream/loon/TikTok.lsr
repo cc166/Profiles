@@ -1,5 +1,5 @@
 # TikTok by 可莉
-# 2026-05-12 15:24:57
+# 2026-05-25 02:35:22
 DOMAIN, api.snapkit.com
 DOMAIN, cocacola.co.jp
 DOMAIN, courses.snapsolve.com
@@ -81,5 +81,5 @@ DOMAIN-KEYWORD, tiktokcdn.com.
 DOMAIN-KEYWORD, tiktokv.com.
 DOMAIN-KEYWORD, ttcdn-tos.
 DOMAIN-KEYWORD, ttlivecdn.com.
-IP-ASN, 11983
-IP-ASN, 138699
+IP-ASN, 11983, no-resolve
+IP-ASN, 138699, no-resolve
