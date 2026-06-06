@@ -36,7 +36,7 @@ payload:
 # lily
   - DOMAIN,free.lilyemby.com
   - DOMAIN,cfstream.lilyya.top
-  - DOMAIN-SUFFIX,nginxlily.cyou
+  - DOMAIN-SUFFIX,lilyemby.cc
 # younoyes
   - DOMAIN,us.younoyes.com
 # hka
