@@ -49,6 +49,7 @@ payload:
   - DOMAIN,yusen.cyou  #屿森
   - DOMAIN,yusen8.ccwu.cc  #屿森
   - DOMAIN,relay.paseo.sh  #paseo
+#抖音
   - DOMAIN-SUFFIX,douyin.com  #抖音
   - DOMAIN-SUFFIX,douyinvod.com  #抖音
   - DOMAIN-SUFFIX,snssdk.com  #抖音
