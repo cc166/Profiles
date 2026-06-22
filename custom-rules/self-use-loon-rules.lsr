@@ -48,3 +48,7 @@ DOMAIN,emby.yusen6.ccwu.cc,DIRECT  #屿森
 DOMAIN,yusen.cyou,DIRECT  #屿森
 DOMAIN,yusen8.ccwu.cc,DIRECT  #屿森
 DOMAIN,relay.paseo.sh,DIRECT  #paseo
+DOMAIN-SUFFIX,douyin.com,DIRECT  #抖音
+DOMAIN-SUFFIX,douyinvod.com,DIRECT  #抖音
+DOMAIN-SUFFIX,snssdk.com,DIRECT  #抖音
+DOMAIN-SUFFIX,pstatp.com,DIRECT  #抖音
