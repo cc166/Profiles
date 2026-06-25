@@ -1,4 +1,4 @@
-# 2026-06-19 15:36:00
+# 2026-06-26 00:08:04
 # OpenAI
 AND, ((DOMAIN-KEYWORD, chatgpt-async-webps-prod-), (DOMAIN-SUFFIX, webpubsub.azure.com))
 AND, ((DOMAIN-KEYWORD, openaicom-api-), (DOMAIN-SUFFIX, azurefd.net))
@@ -162,3 +162,6 @@ DOMAIN-SUFFIX, z.ai
 # 小米国际
 DOMAIN, token-plan-sgp.xiaomimimo.com
 DOMAIN, token-plan-ams.xiaomimimo.com
+
+# Agnes AI
+DOMAIN-SUFFIX, agnes-ai.com
