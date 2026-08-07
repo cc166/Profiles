@@ -45,7 +45,8 @@ payload:
 #DOMAIN,nangua.de,DIRECT
 # 用于判断用户所在地区分配下载CDN的地址
   - DOMAIN-SUFFIX,steamserver.net
-  - DOMAIN,emby.yusen6.ccwu.cc  #屿森
-  - DOMAIN,yusen.cyou  #屿森
-  - DOMAIN,yusen8.ccwu.cc  #屿森
+  - DOMAIN-SUFFIX,yusen6.ccwu.cc  #予初
+  - DOMAIN-SUFFIX,yusen.cyou  #予初
+  - DOMAIN-SUFFIX,yusen.us.ci  #予初
+  - DOMAIN-SUFFIX,yusen.cc.cd  #予初
   - DOMAIN,relay.paseo.sh  #paseo
