@@ -44,7 +44,8 @@ DOMAIN,hka-emby.aliz.work,DIRECT
 #DOMAIN,nangua.de,DIRECT
 # 用于判断用户所在地区分配下载CDN的地址
 DOMAIN-SUFFIX,steamserver.net,DIRECT
-DOMAIN,emby.yusen6.ccwu.cc,DIRECT  #屿森
-DOMAIN,yusen.cyou,DIRECT  #屿森
-DOMAIN,yusen8.ccwu.cc,DIRECT  #屿森
+DOMAIN-SUFFIX,yusen6.ccwu.cc,DIRECT  #予初
+DOMAIN-SUFFIX,yusen.cyou,DIRECT  #予初
+DOMAIN-SUFFIX,yusen.us.ci,DIRECT  #予初
+DOMAIN-SUFFIX,yusen.cc.cd,DIRECT  #予初
 DOMAIN,relay.paseo.sh,DIRECT  #paseo
