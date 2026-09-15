@@ -2,53 +2,50 @@
 # Canonical editable source; sync with sync_rules.py.
 # Local rule source
 # 通用直连
-DOMAIN,superapi.buzz,DIRECT
-DOMAIN,ai.input.im,DIRECT
-DOMAIN,api.99dun.cc,DIRECT
-DOMAIN,ai.td.ee,DIRECT
-DOMAIN,id.td.ee,DIRECT
-DOMAIN,www.zwduxs.com,DIRECT
-DOMAIN,codex.ciii.club,DIRECT
-DOMAIN,appportal.cqmetro.cn,DIRECT
-DOMAIN,m5.amap.com,DIRECT
-DOMAIN,testflight.apple.com,DIRECT
+DOMAIN,superapi.buzz
+DOMAIN,ai.input.im
+DOMAIN,api.99dun.cc
+DOMAIN,ai.td.ee
+DOMAIN,id.td.ee
+DOMAIN,www.zwduxs.com
+DOMAIN,codex.ciii.club
+DOMAIN,appportal.cqmetro.cn
+DOMAIN,m5.amap.com
+DOMAIN,testflight.apple.com
 # helloblock
-DOMAIN,us01.doudou.pet,DIRECT
+DOMAIN,us01.doudou.pet
 # 音乐
-DOMAIN,music.wenjian.de,DIRECT
-DOMAIN,nangua.de,DIRECT
-DOMAIN,yinhai.aiinyue.com,DIRECT
+DOMAIN,music.wenjian.de
+DOMAIN,nangua.de
+DOMAIN,yinhai.aiinyue.com
 # emos反代
-DOMAIN,emos.200038.xyz,DIRECT
-DOMAIN,emos.137127.xyz,DIRECT
-DOMAIN,clun.top,DIRECT
-DOMAIN,media.emos.club,DIRECT
-DOMAIN,pro.111196123.xyz,DIRECT
-DOMAIN,emos.liuer.indevs.in,DIRECT
-DOMAIN,emos.255432.xyz,DIRECT
+DOMAIN,emos.200038.xyz
+DOMAIN,emos.137127.xyz
+DOMAIN,clun.top
+DOMAIN,media.emos.club
+DOMAIN,pro.111196123.xyz
+DOMAIN,emos.liuer.indevs.in
+DOMAIN,emos.255432.xyz
 # 叶子
-DOMAIN,vipzy.yezi.my,DIRECT
+DOMAIN,vipzy.yezi.my
 # 解说
-DOMAIN,pieclip.okbap.com,DIRECT
-# 肥牛
-#DOMAIN-SUFFIX,feiniu.lol,DIRECT
+DOMAIN,pieclip.okbap.com
 # lily
-DOMAIN,free.lilyemby.com,DIRECT
-DOMAIN,cfstream.lilyya.top,DIRECT
-DOMAIN-SUFFIX,lilyemby.cc,DIRECT
+DOMAIN,free.lilyemby.com
+DOMAIN,cfstream.lilyya.top
+DOMAIN-SUFFIX,lilyemby.cc
 # younoyes
-DOMAIN,us.younoyes.com,DIRECT
+DOMAIN,wufrqqox.younoyes.com  #youns
 # hka
-DOMAIN,hka-emby.aliz.work,DIRECT
+DOMAIN,hka-emby.aliz.work
 # 南瓜
 #DOMAIN,nangua.de,DIRECT
 # 用于判断用户所在地区分配下载CDN的地址
-DOMAIN-SUFFIX,steamserver.net,DIRECT
-DOMAIN-SUFFIX,yusen6.ccwu.cc,DIRECT  #予初
-DOMAIN-SUFFIX,yusen.cyou,DIRECT  #予初
-DOMAIN-SUFFIX,yusen.us.ci,DIRECT  #予初
-DOMAIN-SUFFIX,yusen.cc.cd,DIRECT  #予初
-DOMAIN,relay.paseo.sh,DIRECT  #paseo
-DOMAIN,gossip.lat,DIRECT  #蜜雪冰城
-DOMAIN,moon.1314k.eu.org,DIRECT  #moon
-DOMAIN,wufrqqox.younoyes.com,DIRECT  #youns
+DOMAIN-SUFFIX,steamserver.net
+DOMAIN-SUFFIX,yusen6.ccwu.cc  #予初
+DOMAIN-SUFFIX,yusen.cyou  #予初
+DOMAIN-SUFFIX,yusen.us.ci  #予初
+DOMAIN-SUFFIX,yusen.cc.cd  #予初
+DOMAIN,relay.paseo.sh  #paseo
+DOMAIN,gossip.lat  #蜜雪冰城
+DOMAIN,moon.1314k.eu.org  #moon
