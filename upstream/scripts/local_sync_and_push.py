@@ -126,5 +126,11 @@ token = os.environ.get('GITHUB_TOKEN_5')
 if token:
     auth = base64.b64encode(f'x-access-token:{token}'.encode()).decode()
     push_cmd = ['git', '-c', f'http.https://github.com/.extraheader=AUTHORIZATION: basic {auth}', 'push', 'origin', 'master']
-run(push_cmd)
+try:
+    run(push_cmd)
+except subprocess.CalledProcessError:
+    # Upstream CI may push to master while we are syncing; rebase once and retry.
+    print('push rejected; rebasing onto origin/master and retrying once', file=sys.stderr)
+    run(['git', 'pull', '--rebase', 'origin', 'master'])
+    run(push_cmd)
 print('✅ committed and pushed:', msg)
