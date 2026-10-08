@@ -52,3 +52,5 @@ payload:
   - DOMAIN,emby.huangmin.cc.cd  #二楼
   - DOMAIN,emby2.huangmin.cc.cd  #二楼
   - DOMAIN,www.workbuddy.ai
+  - DOMAIN,wb-api.yang31.ccwu.cc  #workbuddy
+  - DOMAIN,cpa-api.yang31.ccwu.cc  #cpa
