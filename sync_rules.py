@@ -235,10 +235,10 @@ def paired_files() -> Iterable[tuple[Path, Path]]:
         if pair in yielded:
             continue
         if lsr.exists() and yaml.exists():
-            default_source = DEFAULT_SOURCE_BY_STEM.get(lsr.stem)
-            if default_source:
-                yielded.add(pair)
-                yield pair
+            # Any existing pair is managed. Direction comes from git diff / mtime;
+            # DEFAULT_SOURCE_BY_STEM only breaks ties for stable pairs.
+            yielded.add(pair)
+            yield pair
 
 
 def sync_rules(force: Optional[str] = None) -> list[str]:

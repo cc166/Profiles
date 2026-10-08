@@ -24,7 +24,7 @@ LOON_DIR = ROOT / 'upstream' / 'loon'
 REPORT_PATH = ROOT / 'upstream' / '_sync_report.json'
 FAILED_REPORT_PATH = ROOT / 'upstream' / '_sync_report.failed.json'
 
-LOON_REMOTE_SOURCES = {
+LOON_REMOTE_SOURCES = {  # NEW_BATCH_2026_10
     'LAN_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/LAN_SPLITTER.lsr',
     'REGION_SPLITTER': 'https://kelee.one/Tool/Loon/Lsr/REGION_SPLITTER.lsr',
     'AI': 'https://kelee.one/Tool/Loon/Lsr/AI.lsr',
@@ -65,6 +65,39 @@ LOON_REMOTE_SOURCES = {
     'ReelShort': 'https://kelee.one/Tool/Loon/Lsr/ReelShort.lsr',
     'Proxy': 'https://kelee.one/Tool/Loon/Lsr/Proxy.lsr',
     'Direct': 'https://kelee.one/Tool/Loon/Lsr/Direct.lsr',
+    # --- 2026-10-08 扩充批次（与 config.CLASH_RULES 两侧同加）---
+    'PayPal': 'https://rule.kelee.one/Loon/PayPal.lsr',
+    'Amazon': 'https://rule.kelee.one/Loon/Amazon.lsr',
+    'WeChat': 'https://rule.kelee.one/Loon/WeChat.lsr',
+    'Weibo': 'https://rule.kelee.one/Loon/Weibo.lsr',
+    'Bing': 'https://rule.kelee.one/Loon/Bing.lsr',
+    'Twitch': 'https://rule.kelee.one/Loon/Twitch.lsr',
+    'Discord': 'https://rule.kelee.one/Loon/Discord.lsr',
+    'Reddit': 'https://rule.kelee.one/Loon/Reddit.lsr',
+    'LinkedIn': 'https://rule.kelee.one/Loon/LinkedIn.lsr',
+    'Pinterest': 'https://rule.kelee.one/Loon/Pinterest.lsr',
+    'Line': 'https://rule.kelee.one/Loon/Line.lsr',
+    'KakaoTalk': 'https://rule.kelee.one/Loon/KakaoTalk.lsr',
+    'Zhihu': 'https://rule.kelee.one/Loon/Zhihu.lsr',
+    'eBay': 'https://rule.kelee.one/Loon/eBay.lsr',
+    'Adobe': 'https://rule.kelee.one/Loon/Adobe.lsr',
+    'Cloudflare': 'https://rule.kelee.one/Loon/Cloudflare.lsr',
+    'Notion': 'https://rule.kelee.one/Loon/Notion.lsr',
+    'Slack': 'https://rule.kelee.one/Loon/Slack.lsr',
+    'Jetbrains': 'https://rule.kelee.one/Loon/Jetbrains.lsr',
+    'Docker': 'https://rule.kelee.one/Loon/Docker.lsr',
+    'Vercel': 'https://rule.kelee.one/Loon/Vercel.lsr',
+    'Nintendo': 'https://rule.kelee.one/Loon/Nintendo.lsr',
+    'Xbox': 'https://rule.kelee.one/Loon/Xbox.lsr',
+    'Riot': 'https://rule.kelee.one/Loon/Riot.lsr',
+    'Blizzard': 'https://rule.kelee.one/Loon/Blizzard.lsr',
+    'HoYoverse': 'https://rule.kelee.one/Loon/HoYoverse.lsr',
+    'Hulu': 'https://rule.kelee.one/Loon/Hulu.lsr',
+    'AbemaTV': 'https://rule.kelee.one/Loon/AbemaTV.lsr',
+    'TencentVideo': 'https://rule.kelee.one/Loon/TencentVideo.lsr',
+    'Youku': 'https://rule.kelee.one/Loon/Youku.lsr',
+    'Wikipedia': 'https://rule.kelee.one/Loon/Wikipedia.lsr',
+    'Binance': 'https://rule.kelee.one/Loon/Binance.lsr',
 }
 
 UA_POOL_CLASH = ['clash.meta', 'clash.meta/1.18.10', 'mihomo/1.18.10', 'ClashforWindows/0.20.39']
@@ -273,6 +306,18 @@ def sync_group(
             ok, stats = validate_text(text, kind)
             if not ok:
                 raise RuntimeError(stats['reason'])
+            prev_lines = 0
+            if path.exists():
+                try:
+                    prev_lines = len(path.read_text(encoding='utf-8').splitlines())
+                except Exception:
+                    prev_lines = 0
+            new_lines = len(text.splitlines())
+            if prev_lines >= 50 and new_lines < prev_lines * 0.4:
+                raise RuntimeError(
+                    f'suspicious shrink: {prev_lines} -> {new_lines} lines (<40% of last good); '
+                    'refusing to publish, falling back to last-known-good'
+                )
             save_text(stage_path, text)
             section['ok'].append(rule_name)
             section['source'][rule_name] = {'url': url, 'method': method, 'ua': ua}
@@ -309,8 +354,13 @@ def write_json(path: Path, data: dict) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
-def publish_stage(stage_root: Path) -> None:
-    for rel in ('upstream/core', 'upstream/loon'):
+def publish_stage(stage_root: Path) -> list[str]:
+    """Publish staged files and prune anything no longer in the manifest."""
+    pruned: list[str] = []
+    for rel, items, suffix in (
+        ('upstream/core', CLASH_RULES, '.yaml'),
+        ('upstream/loon', LOON_REMOTE_SOURCES, '.lsr'),
+    ):
         src_dir = stage_root / rel
         dst_dir = ROOT / rel
         if not src_dir.exists():
@@ -321,6 +371,12 @@ def publish_stage(stage_root: Path) -> None:
             dst = dst_dir / src.relative_to(src_dir)
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dst)
+        expected = {f'{name}{suffix}' for name in items}
+        for existing in sorted(dst_dir.iterdir()):
+            if existing.is_file() and existing.name not in expected:
+                existing.unlink()
+                pruned.append(f'{rel}/{existing.name}')
+    return pruned
 
 
 def summarize(report: dict) -> dict:
@@ -396,7 +452,9 @@ def main() -> int:
             print(f'upstream sync did not pass gate; published files unchanged; diagnostics: {FAILED_REPORT_PATH}', file=sys.stderr)
             return 1
 
-        publish_stage(stage_root)
+        pruned = publish_stage(stage_root)
+        if pruned:
+            print('pruned stale upstream files: ' + ', '.join(pruned))
         write_json(REPORT_PATH, report)
         if FAILED_REPORT_PATH.exists():
             FAILED_REPORT_PATH.unlink()

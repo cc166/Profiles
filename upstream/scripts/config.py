@@ -1,6 +1,15 @@
 """
 统一配置文件 - 所有脚本共享
-修改此文件后，其他脚本自动生效
+
+MAINTENANCE NOTE (2026-10-08)
+  实际生效的是两处：
+    - CLASH_RULES          → upstream/scripts/sync_upstream_rules.py 读取
+    - LOON_REMOTE_SOURCES  → 硬编码在 sync_upstream_rules.py 内（本文件不含 Loon 清单）
+  以下内容为历史残留、当前没有任何实现，改动无效：
+    LOON_RULES / BM7_RULES / YUUMIMI_RULES / AI_SOURCES /
+    UPSTREAM_BM7 / UPSTREAM_YUUMIMI 及所有 *_SOURCE.txt 路径常量。
+  新增规则集必须 CLASH_RULES 与 sync_upstream_rules.py 的
+  LOON_REMOTE_SOURCES 同时登记，否则会产生孤儿文件。
 """
 
 from pathlib import Path
@@ -63,7 +72,7 @@ LOON_RULES = [
 ]
 
 # iKeLee Clash 规则（11 项 - 核心精简版）
-CLASH_RULES = {
+CLASH_RULES = {  # NEW_BATCH_2026_10
     # 文件内明确给出的规则（8 项）
     'LAN': 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml',
     'Direct': 'https://kelee.one/Tool/Clash/Rule/Direct.yaml',
@@ -87,6 +96,39 @@ CLASH_RULES = {
     'GitHub': 'https://rule.kelee.one/Clash/GitHub.yaml',
     'Microsoft': 'https://rule.kelee.one/Clash/Microsoft.yaml',
     'Steam': 'https://rule.kelee.one/Clash/Steam.yaml',
+    # --- 2026-10-08 扩充批次（两侧同加，勿单边）---
+    'PayPal': 'https://rule.kelee.one/Clash/PayPal.yaml',
+    'Amazon': 'https://rule.kelee.one/Clash/Amazon.yaml',
+    'WeChat': 'https://rule.kelee.one/Clash/WeChat.yaml',
+    'Weibo': 'https://rule.kelee.one/Clash/Weibo.yaml',
+    'Bing': 'https://rule.kelee.one/Clash/Bing.yaml',
+    'Twitch': 'https://rule.kelee.one/Clash/Twitch.yaml',
+    'Discord': 'https://rule.kelee.one/Clash/Discord.yaml',
+    'Reddit': 'https://rule.kelee.one/Clash/Reddit.yaml',
+    'LinkedIn': 'https://rule.kelee.one/Clash/LinkedIn.yaml',
+    'Pinterest': 'https://rule.kelee.one/Clash/Pinterest.yaml',
+    'Line': 'https://rule.kelee.one/Clash/Line.yaml',
+    'KakaoTalk': 'https://rule.kelee.one/Clash/KakaoTalk.yaml',
+    'Zhihu': 'https://rule.kelee.one/Clash/Zhihu.yaml',
+    'eBay': 'https://rule.kelee.one/Clash/eBay.yaml',
+    'Adobe': 'https://rule.kelee.one/Clash/Adobe.yaml',
+    'Cloudflare': 'https://rule.kelee.one/Clash/Cloudflare.yaml',
+    'Notion': 'https://rule.kelee.one/Clash/Notion.yaml',
+    'Slack': 'https://rule.kelee.one/Clash/Slack.yaml',
+    'Jetbrains': 'https://rule.kelee.one/Clash/Jetbrains.yaml',
+    'Docker': 'https://rule.kelee.one/Clash/Docker.yaml',
+    'Vercel': 'https://rule.kelee.one/Clash/Vercel.yaml',
+    'Nintendo': 'https://rule.kelee.one/Clash/Nintendo.yaml',
+    'Xbox': 'https://rule.kelee.one/Clash/Xbox.yaml',
+    'Riot': 'https://rule.kelee.one/Clash/Riot.yaml',
+    'Blizzard': 'https://rule.kelee.one/Clash/Blizzard.yaml',
+    'HoYoverse': 'https://rule.kelee.one/Clash/HoYoverse.yaml',
+    'Hulu': 'https://rule.kelee.one/Clash/Hulu.yaml',
+    'AbemaTV': 'https://rule.kelee.one/Clash/AbemaTV.yaml',
+    'TencentVideo': 'https://rule.kelee.one/Clash/TencentVideo.yaml',
+    'Youku': 'https://rule.kelee.one/Clash/Youku.yaml',
+    'Wikipedia': 'https://rule.kelee.one/Clash/Wikipedia.yaml',
+    'Binance': 'https://rule.kelee.one/Clash/Binance.yaml',
 }
 
 # blackmatrix7 规则（13 项）
