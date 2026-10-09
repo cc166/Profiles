@@ -50,8 +50,8 @@ payload:
   - DOMAIN,gossip.lat  #蜜雪冰城
   - DOMAIN,emby.huangmin.cc.cd  #二楼
   - DOMAIN,emby2.huangmin.cc.cd  #二楼
-  - DOMAIN,wb-api.yang31.ccwu.cc  #workbuddy
-  - DOMAIN,cpa-api.yang31.ccwu.cc  #cpa
+#DOMAIN,wb-api.yang31.ccwu.cc  #workbuddy
+#DOMAIN,cpa-api.yang31.ccwu.cc  #cpa
   - DOMAIN,d3rorc0p4i1kyz.cloudfront.net  #黄豆
   - DOMAIN-SUFFIX,huangju.net  #剧果
   - DOMAIN,www.yeguodj.com  #野果
