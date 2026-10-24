@@ -1,5 +1,5 @@
-# UpdateTime：2026-10-21 03:17:01
-# RuleCount：597
+# UpdateTime：2026-10-25 03:17:39
+# RuleCount：612
 DOMAIN, login.live.com
 DOMAIN, xz.pphimalayanrt.com
 DOMAIN, store-images.s-microsoft.com
@@ -105,6 +105,7 @@ DOMAIN-SUFFIX, dicela.com
 DOMAIN-SUFFIX, diddykongracing.com
 DOMAIN-SUFFIX, dkr.com
 DOMAIN-SUFFIX, donkeykongcountryreturns.com
+DOMAIN-SUFFIX, dota2.com
 DOMAIN-SUFFIX, dragonage.com
 DOMAIN-SUFFIX, dragonagekeep.com
 DOMAIN-SUFFIX, dragonagemovie.com
@@ -326,6 +327,7 @@ DOMAIN-SUFFIX, steam-api.com
 DOMAIN-SUFFIX, steam-chat.com
 DOMAIN-SUFFIX, steamchina.com
 DOMAIN-SUFFIX, steamcommunity.com
+DOMAIN-SUFFIX, steamconnecttest.com
 DOMAIN-SUFFIX, steamcontent.com
 DOMAIN-SUFFIX, steamdeck.com
 DOMAIN-SUFFIX, steamgames.com
@@ -511,6 +513,7 @@ DOMAIN-SUFFIX, steamserver.net
 DOMAIN-SUFFIX, steamunlocked.net
 DOMAIN-SUFFIX, supremacy.net
 DOMAIN-SUFFIX, swtor.net
+DOMAIN-SUFFIX, valve.net
 DOMAIN-SUFFIX, wiivc.net
 DOMAIN-SUFFIX, xboxab.net
 DOMAIN-SUFFIX, xn--mts47c3w9b1qr.net
@@ -568,6 +571,7 @@ IP-CIDR, 34.220.160.16/32, no-resolve
 IP-CIDR, 35.72.32.125/32, no-resolve
 IP-CIDR, 35.154.64.7/32, no-resolve
 IP-CIDR, 35.192.0.0/12, no-resolve
+IP-CIDR, 45.121.184.0/24, no-resolve
 IP-CIDR, 52.13.42.120/32, no-resolve
 IP-CIDR, 52.13.150.128/32, no-resolve
 IP-CIDR, 52.50.131.212/32, no-resolve
@@ -578,20 +582,31 @@ IP-CIDR, 54.207.168.84/32, no-resolve
 IP-CIDR, 54.248.64.192/32, no-resolve
 IP-CIDR, 103.4.114.233/32, no-resolve
 IP-CIDR, 103.4.115.248/32, no-resolve
+IP-CIDR, 103.10.124.0/23, no-resolve
+IP-CIDR, 103.28.54.0/24, no-resolve
 IP-CIDR, 137.221.105.2/32, no-resolve
+IP-CIDR, 146.66.152.0/24, no-resolve
+IP-CIDR, 146.66.155.0/24, no-resolve
+IP-CIDR, 155.133.224.0/19, no-resolve
 IP-CIDR, 162.62.33.45/32, no-resolve
 IP-CIDR, 162.62.33.70/32, no-resolve
 IP-CIDR, 162.62.34.10/32, no-resolve
+IP-CIDR, 162.254.192.0/21, no-resolve
 IP-CIDR, 182.162.116.1/32, no-resolve
 IP-CIDR, 182.162.132.1/32, no-resolve
 IP-CIDR, 182.162.135.1/32, no-resolve
+IP-CIDR, 185.25.180.0/22, no-resolve
 IP-CIDR, 185.60.112.157/32, no-resolve
 IP-CIDR, 185.60.112.158/32, no-resolve
 IP-CIDR, 185.60.114.159/32, no-resolve
+IP-CIDR, 192.69.96.0/22, no-resolve
 IP-CIDR, 202.9.67.59/32, no-resolve
 IP-CIDR, 202.9.67.254/32, no-resolve
 IP-CIDR, 203.66.81.98/32, no-resolve
 IP-CIDR, 203.69.111.4/32, no-resolve
+IP-CIDR, 205.196.6.0/24, no-resolve
+IP-CIDR, 208.64.200.0/22, no-resolve
+IP-CIDR, 208.78.164.0/22, no-resolve
 IP-CIDR, 210.71.148.11/32, no-resolve
 IP-CIDR, 210.242.235.6/32, no-resolve
 IP-CIDR, 211.115.104.1/32, no-resolve
