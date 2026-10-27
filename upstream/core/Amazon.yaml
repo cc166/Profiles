@@ -188,8 +188,6 @@ payload:
   - DOMAIN-SUFFIX,yamaxun
   - DOMAIN-SUFFIX,zappos
   - DOMAIN-KEYWORD,avoddashs
-  - USER-AGENT,Prime%20Video*
-  - USER-AGENT,InstantVideo.US*
   - IP-CIDR,13.32.0.0/15,no-resolve
   - IP-CIDR,13.35.0.0/17,no-resolve
   - IP-CIDR,18.184.0.0/15,no-resolve

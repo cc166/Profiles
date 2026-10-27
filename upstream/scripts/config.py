@@ -77,7 +77,6 @@ CLASH_RULES = {  # NEW_BATCH_2026_10
     'LAN': 'https://kelee.one/Tool/Clash/Rule/LAN_SPLITTER.yaml',
     'Direct': 'https://kelee.one/Tool/Clash/Rule/Direct.yaml',
     'Proxy': 'https://kelee.one/Tool/Clash/Rule/Proxy.yaml',
-    'AI': 'https://kelee.one/Tool/Clash/Rule/AI.yaml',
     'TikTok': 'https://kelee.one/Tool/Clash/Rule/TikTok.yaml',
     'Game': 'https://kelee.one/Tool/Clash/Rule/Game.yaml',
     'Netflix': 'https://rule.kelee.one/Clash/Netflix.yaml',
@@ -103,6 +102,26 @@ CLASH_RULES = {  # NEW_BATCH_2026_10
     'Weibo': 'https://rule.kelee.one/Clash/Weibo.yaml',
     'Bing': 'https://rule.kelee.one/Clash/Bing.yaml',
     'Twitch': 'https://rule.kelee.one/Clash/Twitch.yaml',
+    # --- 2026-10-27 启用分类扩充（Core/Loon 成对，Loon 侧见 sync_upstream_rules.LOON_REMOTE_SOURCES）---
+    'Emos': 'https://raw.githubusercontent.com/binaryu/emos-proxy-rule/main/rules/emos-mihomo.yaml',
+    'DouYin': 'https://rule.kelee.one/Clash/DouYin.yaml',
+    'TestFlight': 'https://rule.kelee.one/Clash/TestFlight.yaml',
+    'GoogleVoice': 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GoogleVoice/GoogleVoice.yaml',
+    'Line': 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Line/Line.yaml',
+    'LinkedIn': 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/LinkedIn/LinkedIn.yaml',
+}
+
+# 上游只提供 Loon 列表、需要由 Loon 源转换生成 Core 的分类：Core 名称 -> Loon 名称。
+# 转换统一走 sync_upstream_rules.convert_loon_to_core()，会过滤 Clash/OpenClash 不支持的类型
+# （USER-AGENT、URL-REGEX 等），保留 AND/OR/NOT、进程匹配与 no-resolve。
+CORE_FROM_LOON = {
+    # AI 以 Loon 列表为准：Clash 源缺 3 条 AND 规则（chatgpt-async / openaicom-api / antigravity 更新器）
+    'AI': 'AI',
+    'Soul': 'Soul',
+    'AppleAll': 'AppleAll',
+    'OKX': 'OKX',
+    'Binance': 'Binance',
+    'Global': 'Global',
 }
 
 # blackmatrix7 规则（13 项）

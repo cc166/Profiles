@@ -248,4 +248,3 @@ payload:
   - DOMAIN-SUFFIX,www-paypal.us
   - DOMAIN-SUFFIX,xoom.us
   - DOMAIN-KEYWORD,paypal
-  - USER-AGENT,PayPal*

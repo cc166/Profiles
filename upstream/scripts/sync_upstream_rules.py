@@ -16,7 +16,7 @@ from pathlib import Path
 from typing import Callable
 
 sys.path.insert(0, str(Path(__file__).parent))
-from config import CLASH_RULES, UA_CLASH, UA_LOON  # noqa: E402
+from config import CLASH_RULES, CORE_FROM_LOON, UA_CLASH, UA_LOON  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 CORE_DIR = ROOT / 'upstream' / 'core'
@@ -71,10 +71,38 @@ LOON_REMOTE_SOURCES = {  # NEW_BATCH_2026_10
     'Weibo': 'https://rule.kelee.one/Loon/Weibo.lsr',
     'Bing': 'https://rule.kelee.one/Loon/Bing.lsr',
     'Twitch': 'https://rule.kelee.one/Loon/Twitch.lsr',
+    # --- 2026-10-27 启用分类扩充（与 config.CLASH_RULES / config.CORE_FROM_LOON 成对）---
+    'Emos': 'https://raw.githubusercontent.com/binaryu/emos-proxy-rule/main/rules/emos-loon.list',
+    'DouYin': 'https://rule.kelee.one/Loon/DouYin.lsr',
+    'Soul': 'https://raw.githubusercontent.com/fmz200/wool_scripts/main/Loon/rule/Soul.list',
+    'TestFlight': 'https://rule.kelee.one/Loon/TestFlight.lsr',
+    'AppleAll': 'https://raw.githubusercontent.com/fmz200/wool_scripts/main/Loon/rule/AppleAll.list',
+    'GoogleVoice': 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/GoogleVoice/GoogleVoice.list',
+    'Line': 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/Line/Line.list',
+    'LinkedIn': 'https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/LinkedIn/LinkedIn.list',
+    'OKX': 'https://raw.githubusercontent.com/fmz200/wool_scripts/main/Loon/rule/OKX.list',
+    'Binance': 'https://raw.githubusercontent.com/fmz200/wool_scripts/main/Loon/rule/Binance.list',
+    'Global': 'https://rule.kelee.one/Loon/Global.lsr',
 }
+
+# Clash / OpenClash rule providers do not support Loon-only matchers. Keep only types that
+# mihomo (OpenClash) can evaluate in a rule provider; everything else is dropped at the Core side.
+# Loon output is copied verbatim and keeps its original semantics.
+CORE_ALLOWED_TYPES = {
+    'DOMAIN', 'DOMAIN-SUFFIX', 'DOMAIN-KEYWORD', 'DOMAIN-REGEX',
+    'IP-CIDR', 'IP-CIDR6', 'IP-SUFFIX', 'SRC-IP-CIDR', 'SRC-IP-CIDR6',
+    'GEOIP', 'GEOSITE', 'SRC-GEOIP', 'IP-ASN', 'SRC-PORT', 'DST-PORT', 'NETWORK',
+    'AND', 'OR', 'NOT', 'MATCH',
+    'PROCESS-NAME', 'PROCESS-PATH', 'PROCESS-NAME-REGEX', 'PROCESS-PATH-REGEX',
+}
+CORE_LOGIC_TYPES = {'AND', 'OR', 'NOT'}
+CORE_NO_RESOLVE_TYPES = {'IP-CIDR', 'IP-CIDR6', 'IP-SUFFIX', 'GEOIP', 'IP-ASN', 'SRC-IP-CIDR', 'SRC-IP-CIDR6'}
 
 UA_POOL_CLASH = ['clash.meta', 'clash.meta/1.18.10', 'mihomo/1.18.10', 'ClashforWindows/0.20.39']
 UA_POOL_LOON = [UA_LOON, 'Loon/840 CFNetwork/1494.0.7 Darwin/23.4.0', 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0']
+# Egern is only used as a last-resort UA for rule.kelee.one, whose CDN rejects Loon/Clash user agents.
+UA_EGERN = 'Egern/1.0.0'
+KEELE_HOSTS = ('rule.kelee.one', 'kelee.one')
 BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
 BAD_MARKERS = ('<!doctype html', '<html', 'just a moment', 'cf-chl', 'forbidden', 'access denied')
 
@@ -89,6 +117,125 @@ def accept_value(accept_header: str) -> str:
 
 def normalize_text(text: str) -> str:
     return text.replace('\r\n', '\n').replace('\r', '\n')
+
+
+def split_top_level(line: str) -> list[str]:
+    """Split a rule line on commas that are not inside a logical-rule (...) group."""
+    parts: list[str] = []
+    depth = 0
+    current = ''
+    for ch in line:
+        if ch == '(':
+            depth += 1
+        elif ch == ')':
+            depth = max(0, depth - 1)
+        if ch == ',' and depth == 0:
+            parts.append(current)
+            current = ''
+        else:
+            current += ch
+    parts.append(current)
+    return [part.strip() for part in parts]
+
+
+def split_inline_comment(line: str) -> tuple[str, str]:
+    pos = line.find('#')
+    if pos < 0:
+        return line.strip(), ''
+    return line[:pos].strip(), line[pos:].strip()
+
+
+def core_rule_line(rule_type: str, parts: list[str]) -> str | None:
+    if rule_type in CORE_LOGIC_TYPES:
+        idx = next((i for i, part in enumerate(parts[1:], 1) if part.strip().startswith('(')), None)
+        if idx is None:
+            return None
+        payload = re.sub(r'\s*,\s*', ',', parts[idx].strip())
+        extras = [p for p in parts[idx + 1:] if p.lower() in ('no-resolve',)]
+        return f'{rule_type},{payload}' + (',' + ','.join(extras) if extras else '')
+    if len(parts) < 2 or not parts[1]:
+        return None
+    value = parts[1].strip()
+    allowed_extras = ('no-resolve', 'src') if rule_type in CORE_NO_RESOLVE_TYPES else ()
+    extras = [p.lower() for p in parts[2:] if p.lower() in allowed_extras]
+    return f'{rule_type},{value}' + (',' + ','.join(extras) if extras else '')
+
+
+def convert_loon_to_core(text: str) -> tuple[str, dict[str, int]]:
+    """Convert a Loon rule list into a Clash/OpenClash rule-provider payload.
+
+    Loon policies (DIRECT/PROXY/...) are stripped, unsupported matcher types are dropped and
+    counted, while AND/OR/NOT expressions and no-resolve options are preserved as-is.
+    """
+    body: list[str] = []
+    dropped: dict[str, int] = {}
+    seen: set[str] = set()
+    for raw in normalize_text(text).splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith(('#', ';', '//')):
+            body.append(line)
+            continue
+        rule, comment = split_inline_comment(line)
+        parts = split_top_level(rule)
+        rule_type = parts[0].upper()
+        if rule_type not in CORE_ALLOWED_TYPES:
+            dropped[rule_type] = dropped.get(rule_type, 0) + 1
+            continue
+        converted = core_rule_line(rule_type, parts)
+        if not converted:
+            dropped[f'{rule_type}(malformed)'] = dropped.get(f'{rule_type}(malformed)', 0) + 1
+            continue
+        if converted.lower() in seen:
+            dropped['(duplicate)'] = dropped.get('(duplicate)', 0) + 1
+            continue
+        seen.add(converted.lower())
+        body.append('  - ' + converted + (('  ' + comment) if comment else ''))
+    if not body:
+        return '', dropped
+    return 'payload:\n' + '\n'.join(body) + '\n', dropped
+
+
+def sanitize_core_text(text: str) -> tuple[str, dict[str, int]]:
+    """Drop rule types OpenClash cannot evaluate from an already-published Core payload."""
+    kept: list[str] = []
+    dropped: dict[str, int] = {}
+    in_payload = False
+    for raw in normalize_text(text).splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith(('#', ';', '//')):
+            kept.append(line)
+            continue
+        if line == 'payload:':
+            kept.append('payload:')
+            in_payload = True
+            continue
+        if not line.startswith('- '):
+            dropped['(non-rule)'] = dropped.get('(non-rule)', 0) + 1
+            continue
+        rule, comment = split_inline_comment(line[2:])
+        # YAML payload entries may use a quoted scalar, unlike plain Loon lists.
+        if len(rule) >= 2 and rule[0] == rule[-1] and rule[0] in ("'", '"'):
+            if rule[0] == "'":
+                rule = rule[1:-1].replace("''", "'")
+            else:
+                rule = json.loads(rule)
+        parts = split_top_level(rule)
+        rule_type = parts[0].upper()
+        if rule_type not in CORE_ALLOWED_TYPES:
+            dropped[rule_type] = dropped.get(rule_type, 0) + 1
+            continue
+        converted = core_rule_line(rule_type, parts)
+        if not converted:
+            dropped[f'{rule_type}(malformed)'] = dropped.get(f'{rule_type}(malformed)', 0) + 1
+            continue
+        kept.append('  - ' + converted + (('  ' + comment) if comment else ''))
+    if not in_payload or not any(line.startswith('  - ') for line in kept):
+        return '', dropped
+    return '\n'.join(kept) + '\n', dropped
 
 
 def browser_headers(url: str, ua: str, accept_header: str) -> dict[str, str]:
@@ -160,6 +307,8 @@ def fetch_validated(url: str, ua: str, accept_header: str, validator: Callable[[
         strategies.append((f'curl-http1.1/{current_ua}', lambda u=current_ua: curl_once(url, u, accept_header, True)))
     current_ua = random.choice(ua_pool)
     strategies.append((f'curl-default/{current_ua}', lambda u=current_ua: curl_once(url, u, accept_header, False)))
+    if any(host in url for host in KEELE_HOSTS):
+        strategies.append((f'curl-http1.1/egern-fallback/{UA_EGERN}', lambda: curl_once(url, UA_EGERN, accept_header, True)))
 
     for idx, (method, fn) in enumerate(strategies, 1):
         if idx > 1:
@@ -276,6 +425,9 @@ def sync_group(
         stage_path = stage_dir / f'{rule_name}{suffix}'
         try:
             text, method = fetch_validated(url, ua, accept_header, validator, kind)
+            dropped: dict[str, int] = {}
+            if kind == 'core':
+                text, dropped = sanitize_core_text(text)
             ok, stats = validate_text(text, kind)
             if not ok:
                 raise RuntimeError(stats['reason'])
@@ -295,7 +447,7 @@ def sync_group(
             section['ok'].append(rule_name)
             section['source'][rule_name] = {'url': url, 'method': method, 'ua': ua}
             section['status'][rule_name] = 'updated-verified'
-            section['checks'][rule_name] = stats | {'path': rel, 'source': 'download'}
+            section['checks'][rule_name] = stats | {'path': rel, 'source': 'download', 'dropped_types': dropped}
         except Exception as exc:
             kept, stats = existing_ok(path, kind)
             if kept:
@@ -322,6 +474,72 @@ def sync_group(
     return section
 
 
+def sync_derived_core(mapping: dict[str, str], core_section: dict, stage_root: Path) -> None:
+    """Build Core files from the already-fetched Loon list, keeping the pair semantically aligned."""
+    for core_name, loon_name in mapping.items():
+        rel = f'upstream/core/{core_name}.yaml'
+        stage_path = stage_root / rel
+        path = CORE_DIR / f'{core_name}.yaml'
+        loon_stage = stage_root / 'upstream' / 'loon' / f'{loon_name}.lsr'
+        try:
+            if not loon_stage.exists():
+                raise RuntimeError(f'loon source {loon_name} unavailable in this run')
+            text, dropped = convert_loon_to_core(loon_stage.read_text(encoding='utf-8'))
+            ok, stats = validate_text(text, 'core')
+            if not ok:
+                raise RuntimeError(f'converted core invalid: {stats["reason"]}')
+            prev_lines = 0
+            if path.exists():
+                try:
+                    prev_lines = len(path.read_text(encoding='utf-8').splitlines())
+                except Exception:
+                    prev_lines = 0
+            new_lines = len(text.splitlines())
+            if prev_lines >= 50 and new_lines < prev_lines * 0.4:
+                raise RuntimeError(
+                    f'suspicious shrink: {prev_lines} -> {new_lines} lines (<40% of last good); '
+                    'refusing to publish, falling back to last-known-good'
+                )
+            save_text(stage_path, text)
+            core_section['ok'].append(core_name)
+            core_section['source'][core_name] = {
+                'url': LOON_REMOTE_SOURCES.get(loon_name, ''),
+                'method': 'loon->core conversion',
+                'loon': loon_name,
+            }
+            core_section['status'][core_name] = 'updated-verified'
+            core_section['checks'][core_name] = stats | {
+                'path': rel,
+                'source': 'converted-from-loon',
+                'loon': loon_name,
+                'dropped_types': dropped,
+            }
+        except Exception as exc:
+            kept, stats = existing_ok(path, 'core')
+            if kept:
+                copy_existing(path, stage_path)
+                core_section['kept'].append(core_name)
+                core_section['source'][core_name] = {
+                    'url': LOON_REMOTE_SOURCES.get(loon_name, ''),
+                    'method': 'last-known-good',
+                    'loon': loon_name,
+                    'note': 'conversion failed; kept existing verified file',
+                }
+                core_section['status'][core_name] = 'kept-last-known-good'
+                core_section['checks'][core_name] = stats | {'path': rel, 'source': 'last-known-good', 'loon': loon_name}
+            else:
+                core_section['status'][core_name] = 'failed-no-valid-fallback'
+                core_section['checks'][core_name] = stats | {'path': rel, 'source': 'missing-or-invalid'}
+            core_section['failed'].append({
+                'name': core_name,
+                'path': rel,
+                'url': LOON_REMOTE_SOURCES.get(loon_name, ''),
+                'loon': loon_name,
+                'error': str(exc),
+                'kept_last_good': kept,
+            })
+
+
 def write_json(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
@@ -330,8 +548,9 @@ def write_json(path: Path, data: dict) -> None:
 def publish_stage(stage_root: Path) -> list[str]:
     """Publish staged files and prune anything no longer in the manifest."""
     pruned: list[str] = []
+    core_expected = {**dict.fromkeys(CLASH_RULES), **dict.fromkeys(CORE_FROM_LOON)}
     for rel, items, suffix in (
-        ('upstream/core', CLASH_RULES, '.yaml'),
+        ('upstream/core', core_expected, '.yaml'),
         ('upstream/loon', LOON_REMOTE_SOURCES, '.lsr'),
     ):
         src_dir = stage_root / rel
@@ -368,8 +587,9 @@ def summarize(report: dict) -> dict:
 
 
 def check_existing() -> int:
+    core_expected = {**dict.fromkeys(CLASH_RULES), **dict.fromkeys(CORE_FROM_LOON)}
     groups = [
-        ('core', CLASH_RULES, CORE_DIR, '.yaml'),
+        ('core', core_expected, CORE_DIR, '.yaml'),
         ('loon_remote', LOON_REMOTE_SOURCES, LOON_DIR, '.lsr'),
     ]
     report = {'meta': {'mode': 'check-existing'}, 'core': {'checks': {}}, 'loon_remote': {'checks': {}}}
@@ -384,7 +604,7 @@ def check_existing() -> int:
                 failed.append(rel)
     summary = {
         'mode': 'check-existing',
-        'expected_core': len(CLASH_RULES),
+        'expected_core': len(core_expected),
         'expected_loon': len(LOON_REMOTE_SOURCES),
         'failed': len(failed),
         'failed_paths': failed[:20],
@@ -408,14 +628,15 @@ def main() -> int:
         report = {
             'meta': {
                 'note': 'ok=downloaded this run; kept=verified last-known-good fallback; publish happens only after all expected files pass validation',
-                'expected_core': len(CLASH_RULES),
+                'expected_core': len(CLASH_RULES) + len(CORE_FROM_LOON),
                 'expected_loon': len(LOON_REMOTE_SOURCES),
                 'allow_kept': allow_kept,
                 'schedule_hint': 'external scheduler; run upstream/scripts/local_sync_and_push.py',
             }
         }
-        report['core'] = sync_group('core', CLASH_RULES, CORE_DIR, '.yaml', UA_CLASH, 'Accept: application/yaml,text/yaml,*/*;q=0.9', looks_like_payload, stage_root)
         report['loon_remote'] = sync_group('loon_remote', LOON_REMOTE_SOURCES, LOON_DIR, '.lsr', UA_LOON, 'Accept: text/plain,*/*;q=0.9', looks_like_loon_rules, stage_root)
+        report['core'] = sync_group('core', CLASH_RULES, CORE_DIR, '.yaml', UA_CLASH, 'Accept: application/yaml,text/yaml,*/*;q=0.9', looks_like_payload, stage_root)
+        sync_derived_core(CORE_FROM_LOON, report['core'], stage_root)
         summary = summarize(report)
         print(json.dumps(summary, ensure_ascii=False))
 

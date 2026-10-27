@@ -38,7 +38,6 @@ payload:
   - DOMAIN-KEYWORD,dualstack.apiproxy-
   - DOMAIN-KEYWORD,dualstack.ichnaea-web-
   - DOMAIN-KEYWORD,apiproxy-device-prod-nlb-
-  - USER-AGENT,Argo*
   - IP-CIDR,3.0.5.32/29,no-resolve
   - IP-CIDR,3.0.5.224/27,no-resolve
   - IP-CIDR,3.6.70.76/30,no-resolve

@@ -41,6 +41,4 @@ payload:
   - DOMAIN-SUFFIX,weixinsxy.com
   - DOMAIN-SUFFIX,wechatlegal.net
   - DOMAIN-SUFFIX,wechatos.net
-  - USER-AGENT,WeChat*
-  - USER-AGENT,MicroMessenger*
   - IP-ASN,132203,no-resolve
