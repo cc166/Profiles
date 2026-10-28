@@ -1,5 +1,5 @@
-# UpdateTime：2026-10-27 03:17:45
-# RuleCount：36003
+# UpdateTime：2026-10-29 03:18:25
+# RuleCount：36014
 DOMAIN, practivate.adobe
 DOMAIN, scholar.google.ae
 DOMAIN, yangzhi.app
@@ -210,6 +210,8 @@ DOMAIN, ws.audioscrobbler.com
 DOMAIN, time.aws.com
 DOMAIN, acd89244c803f7181.awsglobalaccelerator.com
 DOMAIN, afa7f374f51cc8991.awsglobalaccelerator.com
+DOMAIN, dc.applicationinsights.azure.com
+DOMAIN, live.applicationinsights.azure.com
 DOMAIN, epc-de-agent-proxy.germanywestcentral.cloudapp.azure.com
 DOMAIN, espn.api.edge.bamgrid.com
 DOMAIN, hulu.playback.edge.bamgrid.com
@@ -253,10 +255,12 @@ DOMAIN, alt5-mtalk.google.com
 DOMAIN, alt6-mtalk.google.com
 DOMAIN, alt7-mtalk.google.com
 DOMAIN, alt8-mtalk.google.com
+DOMAIN, appsgenaiserver-pa.clients.google.com
 DOMAIN, geminiweb-pa.clients.google.com
 DOMAIN, clients1.google.com
 DOMAIN, alkalicore-pa.clients6.google.com
 DOMAIN, alkalimakersuite-pa.clients6.google.com
+DOMAIN, appsgenaiserver-pa.clients6.google.com
 DOMAIN, geminiweb-pa.clients6.google.com
 DOMAIN, webchannel-alkalimakersuite-pa.clients6.google.com
 DOMAIN, lens.l.google.com
@@ -274,6 +278,7 @@ DOMAIN, time3.google.com
 DOMAIN, time4.google.com
 DOMAIN, antigravity.googleapis.com
 DOMAIN, antigravity-pa.googleapis.com
+DOMAIN, appsgenaiserver-pa.googleapis.com
 DOMAIN, cloudaicompanion.googleapis.com
 DOMAIN, cloudcode-pa.googleapis.com
 DOMAIN, daily-cloudcode-pa.googleapis.com
@@ -353,11 +358,14 @@ DOMAIN, tesla-cdn.thron.com
 DOMAIN, rtm.tnt-ea.com
 DOMAIN, ntp.ubuntu.com
 DOMAIN, rsshub.umzzz.com
+DOMAIN, dc.services.visualstudio.com
+DOMAIN, rt.services.visualstudio.com
 DOMAIN, time.windows.com
 DOMAIN, rss.wudifeixue.com
 DOMAIN, assets1.xboxlive.com
 DOMAIN, assets2.xboxlive.com
 DOMAIN, disk.yandex.com
+DOMAIN, dropbox.zendesk.com
 DOMAIN, fandom.zendesk.com
 DOMAIN, himalaya-exchange.zendesk.com
 DOMAIN, onekey.zendesk.com
@@ -622,8 +630,6 @@ DOMAIN, dstnzhnatv9pz.cloudfront.net
 DOMAIN, dykkng5hnh52u.cloudfront.net
 DOMAIN, sa78gs.wpc.edgecastcdn.net
 DOMAIN, sni1dcb6gl.wpc.edgecastcdn.net
-DOMAIN, netflix.com.edgesuite.net
-DOMAIN, spotify.com.edgesuite.net
 DOMAIN, lastfm.freetls.fastly.net
 DOMAIN, lastfm-img.freetls.fastly.net
 DOMAIN, mozilla.map.fastly.net
@@ -867,6 +873,7 @@ DOMAIN-SUFFIX, google.com.ai
 DOMAIN-SUFFIX, visa.com.ai
 DOMAIN-SUFFIX, yahoo.com.ai
 DOMAIN-SUFFIX, dailym.ai
+DOMAIN-SUFFIX, dash.ai
 DOMAIN-SUFFIX, devin.ai
 DOMAIN-SUFFIX, devv.ai
 DOMAIN-SUFFIX, dify.ai
@@ -6773,6 +6780,7 @@ DOMAIN-SUFFIX, dockerstatus.com
 DOMAIN-SUFFIX, docleradn.com
 DOMAIN-SUFFIX, doclercdn.com
 DOMAIN-SUFFIX, docs.com
+DOMAIN-SUFFIX, docsend.com
 DOMAIN-SUFFIX, doctor-videos.com
 DOMAIN-SUFFIX, documentforce.com
 DOMAIN-SUFFIX, documentingreality.com
@@ -9084,9 +9092,11 @@ DOMAIN-SUFFIX, heiliao.com
 DOMAIN-SUFFIX, heiliao88.com
 DOMAIN-SUFFIX, helloandroid.com
 DOMAIN-SUFFIX, helloavgirls.com
+DOMAIN-SUFFIX, hellofax.com
 DOMAIN-SUFFIX, hellokittybeats.com
 DOMAIN-SUFFIX, hellomoto.com
 DOMAIN-SUFFIX, helloqueer.com
+DOMAIN-SUFFIX, hellosign.com
 DOMAIN-SUFFIX, hellosmartbook.com
 DOMAIN-SUFFIX, hellotxt.com
 DOMAIN-SUFFIX, hellporno.com
@@ -17897,6 +17907,7 @@ DOMAIN-SUFFIX, ingka.dev
 DOMAIN-SUFFIX, intel.dev
 DOMAIN-SUFFIX, jetbrains.dev
 DOMAIN-SUFFIX, kiro.dev
+DOMAIN-SUFFIX, librewolf.dev
 DOMAIN-SUFFIX, mdn.dev
 DOMAIN-SUFFIX, mdnplay.dev
 DOMAIN-SUFFIX, mdnyalp.dev
