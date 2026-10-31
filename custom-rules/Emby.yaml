@@ -6,6 +6,8 @@ payload:
   - DOMAIN-SUFFIX,lyezi.xyz
 #叶子hd
   - DOMAIN,wp.lyezi.cc
+#稳健
+  - DOMAIN,m.wenjian.de
 
   - DOMAIN,a.emby.my
   - DOMAIN-SUFFIX,ciallo.party
