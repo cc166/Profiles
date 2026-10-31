@@ -4,6 +4,8 @@ payload:
 #叶子
   - DOMAIN-SUFFIX,lyezi.cc
   - DOMAIN-SUFFIX,lyezi.xyz
+#叶子hd
+  - DOMAIN,wp.lyezi.cc
 
   - DOMAIN,a.emby.my
   - DOMAIN-SUFFIX,ciallo.party
@@ -16,7 +18,7 @@ payload:
   - DOMAIN-SUFFIX,faemby.vip
   - DOMAIN,fworks-emby.sylu.net
   - DOMAIN,fworks-emby.webn.cc
-  - DOMAIN,gm.yezi.my
+
   - DOMAIN,gy.meowfly.de
   - DOMAIN,link00.okemby.org
   - DOMAIN,link01.okemby.org
