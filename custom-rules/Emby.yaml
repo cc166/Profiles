@@ -8,6 +8,9 @@ payload:
   - DOMAIN,wp.lyezi.cc
 #稳健
   - DOMAIN,m.wenjian.de
+#稳健音乐
+  - DOMAIN,music.wenjian.de
+  - DOMAIN,yin.wenjian.de
 
   - DOMAIN,a.emby.my
   - DOMAIN-SUFFIX,ciallo.party
