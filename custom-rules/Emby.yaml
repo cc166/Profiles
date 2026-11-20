@@ -31,3 +31,5 @@ payload:
 #sherk
   - DOMAIN,public.shrekmedia.org
 
+  - DOMAIN,ps.air-outer.com  #angentrouter
+  - DOMAIN,api.xingchiapi.com  #xinchiapi
