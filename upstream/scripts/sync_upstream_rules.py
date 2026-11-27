@@ -89,11 +89,14 @@ LOON_REMOTE_SOURCES = {  # NEW_BATCH_2026_10
 # mihomo (OpenClash) can evaluate in a rule provider; everything else is dropped at the Core side.
 # Loon output is copied verbatim and keeps its original semantics.
 CORE_ALLOWED_TYPES = {
-    'DOMAIN', 'DOMAIN-SUFFIX', 'DOMAIN-KEYWORD', 'DOMAIN-REGEX',
-    'IP-CIDR', 'IP-CIDR6', 'IP-SUFFIX', 'SRC-IP-CIDR', 'SRC-IP-CIDR6',
-    'GEOIP', 'GEOSITE', 'SRC-GEOIP', 'IP-ASN', 'SRC-PORT', 'DST-PORT', 'NETWORK',
+    'DOMAIN', 'DOMAIN-SUFFIX', 'DOMAIN-KEYWORD', 'DOMAIN-WILDCARD', 'DOMAIN-REGEX',
+    'IP-CIDR', 'IP-CIDR6', 'IP-SUFFIX', 'SRC-IP-CIDR', 'SRC-IP-CIDR6', 'SRC-IP-SUFFIX',
+    'GEOIP', 'GEOSITE', 'SRC-GEOIP', 'SRC-IP-ASN', 'IP-ASN',
+    'SRC-PORT', 'DST-PORT', 'IN-PORT', 'IN-TYPE', 'IN-USER', 'IN-NAME',
+    'NETWORK', 'DSCP', 'UID',
     'AND', 'OR', 'NOT',
-    'PROCESS-NAME', 'PROCESS-PATH', 'PROCESS-NAME-REGEX', 'PROCESS-PATH-REGEX',
+    'PROCESS-NAME', 'PROCESS-PATH', 'PROCESS-NAME-WILDCARD', 'PROCESS-PATH-WILDCARD',
+    'PROCESS-NAME-REGEX', 'PROCESS-PATH-REGEX',
 }
 CORE_LOGIC_TYPES = {'AND', 'OR', 'NOT'}
 CORE_NO_RESOLVE_TYPES = {'IP-CIDR', 'IP-CIDR6', 'IP-SUFFIX', 'GEOIP', 'IP-ASN', 'SRC-IP-CIDR', 'SRC-IP-CIDR6'}
@@ -107,6 +110,18 @@ UA_EGERN = 'Egern/1.0.0'
 KEELE_HOSTS = ('rule.kelee.one', 'kelee.one')
 BROWSER_UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
 BAD_MARKERS = ('<!doctype html', '<html', 'just a moment', 'cf-chl', 'forbidden', 'access denied')
+
+
+class FetchError(RuntimeError):
+    """The upstream could not be fetched or failed its content check.
+
+    Only this class (and RuleContentError) may fall back to last-known-good content;
+    local IO bugs and programming errors must abort the run instead of hiding as flakiness.
+    """
+
+
+class RuleContentError(RuntimeError):
+    """Downloaded or converted content failed validation (bad payload, suspicious shrink)."""
 
 
 def snippet(text: str, limit: int = 220) -> str:
@@ -344,14 +359,14 @@ def curl_cffi_once(url: str, ua: str, accept_header: str) -> tuple[str, str]:
 
 def fetch_validated(url: str, ua: str, accept_header: str, validator: Callable[[str], bool], kind: str) -> tuple[str, str]:
     if os.environ.get('RULESYNC_FORCE_FETCH_FAIL') == '1':
-        raise RuntimeError('forced fetch failure for fallback validation')
+        raise FetchError('forced fetch failure for fallback validation')
 
     errors: list[str] = []
     ua_pool = UA_POOL_CLASH if kind == 'core' else UA_POOL_LOON
     strategies: list[tuple[str, Callable[[], tuple[str, str]]]] = []
 
     if os.environ.get('GITHUB_ACTIONS') == 'true':
-        raise RuntimeError('CI/remote runner is blocked by upstream CDN/Cloudflare; run from an allowed network')
+        raise FetchError('CI/remote runner is blocked by upstream CDN/Cloudflare; run from an allowed network')
 
     try:
         import curl_cffi  # noqa: F401
@@ -379,7 +394,7 @@ def fetch_validated(url: str, ua: str, accept_header: str, validator: Callable[[
         if text.strip() and validator(text):
             return text, method
         errors.append(f'{method}: invalid ({meta}) head={snippet(text)}')
-    raise RuntimeError(' || '.join(errors[-6:]))
+    raise FetchError(' || '.join(errors[-6:]))
 
 
 def has_bad_marker(text: str) -> bool:
@@ -490,7 +505,7 @@ def sync_group(
                 text, dropped = sanitize_core_text(text)
             ok, stats = validate_text(text, kind)
             if not ok:
-                raise RuntimeError(stats['reason'])
+                raise RuleContentError(stats['reason'])
             prev_lines = 0
             if path.exists():
                 try:
@@ -499,7 +514,7 @@ def sync_group(
                     prev_lines = 0
             new_lines = len(text.splitlines())
             if prev_lines >= 50 and new_lines < prev_lines * 0.4:
-                raise RuntimeError(
+                raise RuleContentError(
                     f'suspicious shrink: {prev_lines} -> {new_lines} lines (<40% of last good); '
                     'refusing to publish, falling back to last-known-good'
                 )
@@ -508,7 +523,7 @@ def sync_group(
             section['source'][rule_name] = {'url': url, 'method': method, 'ua': ua}
             section['status'][rule_name] = 'updated-verified'
             section['checks'][rule_name] = stats | {'path': rel, 'source': 'download', 'dropped_types': dropped}
-        except Exception as exc:
+        except (FetchError, RuleContentError) as exc:
             kept, stats = existing_ok(path, kind)
             if kept:
                 copy_existing(path, stage_path)
@@ -543,11 +558,11 @@ def sync_derived_core(mapping: dict[str, str], core_section: dict, stage_root: P
         loon_stage = stage_root / 'upstream' / 'loon' / f'{loon_name}.lsr'
         try:
             if not loon_stage.exists():
-                raise RuntimeError(f'loon source {loon_name} unavailable in this run')
+                raise RuleContentError(f'loon source {loon_name} unavailable in this run')
             text, dropped = convert_loon_to_core(loon_stage.read_text(encoding='utf-8'))
             ok, stats = validate_text(text, 'core')
             if not ok:
-                raise RuntimeError(f'converted core invalid: {stats["reason"]}')
+                raise RuleContentError(f'converted core invalid: {stats["reason"]}')
             prev_lines = 0
             if path.exists():
                 try:
@@ -556,7 +571,7 @@ def sync_derived_core(mapping: dict[str, str], core_section: dict, stage_root: P
                     prev_lines = 0
             new_lines = len(text.splitlines())
             if prev_lines >= 50 and new_lines < prev_lines * 0.4:
-                raise RuntimeError(
+                raise RuleContentError(
                     f'suspicious shrink: {prev_lines} -> {new_lines} lines (<40% of last good); '
                     'refusing to publish, falling back to last-known-good'
                 )
@@ -574,7 +589,7 @@ def sync_derived_core(mapping: dict[str, str], core_section: dict, stage_root: P
                 'loon': loon_name,
                 'dropped_types': dropped,
             }
-        except Exception as exc:
+        except (FetchError, RuleContentError) as exc:
             kept, stats = existing_ok(path, 'core')
             if kept:
                 copy_existing(path, stage_path)
