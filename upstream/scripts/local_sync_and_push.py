@@ -14,6 +14,9 @@ REPORT = ROOT / 'upstream' / '_sync_report.json'
 FAILED_REPORT = ROOT / 'upstream' / '_sync_report.failed.json'
 REPORT_ARCHIVE_PATH = Path(os.environ.get('RULESYNC_REPORT_ARCHIVE', str(Path.home() / '.cache' / 'profiles-sync' / 'last_report.json')))
 ALLOWED_PREFIXES = ('upstream/core/', 'upstream/loon/', 'upstream/_sync_report.json', 'upstream/_sync_report.failed.json')
+# How many last-known-good fallbacks still count as a normal run. Above this the run is
+# published as usual but exits 4 so profiles-sync sends an alert instead of staying silent.
+KEPT_ALERT_THRESHOLD = int(os.environ.get('RULESYNC_KEPT_ALERT_THRESHOLD', '3'))
 
 
 def run(cmd: list[str], *, check: bool = True) -> subprocess.CompletedProcess:
@@ -83,6 +86,21 @@ def validate_report() -> tuple[dict, dict]:
     return report, summary
 
 
+def degraded_exit(summary: dict) -> None:
+    """Publishing succeeded, but some files kept last-known-good content: never report that as clean.
+
+    Exit 4 is distinct from 1 (gate failure) so profiles-sync can word the alert correctly.
+    """
+    kept = summary['core_kept'] + summary['loon_kept']
+    expected = summary['expected_core'] + summary['expected_loon']
+    if not kept:
+        return
+    print(f'[degraded] {kept}/{expected} upstream files kept last-known-good content this run', file=sys.stderr)
+    if kept >= KEPT_ALERT_THRESHOLD:
+        print(f'[degraded] kept {kept} >= threshold {KEPT_ALERT_THRESHOLD}; exiting 4 to raise an alert', file=sys.stderr)
+        raise SystemExit(4)
+
+
 # Boundary: upstream mirror only. Custom-rule automation is intentionally separate.
 pre_bad = changed_outside_allowed()
 if pre_bad:
@@ -110,6 +128,7 @@ run(['git', 'add', 'upstream/core', 'upstream/loon'])
 diff = subprocess.run(['git', 'diff', '--cached', '--quiet'], cwd=ROOT)
 if diff.returncode == 0:
     print('✅ upstream rules already up to date; nothing to push')
+    degraded_exit(summary)
     raise SystemExit(0)
 
 # Commit only when published files passed the gate. A kept fallback is allowed and visible in the report/message.
@@ -134,3 +153,4 @@ except subprocess.CalledProcessError:
     run(['git', 'pull', '--rebase', 'origin', 'master'])
     run(push_cmd)
 print('✅ committed and pushed:', msg)
+degraded_exit(summary)

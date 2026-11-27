@@ -92,11 +92,13 @@ CORE_ALLOWED_TYPES = {
     'DOMAIN', 'DOMAIN-SUFFIX', 'DOMAIN-KEYWORD', 'DOMAIN-REGEX',
     'IP-CIDR', 'IP-CIDR6', 'IP-SUFFIX', 'SRC-IP-CIDR', 'SRC-IP-CIDR6',
     'GEOIP', 'GEOSITE', 'SRC-GEOIP', 'IP-ASN', 'SRC-PORT', 'DST-PORT', 'NETWORK',
-    'AND', 'OR', 'NOT', 'MATCH',
+    'AND', 'OR', 'NOT',
     'PROCESS-NAME', 'PROCESS-PATH', 'PROCESS-NAME-REGEX', 'PROCESS-PATH-REGEX',
 }
 CORE_LOGIC_TYPES = {'AND', 'OR', 'NOT'}
 CORE_NO_RESOLVE_TYPES = {'IP-CIDR', 'IP-CIDR6', 'IP-SUFFIX', 'GEOIP', 'IP-ASN', 'SRC-IP-CIDR', 'SRC-IP-CIDR6'}
+# Matchers whose payload may legally contain commas and must be taken verbatim.
+REGEX_VALUE_TYPES = {'DOMAIN-REGEX', 'PROCESS-NAME-REGEX', 'PROCESS-PATH-REGEX'}
 
 UA_POOL_CLASH = ['clash.meta', 'clash.meta/1.18.10', 'mihomo/1.18.10', 'ClashforWindows/0.20.39']
 UA_POOL_LOON = [UA_LOON, 'Loon/840 CFNetwork/1494.0.7 Darwin/23.4.0', 'Loon/838 CFNetwork/1490.0.4 Darwin/23.2.0']
@@ -139,26 +141,89 @@ def split_top_level(line: str) -> list[str]:
 
 
 def split_inline_comment(line: str) -> tuple[str, str]:
-    pos = line.find('#')
-    if pos < 0:
+    """Split a trailing comment off a rule line.
+
+    A marker only starts a comment at the beginning of the line or right after
+    whitespace, so values such as ``https://host/path`` or ``name#frag`` are never
+    truncated. Both ``#`` and ``//`` are recognised because Loon lists use both.
+    """
+    best = -1
+    for marker in ('#', '//'):
+        pos = line.find(marker)
+        while pos >= 0:
+            if pos == 0 or line[pos - 1] in ' \t':
+                best = pos if best < 0 else min(best, pos)
+                break
+            pos = line.find(marker, pos + 1)
+    if best < 0:
         return line.strip(), ''
-    return line[:pos].strip(), line[pos:].strip()
+    return line[:best].strip(), line[best:].strip()
 
 
-def core_rule_line(rule_type: str, parts: list[str]) -> str | None:
+def yaml_comment(comment: str) -> str:
+    """Render a Loon comment as YAML comment syntax ('//' and ';' would corrupt values)."""
+    if comment.startswith('//'):
+        return '#' + comment[2:]
+    if comment.startswith(';'):
+        return '#' + comment[1:]
+    return comment
+
+
+def comment_line(line: str) -> str | None:
+    """Return a whole-line comment normalized for YAML, or None when it is not a comment."""
+    if line.startswith('#'):
+        return line
+    if line.startswith('//'):
+        return '#' + line[2:]
+    if line.startswith(';'):
+        return '#' + line[1:]
+    return None
+
+
+def split_rule(rule: str) -> tuple[str, str]:
+    pos = rule.find(',')
+    if pos < 0:
+        return rule.strip().upper(), ''
+    return rule[:pos].strip().upper(), rule[pos + 1:].strip()
+
+
+def core_rule(rule: str, depth: int = 0) -> tuple[str | None, str]:
+    """Convert one Loon rule into rule-provider syntax.
+
+    Returns ``(rule, '')`` on success, or ``(None, reason)`` when the rule cannot be
+    represented safely: unsupported matcher, malformed payload, or a logical rule whose
+    nested matcher is unsupported (emitting it would make the whole provider fail to load).
+    """
+    rule_type, rest = split_rule(rule)
     if rule_type in CORE_LOGIC_TYPES:
-        idx = next((i for i, part in enumerate(parts[1:], 1) if part.strip().startswith('(')), None)
-        if idx is None:
-            return None
-        payload = re.sub(r'\s*,\s*', ',', parts[idx].strip())
-        extras = [p for p in parts[idx + 1:] if p.lower() in ('no-resolve',)]
-        return f'{rule_type},{payload}' + (',' + ','.join(extras) if extras else '')
-    if len(parts) < 2 or not parts[1]:
-        return None
-    value = parts[1].strip()
+        if depth >= 4 or not rest or not (rest.startswith('(') and rest.endswith(')')):
+            return None, f'{rule_type}(malformed)'
+        items = split_top_level(rest[1:-1])
+        if not items or any(not item for item in items):
+            return None, f'{rule_type}(malformed)'
+        converted: list[str] = []
+        for item in items:
+            if not (item.startswith('(') and item.endswith(')')):
+                return None, f'{rule_type}(malformed)'
+            sub, reason = core_rule(item[1:-1], depth + 1)
+            if sub is None:
+                return None, reason
+            converted.append('(' + sub + ')')
+        return f'{rule_type},(' + ','.join(converted) + ')', ''
+    if rule_type not in CORE_ALLOWED_TYPES:
+        return None, rule_type
+    if rule_type in REGEX_VALUE_TYPES:
+        # Regex payloads may contain commas (e.g. {2,3}); never split them.
+        if not rest:
+            return None, f'{rule_type}(malformed)'
+        return f'{rule_type},{rest}', ''
+    parts = split_top_level(rest)
+    value = parts[0]
+    if not value:
+        return None, f'{rule_type}(malformed)'
     allowed_extras = ('no-resolve', 'src') if rule_type in CORE_NO_RESOLVE_TYPES else ()
-    extras = [p.lower() for p in parts[2:] if p.lower() in allowed_extras]
-    return f'{rule_type},{value}' + (',' + ','.join(extras) if extras else '')
+    extras = [part.lower() for part in parts[1:] if part.lower() in allowed_extras]
+    return f'{rule_type},{value}' + (',' + ','.join(extras) if extras else ''), ''
 
 
 def convert_loon_to_core(text: str) -> tuple[str, dict[str, int]]:
@@ -174,24 +239,20 @@ def convert_loon_to_core(text: str) -> tuple[str, dict[str, int]]:
         line = raw.strip()
         if not line:
             continue
-        if line.startswith(('#', ';', '//')):
-            body.append(line)
+        whole_comment = comment_line(line)
+        if whole_comment is not None:
+            body.append(whole_comment)
             continue
         rule, comment = split_inline_comment(line)
-        parts = split_top_level(rule)
-        rule_type = parts[0].upper()
-        if rule_type not in CORE_ALLOWED_TYPES:
-            dropped[rule_type] = dropped.get(rule_type, 0) + 1
-            continue
-        converted = core_rule_line(rule_type, parts)
-        if not converted:
-            dropped[f'{rule_type}(malformed)'] = dropped.get(f'{rule_type}(malformed)', 0) + 1
+        converted, reason = core_rule(rule)
+        if converted is None:
+            dropped[reason] = dropped.get(reason, 0) + 1
             continue
         if converted.lower() in seen:
             dropped['(duplicate)'] = dropped.get('(duplicate)', 0) + 1
             continue
         seen.add(converted.lower())
-        body.append('  - ' + converted + (('  ' + comment) if comment else ''))
+        body.append('  - ' + converted + (('  ' + yaml_comment(comment)) if comment else ''))
     if not body:
         return '', dropped
     return 'payload:\n' + '\n'.join(body) + '\n', dropped
@@ -206,8 +267,9 @@ def sanitize_core_text(text: str) -> tuple[str, dict[str, int]]:
         line = raw.strip()
         if not line:
             continue
-        if line.startswith(('#', ';', '//')):
-            kept.append(line)
+        whole_comment = comment_line(line)
+        if whole_comment is not None:
+            kept.append(whole_comment)
             continue
         if line == 'payload:':
             kept.append('payload:')
@@ -223,16 +285,11 @@ def sanitize_core_text(text: str) -> tuple[str, dict[str, int]]:
                 rule = rule[1:-1].replace("''", "'")
             else:
                 rule = json.loads(rule)
-        parts = split_top_level(rule)
-        rule_type = parts[0].upper()
-        if rule_type not in CORE_ALLOWED_TYPES:
-            dropped[rule_type] = dropped.get(rule_type, 0) + 1
+        converted, reason = core_rule(rule)
+        if converted is None:
+            dropped[reason] = dropped.get(reason, 0) + 1
             continue
-        converted = core_rule_line(rule_type, parts)
-        if not converted:
-            dropped[f'{rule_type}(malformed)'] = dropped.get(f'{rule_type}(malformed)', 0) + 1
-            continue
-        kept.append('  - ' + converted + (('  ' + comment) if comment else ''))
+        kept.append('  - ' + converted + (('  ' + yaml_comment(comment)) if comment else ''))
     if not in_payload or not any(line.startswith('  - ') for line in kept):
         return '', dropped
     return '\n'.join(kept) + '\n', dropped
@@ -258,7 +315,7 @@ def curl_once(url: str, ua: str, accept_header: str, http1: bool) -> tuple[str, 
     if http1:
         cmd.append('--http1.1')
     cmd += [
-        '-L', '-k', '--compressed', '--connect-timeout', '8', '--max-time', '20',
+        '-L', '--compressed', '--connect-timeout', '8', '--max-time', '20',
         '-A', ua,
     ]
     for key, value in browser_headers(url, ua, accept_header).items():
@@ -398,8 +455,11 @@ def existing_ok(path: Path, kind: str) -> tuple[bool, dict]:
 
 
 def save_text(path: Path, text: str) -> None:
+    """Write atomically: an interrupted run must never leave a truncated rule file behind."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(normalize_text(text), encoding='utf-8')
+    tmp = path.with_name(path.name + '.tmp')
+    tmp.write_text(normalize_text(text), encoding='utf-8')
+    os.replace(tmp, path)
 
 
 def copy_existing(src: Path, dst: Path) -> None:
@@ -562,7 +622,9 @@ def publish_stage(stage_root: Path) -> list[str]:
                 continue
             dst = dst_dir / src.relative_to(src_dir)
             dst.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(src, dst)
+            tmp = dst.with_name(dst.name + '.tmp')
+            shutil.copy2(src, tmp)
+            os.replace(tmp, dst)
         expected = {f'{name}{suffix}' for name in items}
         for existing in sorted(dst_dir.iterdir()):
             if existing.is_file() and existing.name not in expected:

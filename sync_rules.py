@@ -190,8 +190,8 @@ def clash_to_loon(clash_file: Path, loon_file: Path) -> None:
             rule_type, value, extras, comment = parsed
             policy = [x for x in extras if x.upper() in LOON_POLICY_FIELDS]
             rest = [x for x in extras if x.upper() not in LOON_POLICY_FIELDS]
-            if not policy:
-                policy = ["DIRECT"]
+            # Never invent a policy: a Loon remote rule list takes its policy from the
+            # RULE-SET reference, so injecting DIRECT here would silently rewrite routing.
             lines.append(format_rule(rule_type, value, [*policy, *rest], comment))
     loon_file.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
